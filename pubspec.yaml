@@ -1,8 +1,8 @@
 name: flutter_speed_dial
 description: A new flutter package project.
 version: 0.0.1
-author:
-homepage:
+author: Dario Ielardi <dario.ielardi@gmail.com>
+homepage: https://github.com/darioielardi/flutter_speed_dial
 
 dependencies:
   flutter:
@@ -11,6 +11,10 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+environment:
+  sdk: ">=1.19.0 <2.0.0"
+  flutter: "^0.1.2"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://www.dartlang.org/tools/pub/pubspec
