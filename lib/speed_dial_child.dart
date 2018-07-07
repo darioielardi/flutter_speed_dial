@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
+/// Provides data for a speed dial child
 class SpeedDialChild {
+
   /// The label to render to the left of the button
   final String label;
 

@@ -7,12 +7,17 @@ import 'background_overlay.dart';
 import 'animated_child.dart';
 import 'speed_dial_child.dart';
 
+/// Builds the Speed Dial
 class SpeedDial extends StatefulWidget {
+
   /// Children buttons, from the lowest to the highest.
   final List<SpeedDialChild> children;
 
   /// Used to get the button hidden on scroll. See examples for more info.
   final bool visible;
+
+  /// The curve used to animate the button on scrolling.
+  final Curve curve;
 
   final String tooltip;
   final String heroTag;
@@ -20,9 +25,6 @@ class SpeedDial extends StatefulWidget {
   final Color foregroundColor;
   final double elevation;
   final ShapeBorder shape;
-
-  /// The curve used to animate the button on scrolling.
-  final Curve curve;
 
   /// The color of the background overlay.
   final Color overlayColor;
