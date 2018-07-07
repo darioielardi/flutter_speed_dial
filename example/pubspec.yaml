@@ -1,5 +1,5 @@
-name: example
-description: A new Flutter project.
+name: flutter_speed_dial_example
+description: flutter_speed_dial example
 
 dependencies:
   flutter:
