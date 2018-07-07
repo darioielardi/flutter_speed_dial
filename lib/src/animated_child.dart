@@ -12,6 +12,7 @@ class AnimatedChild extends AnimatedWidget {
   final VoidCallback onTap;
   final VoidCallback toggleChildren;
   final ShapeBorder shape;
+  final String heroTag;
 
   AnimatedChild({
     Key key,
@@ -27,6 +28,7 @@ class AnimatedChild extends AnimatedWidget {
     this.onTap,
     this.toggleChildren,
     this.shape,
+    this.heroTag,
   }) : super(key: key, listenable: animation);
 
   Widget _renderLabel() {
@@ -74,6 +76,7 @@ class AnimatedChild extends AnimatedWidget {
               width: animation.value,
               padding: EdgeInsets.only(top: 8.0, bottom: 8.0),
               child: FloatingActionButton(
+                heroTag: heroTag,
                 onPressed: _performAction,
                 backgroundColor: backgroundColor,
                 foregroundColor: foregroundColor,

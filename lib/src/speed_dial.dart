@@ -157,6 +157,7 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
             onTap: child.onTap,
             toggleChildren: _toggleChildren,
             shape: child.shape,
+            heroTag: 'speed-dial-child-$index',
           );
         })
         .toList()
