@@ -1,6 +1,6 @@
 name: flutter_speed_dial
-description: A new flutter package project.
-version: 0.0.1
+description: Package to implement a Material Design Speed Dial
+version: 0.0.2
 author: Dario Ielardi <dario.ielardi@gmail.com>
 homepage: https://github.com/darioielardi/flutter_speed_dial
 
@@ -14,7 +14,6 @@ dev_dependencies:
 
 environment:
   sdk: ">=1.19.0 <2.0.0"
-  flutter: "^0.1.2"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://www.dartlang.org/tools/pub/pubspec
