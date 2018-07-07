@@ -6,9 +6,9 @@ Flutter package to render a [Material Design Speed Dial](https://material.io/des
 
 ## Usage
 
-The widget takes place in the *floatingActionButton* parameter of the *Scaffold* widget.
+The SpeedDial widget is built to be placed in the *floatingActionButton* parameter of the *Scaffold* widget.
 It's not possible to set its position with the *Scaffold.floatingActionButtonLocation* parameter though.
-The use with the *Scaffold.bottomNavigationBar* is possible but the floating button will take place above the bar.
+The use with the *Scaffold.bottomNavigationBar* is possible but the floating button will be placed above the bar, without the possibility to be placed with a notch.
 
 **Labels**
 
