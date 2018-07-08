@@ -6,25 +6,25 @@ Flutter package to render a [Material Design Speed Dial](https://material.io/des
 
 ## Usage
 
-The SpeedDial widget is built to be placed in the *floatingActionButton* parameter of the *Scaffold* widget.
-It's not possible to set its position with the *Scaffold.floatingActionButtonLocation* parameter though.
-The use with the *Scaffold.bottomNavigationBar* is possible but the floating button will be placed above the bar, without the possibility to be placed with a notch.
+The SpeedDial widget is built to be placed in the `Scaffold.floatingActionButton` parameter.
+It's not possible to set its position with the `Scaffold.floatingActionButtonLocation` parameter though.
+The use with the `Scaffold.bottomNavigationBar` is possible but the floating button will be placed above the bar, without the possibility to be placed with a notch.
 
 **Labels**
 
-Every child button can have a label, which can be customized providing a *labelStyle*. If the *label* parameter is not provided the label will be not rendered.
+Every child button can have a `label`, which can be customized providing a `labelStyle`. If the `label` parameter is not provided the label will be not rendered.
 
 **Animated Icon**
 
-The main floating action button child can set with the *child* parameter, however to make easier to use an *AnimatedIcon* there are two specific parameters:
-- *animatedIcon* takes an *AnimatedIconData* widget
-- *animatedIconTheme* takes its theme
+The main floating action button child can set with the `child` parameter, however to make easier to use an `AnimatedIcon` there are two specific parameters:
+- `animatedIcon` takes an `AnimatedIconData` widget
+- `animatedIconTheme` takes its theme
 
 The package will handle the animation by itself.
 
 **Hide on Scroll**
 
-Another possibility is to make the button hide on scroll with a curve animation, with a *visible* parameter to set dynamically based on the scroll direction. See the [example project](example/lib/main.dart) for more info.
+Another possibility is to make the button hide on scroll with a curve animation, with a `visible` parameter to set dynamically based on the scroll direction. See the [example project](example/lib/main.dart) for more info.
 
 **Example Usage:**
 ```dart
