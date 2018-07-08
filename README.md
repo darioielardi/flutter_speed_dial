@@ -27,7 +27,7 @@ The package will handle the animation by itself.
 Another possibility is to make the button hide on scroll with a curve animation, with a *visible* parameter to set dynamically based on the scroll direction. See the [example project](example/lib/main.dart) for more info.
 
 **Example Usage:**
-```
+```dart
 Widget build(BuildContext context) {
     return Scaffold(
         floatingActionButton: SpeedDial(
