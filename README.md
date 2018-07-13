@@ -26,6 +26,8 @@ The package will handle the animation by itself.
 
 Another possibility is to make the button hide on scroll with a curve animation, with a `visible` parameter to set dynamically based on the scroll direction. See the [example project](example/lib/main.dart) for more info.
 
+[**Classes API Docs**](https://pub.dartlang.org/documentation/flutter_speed_dial/latest/flutter_speed_dial/flutter_speed_dial-library.html)
+
 **Example Usage:**
 ```dart
 Widget build(BuildContext context) {
