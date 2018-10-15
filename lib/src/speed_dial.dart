@@ -144,6 +144,21 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
     return widget.children
         .map((SpeedDialChild child) {
           int index = widget.children.indexOf(child);
+
+
+          if(!_childrenAnimations.contains(index))
+            {
+              //dynamically added child
+              var controller = AnimationController(
+                duration: Duration(milliseconds: 200),
+                vsync: this,
+              );
+              var animation = Tween(begin: 0.0, end: 62.0).animate(controller);
+              _childrenControllers.add(controller);
+              _childrenAnimations.add(animation);
+
+            }
+
           return AnimatedChild(
             animation: _childrenAnimations[index],
             index: index,
