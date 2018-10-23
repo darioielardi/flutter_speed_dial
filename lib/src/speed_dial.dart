@@ -169,6 +169,7 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
             child: child.child,
             label: child.label,
             labelStyle: child.labelStyle,
+            labelBackgroundColor: child.labelBackgroundColor,
             onTap: child.onTap,
             toggleChildren: _toggleChildren,
             shape: child.shape,

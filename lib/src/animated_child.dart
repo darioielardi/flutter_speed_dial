@@ -8,6 +8,7 @@ class AnimatedChild extends AnimatedWidget {
   final Widget child;
   final String label;
   final TextStyle labelStyle;
+  final Color labelBackgroundColor;
   final bool visible;
   final VoidCallback onTap;
   final VoidCallback toggleChildren;
@@ -24,6 +25,7 @@ class AnimatedChild extends AnimatedWidget {
     this.child,
     this.label,
     this.labelStyle,
+    this.labelBackgroundColor,
     this.visible = false,
     this.onTap,
     this.toggleChildren,
@@ -38,7 +40,7 @@ class AnimatedChild extends AnimatedWidget {
         padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 8.0),
         margin: EdgeInsets.only(right: 18.0),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: labelBackgroundColor ?? Colors.white,
           borderRadius: BorderRadius.all(Radius.circular(6.0)),
           boxShadow: [
             BoxShadow(

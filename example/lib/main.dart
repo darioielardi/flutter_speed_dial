@@ -55,6 +55,7 @@ class MyAppState extends State<MyApp> with TickerProviderStateMixin {
           onTap: () => print('FIRST CHILD'),
           label: 'First',
           labelStyle: TextStyle(fontWeight: FontWeight.w500),
+          labelBackgroundColor: Colors.deepOrangeAccent,
         ),
         SpeedDialChild(
           child: Icon(Icons.brush, color: Colors.white),
@@ -62,6 +63,7 @@ class MyAppState extends State<MyApp> with TickerProviderStateMixin {
           onTap: () => print('SECOND CHILD'),
           label: 'Second',
           labelStyle: TextStyle(fontWeight: FontWeight.w500),
+          labelBackgroundColor: Colors.greenAccent,
         ),
         SpeedDialChild(
           child: Icon(Icons.keyboard_voice, color: Colors.white),
@@ -69,6 +71,7 @@ class MyAppState extends State<MyApp> with TickerProviderStateMixin {
           onTap: () => print('THIRD CHILD'),
           label: 'Third',
           labelStyle: TextStyle(fontWeight: FontWeight.w500),
+          labelBackgroundColor: Colors.lightBlueAccent,
         ),
       ],
     );
