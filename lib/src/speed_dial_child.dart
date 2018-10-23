@@ -7,6 +7,7 @@ class SpeedDialChild {
 
   /// The style of the label
   final TextStyle labelStyle;
+  final Color labelBackgroundColor;
 
   final Widget child;
   final Color backgroundColor;
@@ -18,6 +19,7 @@ class SpeedDialChild {
   SpeedDialChild({
     this.label,
     this.labelStyle,
+    this.labelBackgroundColor,
     this.child,
     this.backgroundColor,
     this.foregroundColor,
