@@ -25,8 +25,8 @@ class SpeedDial extends StatefulWidget {
   final double elevation;
   final ShapeBorder shape;
 
-  final double rightMargin;
-  final double bottomMargin;
+  final double marginRight;
+  final double marginBottom;
 
   /// The color of the background overlay.
   final Color overlayColor;
@@ -62,8 +62,8 @@ class SpeedDial extends StatefulWidget {
     this.animatedIcon,
     this.animatedIconTheme,
     this.child,
-    this.bottomMargin = 16,
-    this.rightMargin = 16,
+    this.marginBottom = 16,
+    this.marginRight = 16,
     this.onOpen,
     this.onClose,
     this.shape = const CircleBorder(),
@@ -224,8 +224,8 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
     );
 
     return Positioned(
-      bottom: widget.bottomMargin - 16,
-      right: widget.rightMargin - 16,
+      bottom: widget.marginBottom - 16,
+      right: widget.marginRight - 16,
       child: Container(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
