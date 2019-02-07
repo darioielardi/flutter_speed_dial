@@ -6,9 +6,9 @@ Flutter package to render a [Material Design Speed Dial](https://material.io/des
 
 ## Usage
 
-The SpeedDial widget is built to be placed in the `Scaffold.floatingActionButton` parameter.
-It's not possible to set its position with the `Scaffold.floatingActionButtonLocation` parameter though.
-The use with the `Scaffold.bottomNavigationBar` is possible but the floating button will be placed above the bar, so the `BottomAppBar.hasNotch` should be `false`.
+The SpeedDial widget is built to be placed in the `Scaffold.floatingActionButton` argument, replacing the `FloatingActionButton` widget.
+It's not possible to set its position with the `Scaffold.floatingActionButtonLocation` argument, but it's possible to set right/bottom margin with the `marginRight` and `marginBottom` arguments (default to 16) to place the button anywhere in the screen.
+Using the `Scaffold.bottomNavigationBar` the floating button will be always placed above the bar, so the `BottomAppBar.hasNotch` should be always `false`.
 
 **Labels**
 
@@ -33,6 +33,9 @@ Another possibility is to make the button hide on scroll with a curve animation,
 Widget build(BuildContext context) {
     return Scaffold(
         floatingActionButton: SpeedDial(
+          // both default to 16
+          marginRight: 18,
+          marginBottom: 20,
           animatedIcon: AnimatedIcons.menu_close,
           animatedIconTheme: IconThemeData(size: 22.0),
           // this is ignored if animatedIcon is non null
