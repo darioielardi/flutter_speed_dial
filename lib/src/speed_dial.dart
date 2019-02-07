@@ -25,6 +25,9 @@ class SpeedDial extends StatefulWidget {
   final double elevation;
   final ShapeBorder shape;
 
+  final double rightMargin;
+  final double bottomMargin;
+
   /// The color of the background overlay.
   final Color overlayColor;
 
@@ -59,6 +62,8 @@ class SpeedDial extends StatefulWidget {
     this.animatedIcon,
     this.animatedIconTheme,
     this.child,
+    this.bottomMargin = 16,
+    this.rightMargin = 16,
     this.onOpen,
     this.onClose,
     this.shape = const CircleBorder(),
@@ -102,8 +107,7 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
   @override
   void dispose() {
     _controller.dispose();
-    _childrenControllers
-        .forEach((childController) => childController.dispose());
+    _childrenControllers.forEach((childController) => childController.dispose());
     super.dispose();
   }
 
@@ -122,8 +126,7 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
         );
       } else {
         Timer(
-          Duration(
-              milliseconds: (index - (widget.children.length - 1)).abs() * 30),
+          Duration(milliseconds: (index - (widget.children.length - 1)).abs() * 30),
           () => childController.reverse(),
         );
       }
@@ -145,19 +148,16 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
         .map((SpeedDialChild child) {
           int index = widget.children.indexOf(child);
 
-
-          if(!_childrenAnimations.contains(index))
-            {
-              //dynamically added child
-              var controller = AnimationController(
-                duration: Duration(milliseconds: 200),
-                vsync: this,
-              );
-              var animation = Tween(begin: 0.0, end: 62.0).animate(controller);
-              _childrenControllers.add(controller);
-              _childrenAnimations.add(animation);
-
-            }
+          if (!_childrenAnimations.contains(index)) {
+            //dynamically added child
+            var controller = AnimationController(
+              duration: Duration(milliseconds: 200),
+              vsync: this,
+            );
+            var animation = Tween(begin: 0.0, end: 62.0).animate(controller);
+            _childrenControllers.add(controller);
+            _childrenAnimations.add(animation);
+          }
 
           return AnimatedChild(
             animation: _childrenAnimations[index],
@@ -209,28 +209,35 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
         : widget.child;
 
     var fabChildren = _getChildrenList();
-    return Container(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: List.from(fabChildren)
-          ..add(
-            Container(
-              margin: EdgeInsets.only(top: 8.0, right: 2.0),
-              child: AnimatedFloatingButton(
-                visible: widget.visible,
-                tooltip: widget.tooltip,
-                backgroundColor: widget.backgroundColor,
-                foregroundColor: widget.foregroundColor,
-                elevation: widget.elevation,
-                callback: _toggleChildren,
-                child: child,
-                heroTag: widget.heroTag,
-                shape: widget.shape,
-                curve: widget.curve,
+
+    var animatedFloatingButton = AnimatedFloatingButton(
+      visible: widget.visible,
+      tooltip: widget.tooltip,
+      backgroundColor: widget.backgroundColor,
+      foregroundColor: widget.foregroundColor,
+      elevation: widget.elevation,
+      callback: _toggleChildren,
+      child: child,
+      heroTag: widget.heroTag,
+      shape: widget.shape,
+      curve: widget.curve,
+    );
+
+    return Positioned(
+      bottom: widget.bottomMargin - 16,
+      right: widget.rightMargin - 16,
+      child: Container(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: List.from(fabChildren)
+            ..add(
+              Container(
+                margin: EdgeInsets.only(top: 8.0, right: 2.0),
+                child: animatedFloatingButton,
               ),
             ),
-          ),
+        ),
       ),
     );
   }
