@@ -112,6 +112,7 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
   }
 
   void _performAnimation() {
+    if (!mounted) return;
     if (_open) {
       _controller.forward();
     } else {
@@ -122,12 +123,18 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
       if (_open) {
         Timer(
           Duration(milliseconds: index * 40),
-          () => childController.forward(),
+          () {
+            if (!mounted) return;
+            childController.forward();
+          },
         );
       } else {
         Timer(
           Duration(milliseconds: (index - (widget.children.length - 1)).abs() * 30),
-          () => childController.reverse(),
+          () {
+            if (!mounted) return;
+            childController.reverse();
+          },
         );
       }
     });
