@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
+import 'animated_child.dart';
 import 'animated_floating_button.dart';
 import 'background_overlay.dart';
-import 'animated_child.dart';
 import 'speed_dial_child.dart';
 
 /// Builds the Speed Dial
@@ -49,6 +49,9 @@ class SpeedDial extends StatefulWidget {
   /// Executed when the dial is closed.
   final VoidCallback onClose;
 
+  /// If true user is forced to close dial manually by tapping main button. WARNING: If true, overlay is not rendered.
+  final bool closeManually;
+
   SpeedDial({
     this.children = const [],
     this.visible = true,
@@ -66,6 +69,7 @@ class SpeedDial extends StatefulWidget {
     this.marginRight = 16,
     this.onOpen,
     this.onClose,
+    this.closeManually = false,
     this.shape = const CircleBorder(),
     this.curve = Curves.linear,
   });
@@ -107,7 +111,8 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
   @override
   void dispose() {
     _controller.dispose();
-    _childrenControllers.forEach((childController) => childController.dispose());
+    _childrenControllers
+        .forEach((childController) => childController.dispose());
     super.dispose();
   }
 
@@ -130,7 +135,8 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
         );
       } else {
         Timer(
-          Duration(milliseconds: (index - (widget.children.length - 1)).abs() * 30),
+          Duration(
+              milliseconds: (index - (widget.children.length - 1)).abs() * 30),
           () {
             if (!mounted) return;
             childController.reverse();
@@ -178,7 +184,9 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
             labelStyle: child.labelStyle,
             labelBackgroundColor: child.labelBackgroundColor,
             onTap: child.onTap,
-            toggleChildren: _toggleChildren,
+            toggleChildren: () {
+              if (!widget.closeManually) _toggleChildren();
+            },
             shape: child.shape,
             heroTag: 'speed-dial-child-$index',
           );
@@ -251,14 +259,20 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    final children = widget.closeManually
+        ? [
+      _renderButton(),
+    ]
+        : [
+      _renderOverlay(),
+      _renderButton(),
+    ];
+
     return Stack(
       alignment: Alignment.bottomRight,
       fit: StackFit.expand,
       overflow: Overflow.visible,
-      children: [
-        _renderOverlay(),
-        _renderButton(),
-      ],
+      children: children,
     );
   }
 }
