@@ -17,6 +17,7 @@ Every child button can have a `label`, which can be customized providing a `labe
 **Animated Icon**
 
 The main floating action button child can set with the `child` parameter, however to make easier to use an `AnimatedIcon` there are two specific parameters:
+
 - `animatedIcon` takes an `AnimatedIconData` widget
 - `animatedIconTheme` takes its theme
 
@@ -28,7 +29,8 @@ Another possibility is to make the button hide on scroll with a curve animation,
 
 [**Classes API Docs**](https://pub.dartlang.org/documentation/flutter_speed_dial/latest/flutter_speed_dial/flutter_speed_dial-library.html)
 
-**Example Usage:**
+**Example Usage ( complete with all params ):**
+
 ```dart
 Widget build(BuildContext context) {
     return Scaffold(
@@ -41,6 +43,9 @@ Widget build(BuildContext context) {
           // this is ignored if animatedIcon is non null
           // child: Icon(Icons.add),
           visible: _dialVisible,
+          // If true user is forced to close dial manually 
+          // by tapping main button and overlay is not rendered.
+          closeManually: false,
           curve: Curves.bounceIn,
           overlayColor: Colors.black,
           overlayOpacity: 0.5,
@@ -79,6 +84,7 @@ Widget build(BuildContext context) {
     );
 }
 ```
+
 ## Issues & Feedback
 
 Please file an [issue](https://github.com/darioielardi/flutter_speed_dial/issues) to send feedback or report a bug. Thank you!
