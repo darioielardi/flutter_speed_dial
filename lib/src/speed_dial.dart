@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 
 import 'animated_child.dart';
@@ -80,10 +78,6 @@ class SpeedDial extends StatefulWidget {
 
 class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
   AnimationController _controller;
-  Animation<double> _animation;
-
-  List<AnimationController> _childrenControllers = [];
-  List<Animation<double>> _childrenAnimations = [];
 
   bool _open = false;
 
@@ -95,24 +89,11 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
       duration: Duration(milliseconds: 200),
       vsync: this,
     );
-    _animation = Tween<double>(begin: 0.0, end: 1.0).animate(_controller);
-
-    List.generate(widget.children.length, (_) {
-      var controller = AnimationController(
-        duration: Duration(milliseconds: 200),
-        vsync: this,
-      );
-      var animation = Tween(begin: 0.0, end: 62.0).animate(controller);
-      _childrenControllers.add(controller);
-      _childrenAnimations.add(animation);
-    });
   }
 
   @override
   void dispose() {
     _controller.dispose();
-    _childrenControllers
-        .forEach((childController) => childController.dispose());
     super.dispose();
   }
 
@@ -123,27 +104,6 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
     } else {
       _controller.reverse();
     }
-    _childrenControllers.forEach((childController) {
-      var index = _childrenControllers.indexOf(childController);
-      if (_open) {
-        Timer(
-          Duration(milliseconds: index * 40),
-          () {
-            if (!mounted) return;
-            childController.forward();
-          },
-        );
-      } else {
-        Timer(
-          Duration(
-              milliseconds: (index - (widget.children.length - 1)).abs() * 30),
-          () {
-            if (!mounted) return;
-            childController.reverse();
-          },
-        );
-      }
-    });
   }
 
   void _toggleChildren() {
@@ -157,23 +117,22 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
   }
 
   List<Widget> _getChildrenList() {
+    final singleChildrenTween = 1.0 / widget.children.length;
+
     return widget.children
         .map((SpeedDialChild child) {
           int index = widget.children.indexOf(child);
 
-          if (!_childrenAnimations.contains(index)) {
-            //dynamically added child
-            var controller = AnimationController(
-              duration: Duration(milliseconds: 200),
-              vsync: this,
-            );
-            var animation = Tween(begin: 0.0, end: 62.0).animate(controller);
-            _childrenControllers.add(controller);
-            _childrenAnimations.add(animation);
-          }
+          var childAnimation = Tween(begin: 0.0, end: 62.0).animate(
+            CurvedAnimation(
+              parent: this._controller,
+              curve: Interval(singleChildrenTween * index,
+                  singleChildrenTween * (index + 1)),
+            ),
+          );
 
           return AnimatedChild(
-            animation: _childrenAnimations[index],
+            animation: childAnimation,
             index: index,
             visible: _open,
             backgroundColor: child.backgroundColor,
@@ -205,7 +164,7 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
       child: GestureDetector(
         onTap: _toggleChildren,
         child: BackgroundOverlay(
-          animation: _animation,
+          animation: _controller,
           color: widget.overlayColor,
           opacity: widget.overlayOpacity,
         ),
@@ -217,7 +176,7 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
     var child = widget.animatedIcon != null
         ? AnimatedIcon(
             icon: widget.animatedIcon,
-            progress: _animation,
+            progress: _controller,
             color: widget.animatedIconTheme?.color,
             size: widget.animatedIconTheme?.size,
           )
@@ -259,12 +218,8 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    final children = widget.closeManually
-        ? [
-      _renderButton(),
-    ]
-        : [
-      _renderOverlay(),
+    final children = [
+      if (!widget.closeManually) _renderOverlay(),
       _renderButton(),
     ];
 
