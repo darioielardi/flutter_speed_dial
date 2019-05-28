@@ -85,12 +85,14 @@ class _SpeedDialState extends State<SpeedDial>
   @override
   void initState() {
     super.initState();
-
     _controller = AnimationController(
-      duration: Duration(milliseconds: 200),
+      duration: _calculateMainControllerDuration(),
       vsync: this,
     );
   }
+
+  Duration _calculateMainControllerDuration() =>
+      Duration(milliseconds: 150 + widget.children.length * 30);
 
   @override
   void dispose() {
@@ -105,6 +107,15 @@ class _SpeedDialState extends State<SpeedDial>
     } else {
       _controller.reverse();
     }
+  }
+
+  @override
+  void didUpdateWidget(SpeedDial oldWidget) {
+    if (oldWidget.children.length != widget.children.length) {
+      _controller.duration = _calculateMainControllerDuration();
+    }
+
+    super.didUpdateWidget(oldWidget);
   }
 
   void _toggleChildren() {
@@ -127,8 +138,7 @@ class _SpeedDialState extends State<SpeedDial>
           var childAnimation = Tween(begin: 0.0, end: 62.0).animate(
             CurvedAnimation(
               parent: this._controller,
-              curve: Interval(singleChildrenTween * index,
-                  singleChildrenTween * (index + 1)),
+              curve: Interval(0, singleChildrenTween * (index + 1)),
             ),
           );
 
