@@ -28,6 +28,7 @@ class AnimatedFloatingButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var margin = visible ? 0.0 : 28.0;
+
     return Container(
       constraints: BoxConstraints(
         minHeight: 0.0,

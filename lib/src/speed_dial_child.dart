@@ -7,6 +7,8 @@ class SpeedDialChild {
 
   /// The style of the label
   final TextStyle labelStyle;
+
+  /// The background color of the label
   final Color labelBackgroundColor;
 
   final Widget child;

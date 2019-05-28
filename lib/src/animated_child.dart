@@ -33,7 +33,7 @@ class AnimatedChild extends AnimatedWidget {
     this.heroTag,
   }) : super(key: key, listenable: animation);
 
-  Widget _renderLabel() {
+  Widget buildLabel() {
     final Animation<double> animation = listenable;
     if (label != null && visible && animation.value == 62.0) {
       return Container(
@@ -64,11 +64,22 @@ class AnimatedChild extends AnimatedWidget {
   Widget build(BuildContext context) {
     final Animation<double> animation = listenable;
 
+    final Widget buttonChild = animation.value > 50.0
+        ? Container(
+            width: animation.value,
+            height: animation.value,
+            child: child ?? Container(),
+          )
+        : Container(
+            width: 0.0,
+            height: 0.0,
+          );
+
     return Container(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
-          _renderLabel(),
+          buildLabel(),
           Container(
             width: 62.0,
             height: animation.value,
@@ -83,13 +94,7 @@ class AnimatedChild extends AnimatedWidget {
                 backgroundColor: backgroundColor,
                 foregroundColor: foregroundColor,
                 elevation: elevation ?? 6.0,
-                child: animation.value > 50.0
-                    ? Container(
-                        width: animation.value,
-                        height: animation.value,
-                        child: child ?? Container(),
-                      )
-                    : Container(width: 0.0, height: 0.0),
+                child: buttonChild,
               ),
             ),
           )
