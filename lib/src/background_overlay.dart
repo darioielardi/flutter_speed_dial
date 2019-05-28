@@ -15,6 +15,8 @@ class BackgroundOverlay extends AnimatedWidget {
 
   Widget build(BuildContext context) {
     final Animation<double> animation = listenable;
-    return Container(color: color.withOpacity(animation.value * opacity));
+    return Container(
+      color: color.withOpacity(animation.value * opacity),
+    );
   }
 }

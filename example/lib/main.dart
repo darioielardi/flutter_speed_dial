@@ -13,41 +13,41 @@ class MyApp extends StatefulWidget {
 }
 
 class MyAppState extends State<MyApp> with TickerProviderStateMixin {
-  ScrollController _scrollController;
-  bool _dialVisible = true;
+  ScrollController scrollController;
+  bool dialVisible = true;
 
-  initState() {
+  @override
+  void initState() {
     super.initState();
 
-    _scrollController = ScrollController()
+    scrollController = ScrollController()
       ..addListener(() {
-        _setDialVisible(_scrollController.position.userScrollDirection ==
-            ScrollDirection.forward);
+        setDialVisible(scrollController.position.userScrollDirection == ScrollDirection.forward);
       });
   }
 
-  _setDialVisible(bool value) {
+  void setDialVisible(bool value) {
     setState(() {
-      _dialVisible = value;
+      dialVisible = value;
     });
   }
 
-  _renderBody() {
+  Widget buildBody() {
     return ListView.builder(
-      controller: _scrollController,
+      controller: scrollController,
       itemCount: 30,
       itemBuilder: (ctx, i) => ListTile(title: Text('Item $i')),
     );
   }
 
-  _renderSpeedDial() {
+  SpeedDial buildSpeedDial() {
     return SpeedDial(
       animatedIcon: AnimatedIcons.menu_close,
       animatedIconTheme: IconThemeData(size: 22.0),
       // child: Icon(Icons.add),
       onOpen: () => print('OPENING DIAL'),
       onClose: () => print('DIAL CLOSED'),
-      visible: _dialVisible,
+      visible: dialVisible,
       curve: Curves.bounceIn,
       children: [
         SpeedDialChild(
@@ -82,8 +82,8 @@ class MyAppState extends State<MyApp> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Flutter Speed Dial')),
-      body: _renderBody(),
-      floatingActionButton: _renderSpeedDial(),
+      body: buildBody(),
+      floatingActionButton: buildSpeedDial(),
     );
   }
 }

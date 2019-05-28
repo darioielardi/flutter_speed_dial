@@ -76,8 +76,7 @@ class SpeedDial extends StatefulWidget {
   _SpeedDialState createState() => _SpeedDialState();
 }
 
-class _SpeedDialState extends State<SpeedDial>
-    with SingleTickerProviderStateMixin {
+class _SpeedDialState extends State<SpeedDial> with SingleTickerProviderStateMixin {
   AnimationController _controller;
 
   bool _open = false;
