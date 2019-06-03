@@ -47,6 +47,9 @@ class SpeedDial extends StatefulWidget {
   /// Executed when the dial is closed.
   final VoidCallback onClose;
 
+  /// Executed when the dial is pressed. If given, the dial only opens on long press!
+  final VoidCallback onPress;
+
   /// If true user is forced to close dial manually by tapping main button. WARNING: If true, overlay is not rendered.
   final bool closeManually;
 
@@ -70,6 +73,7 @@ class SpeedDial extends StatefulWidget {
     this.closeManually = false,
     this.shape = const CircleBorder(),
     this.curve = Curves.linear,
+    this.onPress,
   });
 
   @override
@@ -172,7 +176,8 @@ class _SpeedDialState extends State<SpeedDial> with SingleTickerProviderStateMix
       top: _open ? 0.0 : null,
       left: _open ? 0.0 : null,
       child: GestureDetector(
-        onTap: _toggleChildren,
+        onTap: (_open || widget.onPress == null) ? _toggleChildren : widget.onPress,
+        onLongPress: _toggleChildren,
         child: BackgroundOverlay(
           animation: _controller,
           color: widget.overlayColor,
