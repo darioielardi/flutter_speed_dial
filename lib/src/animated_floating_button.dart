@@ -47,12 +47,11 @@ class AnimatedFloatingButton extends StatelessWidget {
         child:
           GestureDetector(
             onLongPress: onLongPress,
-            onTap: callback,
             child: FloatingActionButton(
               child: visible ? child : null,
               backgroundColor: backgroundColor,
               foregroundColor: foregroundColor,
-              onPressed: () {},
+              onPressed: callback,
               tooltip: tooltip,
               heroTag: heroTag,
               elevation: elevation,
