@@ -176,8 +176,7 @@ class _SpeedDialState extends State<SpeedDial> with SingleTickerProviderStateMix
       top: _open ? 0.0 : null,
       left: _open ? 0.0 : null,
       child: GestureDetector(
-        onTap: (_open || widget.onPress == null) ? _toggleChildren : widget.onPress,
-        onLongPress: _toggleChildren,
+        onTap: _toggleChildren,
         child: BackgroundOverlay(
           animation: _controller,
           color: widget.overlayColor,
@@ -206,7 +205,8 @@ class _SpeedDialState extends State<SpeedDial> with SingleTickerProviderStateMix
       foregroundColor: widget.foregroundColor,
       elevation: widget.elevation,
       onLongPress: _toggleChildren,
-      callback: (_open ||widget.onPress == null) ? _toggleChildren : widget.onPress,
+      callback:
+          (_open || widget.onPress == null) ? _toggleChildren : widget.onPress,
       child: child,
       heroTag: widget.heroTag,
       shape: widget.shape,
