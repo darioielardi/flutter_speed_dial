@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class AnimatedFloatingButton extends StatelessWidget {
   final bool visible;
   final VoidCallback callback;
+  final VoidCallback onLongPress;
   final Widget child;
   final Color backgroundColor;
   final Color foregroundColor;
@@ -23,6 +24,7 @@ class AnimatedFloatingButton extends StatelessWidget {
     this.elevation = 6.0,
     this.shape = const CircleBorder(),
     this.curve = Curves.linear,
+    this.onLongPress,
   });
 
   @override
@@ -37,22 +39,25 @@ class AnimatedFloatingButton extends StatelessWidget {
       width: 56.0,
       height: 56.0,
       child: AnimatedContainer(
-        curve: curve,
-        margin: EdgeInsets.all(margin),
-        duration: Duration(milliseconds: 150),
-        width: visible ? 56.0 : 0.0,
-        height: visible ? 56.0 : 0.0,
-        child: FloatingActionButton(
-          child: visible ? child : null,
-          backgroundColor: backgroundColor,
-          foregroundColor: foregroundColor,
-          onPressed: callback,
-          tooltip: tooltip,
-          heroTag: heroTag,
-          elevation: elevation,
-          highlightElevation: elevation,
-          shape: shape,
-        ),
+          curve: curve,
+          margin: EdgeInsets.all(margin),
+          duration: Duration(milliseconds: 150),
+          width: visible ? 56.0 : 0.0,
+          height: visible ? 56.0 : 0.0,
+          child: GestureDetector(
+            onLongPress: onLongPress,
+            child: FloatingActionButton(
+              child: visible ? child : null,
+              backgroundColor: backgroundColor,
+              foregroundColor: foregroundColor,
+              onPressed: callback,
+              tooltip: tooltip,
+              heroTag: heroTag,
+              elevation: elevation,
+              highlightElevation: elevation,
+              shape: shape,
+            ),
+          ),
       ),
     );
   }
