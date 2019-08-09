@@ -37,7 +37,7 @@ class AnimatedChild extends AnimatedWidget {
     final Animation<double> animation = listenable;
     if (label != null && visible && animation.value == 62.0) {
       return Container(
-        padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 8.0),
+        padding: EdgeInsets.all(0),
         margin: EdgeInsets.only(right: 18.0),
         decoration: BoxDecoration(
           color: labelBackgroundColor ?? Colors.white,
@@ -50,7 +50,18 @@ class AnimatedChild extends AnimatedWidget {
             )
           ],
         ),
-        child: Text(label, style: labelStyle),
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: (){
+              _performAction();
+            },
+            child: Container(
+              padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 8.0),
+              child: Text(label, style: labelStyle),
+            )
+          )
+        )             
       );
     }
     return Container();
