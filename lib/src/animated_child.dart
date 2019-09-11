@@ -14,6 +14,7 @@ class AnimatedChild extends AnimatedWidget {
   final VoidCallback toggleChildren;
   final ShapeBorder shape;
   final String heroTag;
+  final Widget labelWidget;
 
   AnimatedChild({
     Key key,
@@ -31,11 +32,19 @@ class AnimatedChild extends AnimatedWidget {
     this.toggleChildren,
     this.shape,
     this.heroTag,
+    this.labelWidget,
   }) : super(key: key, listenable: animation);
 
   Widget buildLabel() {
     final Animation<double> animation = listenable;
-    if (label != null && visible && animation.value == 62.0) {
+    if (!visible && animation.value != 62.00) {
+      return Container();
+    }
+
+    if (labelWidget != null) {
+      return labelWidget;
+    }
+    if (label != null) {
       return Container(
         padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 8.0),
         margin: EdgeInsets.only(right: 18.0),

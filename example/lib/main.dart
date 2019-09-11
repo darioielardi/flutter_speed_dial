@@ -22,7 +22,8 @@ class MyAppState extends State<MyApp> with TickerProviderStateMixin {
 
     scrollController = ScrollController()
       ..addListener(() {
-        setDialVisible(scrollController.position.userScrollDirection == ScrollDirection.forward);
+        setDialVisible(scrollController.position.userScrollDirection ==
+            ScrollDirection.forward);
       });
   }
 
@@ -54,9 +55,13 @@ class MyAppState extends State<MyApp> with TickerProviderStateMixin {
           child: Icon(Icons.accessibility, color: Colors.white),
           backgroundColor: Colors.deepOrange,
           onTap: () => print('FIRST CHILD'),
-          label: 'First',
-          labelStyle: TextStyle(fontWeight: FontWeight.w500),
-          labelBackgroundColor: Colors.deepOrangeAccent,
+          labelWidget: InkWell(
+            child: Text(
+              "First labelWidget",
+              style: TextStyle(fontWeight: FontWeight.w500, color: Colors.red),
+            ),
+            onTap: () => print('tapped label'),
+          ),
         ),
         SpeedDialChild(
           child: Icon(Icons.brush, color: Colors.white),
