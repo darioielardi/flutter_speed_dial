@@ -55,13 +55,10 @@ class MyAppState extends State<MyApp> with TickerProviderStateMixin {
           child: Icon(Icons.accessibility, color: Colors.white),
           backgroundColor: Colors.deepOrange,
           onTap: () => print('FIRST CHILD'),
-          labelWidget: InkWell(
-            child: Text(
-              "First labelWidget",
-              style: TextStyle(fontWeight: FontWeight.w500, color: Colors.red),
-            ),
-            onTap: () => print('tapped label'),
-          ),
+          labelWidget: (Text(
+            "First labelWidget",
+            style: TextStyle(fontWeight: FontWeight.w500, color: Colors.red),
+          )),
         ),
         SpeedDialChild(
           child: Icon(Icons.brush, color: Colors.white),

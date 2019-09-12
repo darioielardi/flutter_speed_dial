@@ -40,26 +40,30 @@ class AnimatedChild extends AnimatedWidget {
     if (!visible && animation.value != 62.00) {
       return Container();
     }
-
-    if (labelWidget != null) {
-      return labelWidget;
+    var child = labelWidget;
+    var showDecoration = false;
+    if (labelWidget == null && label != null) {
+      child = Text(label, style: labelStyle);
+      showDecoration = true;
     }
-    if (label != null) {
+    if (child != null) {
       return Container(
         padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 8.0),
         margin: EdgeInsets.only(right: 18.0),
-        decoration: BoxDecoration(
-          color: labelBackgroundColor ?? Colors.white,
-          borderRadius: BorderRadius.all(Radius.circular(6.0)),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.7),
-              offset: Offset(0.8, 0.8),
-              blurRadius: 2.4,
-            )
-          ],
-        ),
-        child: Text(label, style: labelStyle),
+        decoration: showDecoration
+            ? BoxDecoration(
+                color: labelBackgroundColor ?? Colors.white,
+                borderRadius: BorderRadius.all(Radius.circular(6.0)),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.7),
+                    offset: Offset(0.8, 0.8),
+                    blurRadius: 2.4,
+                  )
+                ],
+              )
+            : null,
+        child: child,
       );
     }
     return Container();
