@@ -21,15 +21,15 @@ class SpeedDialChild {
   final ShapeBorder shape;
 
   SpeedDialChild({
-      this.label,
-      this.labelStyle,
-      this.labelBackgroundColor,
-      this.child,
-      this.backgroundColor,
-      this.foregroundColor,
-      this.elevation,
-      this.onTap,
-      this.shape,
-      this.labelWidget
+    this.label,
+    this.labelStyle,
+    this.labelBackgroundColor,
+    this.child,
+    this.backgroundColor,
+    this.foregroundColor,
+    this.elevation,
+    this.onTap,
+    this.shape,
+    this.labelWidget
   });
 }
