@@ -14,6 +14,7 @@ class AnimatedChild extends AnimatedWidget {
   final VoidCallback toggleChildren;
   final ShapeBorder shape;
   final String heroTag;
+  final Widget labelWidget;
 
   AnimatedChild({
     Key key,
@@ -31,26 +32,38 @@ class AnimatedChild extends AnimatedWidget {
     this.toggleChildren,
     this.shape,
     this.heroTag,
+    this.labelWidget,
   }) : super(key: key, listenable: animation);
 
   Widget buildLabel() {
     final Animation<double> animation = listenable;
-    if (label != null && visible && animation.value == 62.0) {
+    if (!visible && animation.value != 62.00) {
+      return Container();
+    }
+    var child = labelWidget;
+    var showDecoration = false;
+    if (labelWidget == null && label != null) {
+      child = Text(label, style: labelStyle);
+      showDecoration = true;
+    }
+    if (child != null) {
       return Container(
         padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 8.0),
         margin: EdgeInsets.only(right: 18.0),
-        decoration: BoxDecoration(
-          color: labelBackgroundColor ?? Colors.white,
-          borderRadius: BorderRadius.all(Radius.circular(6.0)),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.7),
-              offset: Offset(0.8, 0.8),
-              blurRadius: 2.4,
-            )
-          ],
-        ),
-        child: Text(label, style: labelStyle),
+        decoration: showDecoration
+            ? BoxDecoration(
+                color: labelBackgroundColor ?? Colors.white,
+                borderRadius: BorderRadius.all(Radius.circular(6.0)),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.7),
+                    offset: Offset(0.8, 0.8),
+                    blurRadius: 2.4,
+                  )
+                ],
+              )
+            : null,
+        child: child,
       );
     }
     return Container();
