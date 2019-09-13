@@ -22,8 +22,7 @@ class MyAppState extends State<MyApp> with TickerProviderStateMixin {
 
     scrollController = ScrollController()
       ..addListener(() {
-        setDialVisible(scrollController.position.userScrollDirection ==
-            ScrollDirection.forward);
+        setDialVisible(scrollController.position.userScrollDirection == ScrollDirection.forward);
       });
   }
 
