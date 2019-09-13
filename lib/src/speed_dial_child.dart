@@ -20,8 +20,8 @@ class SpeedDialChild {
   final VoidCallback onTap;
   final ShapeBorder shape;
 
-  SpeedDialChild(
-      {this.label,
+  SpeedDialChild({
+      this.label,
       this.labelStyle,
       this.labelBackgroundColor,
       this.child,
@@ -30,5 +30,6 @@ class SpeedDialChild {
       this.elevation,
       this.onTap,
       this.shape,
-      this.labelWidget});
+      this.labelWidget
+  });
 }
