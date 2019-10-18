@@ -152,6 +152,7 @@ class _SpeedDialState extends State<SpeedDial> with SingleTickerProviderStateMix
             backgroundColor: child.backgroundColor,
             foregroundColor: child.foregroundColor,
             elevation: child.elevation,
+            buttonSize: child.buttonSize,
             child: child.child,
             label: child.label,
             labelWidget: child.labelWidget,
