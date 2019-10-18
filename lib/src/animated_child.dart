@@ -39,7 +39,7 @@ class AnimatedChild extends AnimatedWidget {
 
   Widget buildLabel() {
     final Animation<double> animation = listenable;
-    if (!visible && animation.value != 62.00) {
+    if (!visible && animation.value != buttonSize {
       return Container();
     }
     var child = labelWidget;
