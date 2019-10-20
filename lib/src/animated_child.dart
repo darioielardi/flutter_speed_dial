@@ -6,15 +6,17 @@ class AnimatedChild extends AnimatedWidget {
   final Color foregroundColor;
   final double elevation;
   final Widget child;
+
   final String label;
   final TextStyle labelStyle;
   final Color labelBackgroundColor;
+  final Widget labelWidget;
+
   final bool visible;
   final VoidCallback onTap;
   final VoidCallback toggleChildren;
   final ShapeBorder shape;
   final String heroTag;
-  final Widget labelWidget;
 
   AnimatedChild({
     Key key,
@@ -27,12 +29,12 @@ class AnimatedChild extends AnimatedWidget {
     this.label,
     this.labelStyle,
     this.labelBackgroundColor,
+    this.labelWidget,
     this.visible = false,
     this.onTap,
     this.toggleChildren,
     this.shape,
     this.heroTag,
-    this.labelWidget,
   }) : super(key: key, listenable: animation);
 
   Widget buildLabel() {

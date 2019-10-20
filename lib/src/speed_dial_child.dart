@@ -11,8 +11,10 @@ class SpeedDialChild {
   /// The background color of the label
   final Color labelBackgroundColor;
 
-  /// if this is used, label, labelStyle and labelBackgroundColor are ignored
+  /// If this is provided it will replace the default widget, therefore [label],
+  /// [labelStyle] and [labelBackgroundColor] should be null
   final Widget labelWidget;
+
   final Widget child;
   final Color backgroundColor;
   final Color foregroundColor;
@@ -24,12 +26,12 @@ class SpeedDialChild {
     this.label,
     this.labelStyle,
     this.labelBackgroundColor,
+    this.labelWidget,
     this.child,
     this.backgroundColor,
     this.foregroundColor,
     this.elevation,
     this.onTap,
     this.shape,
-    this.labelWidget
   });
 }

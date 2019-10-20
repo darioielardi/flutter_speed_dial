@@ -80,7 +80,8 @@ class SpeedDial extends StatefulWidget {
   _SpeedDialState createState() => _SpeedDialState();
 }
 
-class _SpeedDialState extends State<SpeedDial> with SingleTickerProviderStateMixin {
+class _SpeedDialState extends State<SpeedDial>
+    with SingleTickerProviderStateMixin {
   AnimationController _controller;
 
   bool _open = false;
@@ -157,6 +158,7 @@ class _SpeedDialState extends State<SpeedDial> with SingleTickerProviderStateMix
             labelWidget: child.labelWidget,
             labelStyle: child.labelStyle,
             labelBackgroundColor: child.labelBackgroundColor,
+            labelWidget: child.labelWidget,
             onTap: child.onTap,
             toggleChildren: () {
               if (!widget.closeManually) _toggleChildren();

@@ -22,7 +22,8 @@ class MyAppState extends State<MyApp> with TickerProviderStateMixin {
 
     scrollController = ScrollController()
       ..addListener(() {
-        setDialVisible(scrollController.position.userScrollDirection == ScrollDirection.forward);
+        setDialVisible(scrollController.position.userScrollDirection ==
+            ScrollDirection.forward);
       });
   }
 
@@ -54,26 +55,28 @@ class MyAppState extends State<MyApp> with TickerProviderStateMixin {
           child: Icon(Icons.accessibility, color: Colors.white),
           backgroundColor: Colors.deepOrange,
           onTap: () => print('FIRST CHILD'),
-          labelWidget: (Text(
-            "First labelWidget",
-            style: TextStyle(fontWeight: FontWeight.w500, color: Colors.red),
-          )),
+          label: 'First Child',
+          labelStyle: TextStyle(fontWeight: FontWeight.w500),
+          labelBackgroundColor: Colors.deepOrangeAccent,
         ),
         SpeedDialChild(
           child: Icon(Icons.brush, color: Colors.white),
           backgroundColor: Colors.green,
           onTap: () => print('SECOND CHILD'),
-          label: 'Second',
+          label: 'Second Child',
           labelStyle: TextStyle(fontWeight: FontWeight.w500),
-          labelBackgroundColor: Colors.greenAccent,
+          labelBackgroundColor: Colors.green,
         ),
         SpeedDialChild(
           child: Icon(Icons.keyboard_voice, color: Colors.white),
           backgroundColor: Colors.blue,
           onTap: () => print('THIRD CHILD'),
-          label: 'Third',
-          labelStyle: TextStyle(fontWeight: FontWeight.w500),
-          labelBackgroundColor: Colors.lightBlueAccent,
+          labelWidget: Container(
+            color: Colors.blue,
+            margin: EdgeInsets.only(right: 10),
+            padding: EdgeInsets.all(6),
+            child: Text('Custom Label Widget'),
+          ),
         ),
       ],
     );
