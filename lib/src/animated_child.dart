@@ -39,36 +39,32 @@ class AnimatedChild extends AnimatedWidget {
 
   Widget buildLabel() {
     final Animation<double> animation = listenable;
-    if (!visible && animation.value != 62.00) {
+
+    if (!((label != null || labelWidget != null) && visible && animation.value == 62.0)) {
       return Container();
     }
-    var child = labelWidget;
-    var showDecoration = false;
-    if (labelWidget == null && label != null) {
-      child = Text(label, style: labelStyle);
-      showDecoration = true;
-    }
-    if (child != null) {
-      return Container(
+
+    final defaultLabelWidget = GestureDetector(
+      onTap: _performAction,
+      child: Container(
         padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 8.0),
         margin: EdgeInsets.only(right: 18.0),
-        decoration: showDecoration
-            ? BoxDecoration(
-                color: labelBackgroundColor ?? Colors.white,
-                borderRadius: BorderRadius.all(Radius.circular(6.0)),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.7),
-                    offset: Offset(0.8, 0.8),
-                    blurRadius: 2.4,
-                  )
-                ],
-              )
-            : null,
-        child: child,
-      );
-    }
-    return Container();
+        decoration: BoxDecoration(
+          color: labelBackgroundColor ?? Colors.white,
+          borderRadius: BorderRadius.all(Radius.circular(6.0)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.7),
+              offset: Offset(0.8, 0.8),
+              blurRadius: 2.4,
+            )
+          ],
+        ),
+        child: Text(label, style: labelStyle),
+      ),
+    );
+
+    return labelWidget ?? defaultLabelWidget;
   }
 
   void _performAction() {

@@ -155,7 +155,6 @@ class _SpeedDialState extends State<SpeedDial>
             elevation: child.elevation,
             child: child.child,
             label: child.label,
-            labelWidget: child.labelWidget,
             labelStyle: child.labelStyle,
             labelBackgroundColor: child.labelBackgroundColor,
             labelWidget: child.labelWidget,
