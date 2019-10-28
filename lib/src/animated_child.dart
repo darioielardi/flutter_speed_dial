@@ -44,7 +44,9 @@ class AnimatedChild extends AnimatedWidget {
       return Container();
     }
 
-    final defaultLabelWidget = GestureDetector(
+    if (labelWidget != null) return labelWidget;
+
+    return GestureDetector(
       onTap: _performAction,
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 8.0),
@@ -63,8 +65,6 @@ class AnimatedChild extends AnimatedWidget {
         child: Text(label, style: labelStyle),
       ),
     );
-
-    return labelWidget ?? defaultLabelWidget;
   }
 
   void _performAction() {

@@ -80,8 +80,7 @@ class SpeedDial extends StatefulWidget {
   _SpeedDialState createState() => _SpeedDialState();
 }
 
-class _SpeedDialState extends State<SpeedDial>
-    with SingleTickerProviderStateMixin {
+class _SpeedDialState extends State<SpeedDial> with SingleTickerProviderStateMixin {
   AnimationController _controller;
 
   bool _open = false;
@@ -163,7 +162,7 @@ class _SpeedDialState extends State<SpeedDial>
               if (!widget.closeManually) _toggleChildren();
             },
             shape: child.shape,
-            heroTag: widget.heroTag != null ? 'speed-dial-child-$index' : null,
+            heroTag: widget.heroTag != null ? '${widget.heroTag}-child-$index' : null,
           );
         })
         .toList()
@@ -207,8 +206,7 @@ class _SpeedDialState extends State<SpeedDial>
       foregroundColor: widget.foregroundColor,
       elevation: widget.elevation,
       onLongPress: _toggleChildren,
-      callback:
-          (_open || widget.onPress == null) ? _toggleChildren : widget.onPress,
+      callback: (_open || widget.onPress == null) ? _toggleChildren : widget.onPress,
       child: child,
       heroTag: widget.heroTag,
       shape: widget.shape,
