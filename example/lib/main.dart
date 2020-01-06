@@ -50,6 +50,11 @@ class MyAppState extends State<MyApp> with TickerProviderStateMixin {
       onClose: () => print('DIAL CLOSED'),
       visible: dialVisible,
       curve: Curves.bounceIn,
+      gradient: LinearGradient(
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+        colors: [Colors.white, Colors.black],
+      ),
       children: [
         SpeedDialChild(
           child: Icon(Icons.accessibility, color: Colors.white),
