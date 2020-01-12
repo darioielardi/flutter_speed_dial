@@ -247,7 +247,7 @@ class _SpeedDialState extends State<SpeedDial> with SingleTickerProviderStateMix
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.end,
-              children: List.from(fabChildren)
+              children: List.from(fabChildren.reversed)
                 ..insert(
                     0,
                     Container(
