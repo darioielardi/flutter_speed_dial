@@ -86,7 +86,8 @@ class SpeedDial extends StatefulWidget {
   _SpeedDialState createState() => _SpeedDialState();
 }
 
-class _SpeedDialState extends State<SpeedDial> with SingleTickerProviderStateMixin {
+class _SpeedDialState extends State<SpeedDial>
+    with SingleTickerProviderStateMixin {
   AnimationController _controller;
 
   bool _open = false;
@@ -100,8 +101,9 @@ class _SpeedDialState extends State<SpeedDial> with SingleTickerProviderStateMix
     );
   }
 
-  Duration _calculateMainControllerDuration() =>
-      Duration(milliseconds: widget.animationSpeed + widget.children.length * (widget.animationSpeed / 5).round());
+  Duration _calculateMainControllerDuration() => Duration(
+      milliseconds: widget.animationSpeed +
+          widget.children.length * (widget.animationSpeed / 5).round());
 
   @override
   void dispose() {
@@ -144,7 +146,8 @@ class _SpeedDialState extends State<SpeedDial> with SingleTickerProviderStateMix
         .map((SpeedDialChild child) {
           int index = widget.children.indexOf(child);
 
-          var childAnimation = Tween(begin: 0.0, end: widget.size).animate(
+          var childAnimation =
+              Tween(begin: 0.0, end: widget.size ?? 62.0).animate(
             CurvedAnimation(
               parent: this._controller,
               curve: Interval(0, singleChildrenTween * (index + 1)),
@@ -169,7 +172,9 @@ class _SpeedDialState extends State<SpeedDial> with SingleTickerProviderStateMix
               if (!widget.closeManually) _toggleChildren();
             },
             shape: child.shape,
-            heroTag: widget.heroTag != null ? '${widget.heroTag}-child-$index' : null,
+            heroTag: widget.heroTag != null
+                ? '${widget.heroTag}-child-$index'
+                : null,
           );
         })
         .toList()
@@ -214,7 +219,8 @@ class _SpeedDialState extends State<SpeedDial> with SingleTickerProviderStateMix
       elevation: widget.elevation,
       size: widget.size,
       onLongPress: _toggleChildren,
-      callback: (_open || widget.onPress == null) ? _toggleChildren : widget.onPress,
+      callback:
+          (_open || widget.onPress == null) ? _toggleChildren : widget.onPress,
       child: child,
       heroTag: widget.heroTag,
       shape: widget.shape,
