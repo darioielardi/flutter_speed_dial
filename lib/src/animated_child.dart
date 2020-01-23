@@ -42,7 +42,7 @@ class AnimatedChild extends AnimatedWidget {
   Widget buildLabel() {
     final Animation<double> animation = listenable;
 
-    if (!((label != null || labelWidget != null) && visible && animation.value == 62.0)) {
+    if (!((label != null || labelWidget != null) && visible && animation.value == buttonSize)) {
       return Container();
     }
 
@@ -94,11 +94,11 @@ class AnimatedChild extends AnimatedWidget {
         children: <Widget>[
           buildLabel(),
           Container(
-            width: 62.0,
+            width: buttonSize,
             height: animation.value,
             padding: EdgeInsets.only(bottom: buttonSize - animation.value),
             child: Container(
-              height: 62.0,
+              height: buttonSize,
               width: animation.value,
               padding: EdgeInsets.only(top: 8.0, bottom: 8.0),
               child: FloatingActionButton(
