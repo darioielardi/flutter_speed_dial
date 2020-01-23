@@ -21,6 +21,7 @@ class SpeedDial extends StatefulWidget {
   final Color backgroundColor;
   final Color foregroundColor;
   final double elevation;
+  final double size;
   final ShapeBorder shape;
 
   final double marginRight;
@@ -62,6 +63,7 @@ class SpeedDial extends StatefulWidget {
     this.backgroundColor,
     this.foregroundColor,
     this.elevation = 6.0,
+    this.size,
     this.overlayOpacity = 0.8,
     this.overlayColor = Colors.white,
     this.tooltip,
@@ -77,7 +79,7 @@ class SpeedDial extends StatefulWidget {
     this.shape = const CircleBorder(),
     this.curve = Curves.linear,
     this.onPress,
-    this.animationSpeed = 150
+    this.animationSpeed = 150,
   });
 
   @override
