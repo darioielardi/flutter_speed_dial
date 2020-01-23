@@ -21,13 +21,13 @@ class AnimatedFloatingButton extends StatelessWidget {
     this.backgroundColor,
     this.foregroundColor,
     this.tooltip,
+    size,
     this.heroTag,
     this.elevation = 6.0,
-    this.size = 56.0,
     this.shape = const CircleBorder(),
     this.curve = Curves.linear,
     this.onLongPress,
-  });
+  }) : this.size = size ?? 56.0;
 
   @override
   Widget build(BuildContext context) {
