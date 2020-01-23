@@ -144,7 +144,7 @@ class _SpeedDialState extends State<SpeedDial> with SingleTickerProviderStateMix
         .map((SpeedDialChild child) {
           int index = widget.children.indexOf(child);
 
-          var childAnimation = Tween(begin: 0.0, end: 62.0).animate(
+          var childAnimation = Tween(begin: 0.0, end: widget.size).animate(
             CurvedAnimation(
               parent: this._controller,
               curve: Interval(0, singleChildrenTween * (index + 1)),
