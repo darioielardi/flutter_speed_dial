@@ -26,7 +26,7 @@ class AnimatedChild extends AnimatedWidget {
     this.backgroundColor,
     this.foregroundColor,
     this.elevation = 6.0,
-    this.buttonSize = 62.0,
+    buttonSize,
     this.child,
     this.label,
     this.labelStyle,
@@ -37,12 +37,15 @@ class AnimatedChild extends AnimatedWidget {
     this.toggleChildren,
     this.shape,
     this.heroTag,
-  }) : super(key: key, listenable: animation);
+  })  : this.buttonSize = buttonSize ?? 62.0,
+        super(key: key, listenable: animation);
 
   Widget buildLabel() {
     final Animation<double> animation = listenable;
 
-    if (!((label != null || labelWidget != null) && visible && animation.value == buttonSize)) {
+    if (!((label != null || labelWidget != null) &&
+        visible &&
+        animation.value == buttonSize)) {
       return Container();
     }
 
