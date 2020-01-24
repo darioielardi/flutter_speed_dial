@@ -19,6 +19,8 @@ class AnimatedChild extends AnimatedWidget {
   final ShapeBorder shape;
   final String heroTag;
 
+  final double _paddingPercent = 0.125;
+
   AnimatedChild({
     Key key,
     Animation<double> animation,
@@ -104,8 +106,8 @@ class AnimatedChild extends AnimatedWidget {
               height: buttonSize,
               width: animation.value,
               padding: EdgeInsets.only(
-                left: .125 * buttonSize,
-                right: .125 * buttonSize,
+                left: _paddingPercent * buttonSize, // This will give relative padding size
+                right: _paddingPercent * buttonSize,
               ),
               child: FloatingActionButton(
                 heroTag: heroTag,

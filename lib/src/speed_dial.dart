@@ -21,7 +21,7 @@ class SpeedDial extends StatefulWidget {
   final Color backgroundColor;
   final Color foregroundColor;
   final double elevation;
-  final double size;
+  final double buttonSize;
   final ShapeBorder shape;
 
   final double marginRight;
@@ -63,7 +63,7 @@ class SpeedDial extends StatefulWidget {
     this.backgroundColor,
     this.foregroundColor,
     this.elevation = 6.0,
-    this.size,
+    this.buttonSize,
     this.overlayOpacity = 0.8,
     this.overlayColor = Colors.white,
     this.tooltip,
@@ -147,7 +147,7 @@ class _SpeedDialState extends State<SpeedDial>
           int index = widget.children.indexOf(child);
 
           var childAnimation =
-              Tween(begin: 0.0, end: widget.size ?? 56.0).animate(
+              Tween(begin: 0.0, end: widget.buttonSize ?? 56.0).animate(
             CurvedAnimation(
               parent: this._controller,
               curve: Interval(0, singleChildrenTween * (index + 1)),
@@ -163,7 +163,7 @@ class _SpeedDialState extends State<SpeedDial>
             elevation: child.elevation,
             child: child.child,
             label: child.label,
-            buttonSize: widget.size,
+            buttonSize: widget.buttonSize,
             labelStyle: child.labelStyle,
             labelBackgroundColor: child.labelBackgroundColor,
             labelWidget: child.labelWidget,
@@ -217,7 +217,7 @@ class _SpeedDialState extends State<SpeedDial>
       backgroundColor: widget.backgroundColor,
       foregroundColor: widget.foregroundColor,
       elevation: widget.elevation,
-      size: widget.size,
+      size: widget.buttonSize,
       onLongPress: _toggleChildren,
       callback:
           (_open || widget.onPress == null) ? _toggleChildren : widget.onPress,
