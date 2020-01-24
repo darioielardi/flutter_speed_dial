@@ -37,7 +37,7 @@ class AnimatedChild extends AnimatedWidget {
     this.toggleChildren,
     this.shape,
     this.heroTag,
-  })  : this.buttonSize = buttonSize ?? 62.0,
+  })  : this.buttonSize = buttonSize ?? 57.0,
         super(key: key, listenable: animation);
 
   Widget buildLabel() {
