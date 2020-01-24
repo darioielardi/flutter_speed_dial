@@ -237,7 +237,7 @@ class _SpeedDialState extends State<SpeedDial>
           children: List.from(fabChildren)
             ..add(
               Container(
-                margin: EdgeInsets.only(top: 8.0, right: 0.0),
+                margin: EdgeInsets.only(top: 8.0),
                 child: animatedFloatingButton,
               ),
             ),
