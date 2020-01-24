@@ -103,7 +103,10 @@ class AnimatedChild extends AnimatedWidget {
             child: Container(
               height: buttonSize,
               width: animation.value,
-              padding: EdgeInsets.only(left: 8.0, right: 8.0),
+              padding: EdgeInsets.only(
+                left: .125 * buttonSize,
+                right: .125 * buttonSize,
+              ),
               child: FloatingActionButton(
                 heroTag: heroTag,
                 onPressed: _performAction,
