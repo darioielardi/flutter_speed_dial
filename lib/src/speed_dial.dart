@@ -147,7 +147,7 @@ class _SpeedDialState extends State<SpeedDial>
           int index = widget.children.indexOf(child);
 
           var childAnimation =
-              Tween(begin: 0.0, end: widget.size ?? 62.0).animate(
+              Tween(begin: 0.0, end: widget.size ?? 56.0).animate(
             CurvedAnimation(
               parent: this._controller,
               curve: Interval(0, singleChildrenTween * (index + 1)),
