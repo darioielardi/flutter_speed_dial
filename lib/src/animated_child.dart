@@ -40,11 +40,18 @@ class AnimatedChild extends AnimatedWidget {
   Widget buildLabel() {
     final Animation<double> animation = listenable;
 
-    if (!((label != null || labelWidget != null) && visible && animation.value == 62.0)) {
+    if (!((label != null || labelWidget != null) &&
+        visible &&
+        animation.value == 62.0)) {
       return Container();
     }
 
-    if (labelWidget != null) return labelWidget;
+    if (labelWidget != null) {
+      return GestureDetector(
+        onTap: _performAction,
+        child: labelWidget,
+      );
+    }
 
     return GestureDetector(
       onTap: _performAction,
