@@ -243,11 +243,21 @@ class _SpeedDialState extends State<SpeedDial> with SingleTickerProviderStateMix
       _renderButton(),
     ];
 
-    return Stack(
+    var stack = Stack(
       alignment: Alignment.bottomRight,
       fit: StackFit.expand,
       overflow: Overflow.visible,
       children: children,
     );
+
+    if (_open) {
+      return stack;
+    } else {
+      return Container(
+        width: 56,
+        height: 56,
+        child: stack,
+      );
+    }
   }
 }
