@@ -60,29 +60,30 @@ class SpeedDial extends StatefulWidget {
   /// The orientation of the children. Default is [SpeedDialOrientation.Up]
   final SpeedDialOrientation orientation;
 
-  SpeedDial(
-      {this.children = const [],
-      this.visible = true,
-      this.backgroundColor,
-      this.foregroundColor,
-      this.elevation = 6.0,
-      this.overlayOpacity = 0.8,
-      this.overlayColor = Colors.white,
-      this.tooltip,
-      this.heroTag,
-      this.animatedIcon,
-      this.animatedIconTheme,
-      this.child,
-      this.marginBottom = 16,
-      this.marginRight = 16,
-      this.onOpen,
-      this.onClose,
-      this.orientation = SpeedDialOrientation.Up,
-      this.closeManually = false,
-      this.shape = const CircleBorder(),
-      this.curve = Curves.linear,
-      this.onPress,
-      this.animationSpeed = 150});
+  SpeedDial({
+    this.children = const [],
+    this.visible = true,
+    this.backgroundColor,
+    this.foregroundColor,
+    this.elevation = 6.0,
+    this.overlayOpacity = 0.8,
+    this.overlayColor = Colors.white,
+    this.tooltip,
+    this.heroTag,
+    this.animatedIcon,
+    this.animatedIconTheme,
+    this.child,
+    this.marginBottom = 16,
+    this.marginRight = 16,
+    this.onOpen,
+    this.onClose,
+    this.orientation = SpeedDialOrientation.Up,
+    this.closeManually = false,
+    this.shape = const CircleBorder(),
+    this.curve = Curves.linear,
+    this.onPress,
+    this.animationSpeed = 150
+  });
 
   @override
   _SpeedDialState createState() => _SpeedDialState();
@@ -222,7 +223,27 @@ class _SpeedDialState extends State<SpeedDial> with SingleTickerProviderStateMix
     );
 
     switch (widget.orientation) {
+      case SpeedDialOrientation.Down:
+        return Positioned(
+          top: MediaQuery.of(context).size.height - 56 - (widget.marginBottom - 16),
+          right: widget.marginRight - 16,
+          child: Container(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: List.from(fabChildren.reversed)
+                ..insert(
+                    0,
+                    Container(
+                      margin: EdgeInsets.only(bottom: 8.0, right: 2.0),
+                      child: animatedFloatingButton,
+                    )),
+            ),
+          ),
+        );
+        break;
       case SpeedDialOrientation.Up:
+      default:
         return Positioned(
           bottom: widget.marginBottom - 16,
           right: widget.marginRight - 16,
@@ -238,26 +259,7 @@ class _SpeedDialState extends State<SpeedDial> with SingleTickerProviderStateMix
             ),
           ),
         );
-        break;
-      case SpeedDialOrientation.Down:
-        return Positioned(
-          top: MediaQuery.of(context).size.height - 56 - 8 - (widget.marginBottom - 16),
-          right: widget.marginRight - 16,
-          child: Container(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: List.from(fabChildren.reversed)
-                ..insert(
-                    0,
-                    Container(
-                      margin: EdgeInsets.only(top: 8.0, right: 2.0),
-                      child: animatedFloatingButton,
-                    )),
-            ),
-          ),
-        );
-        break;
+        break;  
     }
   }
 
