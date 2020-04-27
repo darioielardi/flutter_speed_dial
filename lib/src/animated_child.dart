@@ -13,6 +13,7 @@ class AnimatedChild extends AnimatedWidget {
   final Widget labelWidget;
 
   final bool visible;
+  final bool dark;
   final VoidCallback onTap;
   final VoidCallback toggleChildren;
   final ShapeBorder shape;
@@ -31,6 +32,7 @@ class AnimatedChild extends AnimatedWidget {
     this.labelBackgroundColor,
     this.labelWidget,
     this.visible = false,
+    this.dark,
     this.onTap,
     this.toggleChildren,
     this.shape,
@@ -52,7 +54,7 @@ class AnimatedChild extends AnimatedWidget {
         padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 8.0),
         margin: EdgeInsets.only(right: 18.0),
         decoration: BoxDecoration(
-          color: labelBackgroundColor ?? Colors.white,
+          color: labelBackgroundColor ?? (dark ? Colors.grey[800] : Colors.grey[50]),
           borderRadius: BorderRadius.all(Radius.circular(6.0)),
           boxShadow: [
             BoxShadow(
@@ -102,8 +104,8 @@ class AnimatedChild extends AnimatedWidget {
               child: FloatingActionButton(
                 heroTag: heroTag,
                 onPressed: _performAction,
-                backgroundColor: backgroundColor,
-                foregroundColor: foregroundColor,
+                backgroundColor: backgroundColor ?? (dark ? Colors.grey[800] : Colors.grey[50]),
+                foregroundColor: foregroundColor ?? (dark ? Colors.white : Colors.black),
                 elevation: elevation ?? 6.0,
                 child: buttonChild,
               ),

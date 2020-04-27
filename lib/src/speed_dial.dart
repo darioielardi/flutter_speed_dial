@@ -63,7 +63,7 @@ class SpeedDial extends StatefulWidget {
     this.foregroundColor,
     this.elevation = 6.0,
     this.overlayOpacity = 0.8,
-    this.overlayColor = Colors.white,
+    this.overlayColor,
     this.tooltip,
     this.heroTag,
     this.animatedIcon,
@@ -83,6 +83,8 @@ class SpeedDial extends StatefulWidget {
   @override
   _SpeedDialState createState() => _SpeedDialState();
 }
+
+bool _dark;
 
 class _SpeedDialState extends State<SpeedDial> with SingleTickerProviderStateMixin {
   AnimationController _controller;
@@ -153,6 +155,7 @@ class _SpeedDialState extends State<SpeedDial> with SingleTickerProviderStateMix
             animation: childAnimation,
             index: index,
             visible: _open,
+            dark: _dark,
             backgroundColor: child.backgroundColor,
             foregroundColor: child.foregroundColor,
             elevation: child.elevation,
@@ -184,7 +187,7 @@ class _SpeedDialState extends State<SpeedDial> with SingleTickerProviderStateMix
         onTap: _toggleChildren,
         child: BackgroundOverlay(
           animation: _controller,
-          color: widget.overlayColor,
+          color: widget.overlayColor ?? (_dark ? Colors.grey[900] : Colors.white),
           opacity: widget.overlayOpacity,
         ),
       ),
@@ -206,8 +209,8 @@ class _SpeedDialState extends State<SpeedDial> with SingleTickerProviderStateMix
     var animatedFloatingButton = AnimatedFloatingButton(
       visible: widget.visible,
       tooltip: widget.tooltip,
-      backgroundColor: widget.backgroundColor,
-      foregroundColor: widget.foregroundColor,
+      backgroundColor: widget.backgroundColor  ?? (_dark ? Colors.grey[800] : Colors.grey[50]),
+      foregroundColor: widget.foregroundColor ?? (_dark ? Colors.white : Colors.black),
       elevation: widget.elevation,
       onLongPress: _toggleChildren,
       callback: (_open || widget.onPress == null) ? _toggleChildren : widget.onPress,
@@ -238,6 +241,10 @@ class _SpeedDialState extends State<SpeedDial> with SingleTickerProviderStateMix
 
   @override
   Widget build(BuildContext context) {
+    final Brightness brightnessValue =
+        MediaQuery.of(context).platformBrightness;
+    _dark = brightnessValue == Brightness.dark;
+
     final children = [
       if (!widget.closeManually) _renderOverlay(),
       _renderButton(),
