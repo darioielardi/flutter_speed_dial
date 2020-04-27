@@ -58,7 +58,7 @@ class AnimatedChild extends AnimatedWidget {
           borderRadius: BorderRadius.all(Radius.circular(6.0)),
           boxShadow: [
             BoxShadow(
-              color: Colors.grey.withOpacity(0.7),
+              color: dark ? Colors.grey[900].withOpacity(0.7) : Colors.grey.withOpacity(0.7),
               offset: Offset(0.8, 0.8),
               blurRadius: 2.4,
             )
