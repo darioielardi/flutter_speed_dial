@@ -46,6 +46,8 @@ class AnimatedChild extends AnimatedWidget {
 
     if (labelWidget != null) return labelWidget;
 
+    print('blaaaaaaaa');
+
     return GestureDetector(
       onTap: _performAction,
       child: Container(
@@ -86,31 +88,62 @@ class AnimatedChild extends AnimatedWidget {
             height: 0.0,
           );
 
-    return Container(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: <Widget>[
-          buildLabel(),
-          Container(
-            width: 62.0,
-            height: animation.value,
-            padding: EdgeInsets.only(bottom: 62.0 - animation.value),
-            child: Container(
-              height: 62.0,
-              width: animation.value,
-              padding: EdgeInsets.only(top: 8.0, bottom: 8.0),
-              child: FloatingActionButton(
-                heroTag: heroTag,
-                onPressed: _performAction,
-                backgroundColor: backgroundColor,
-                foregroundColor: foregroundColor,
-                elevation: elevation ?? 6.0,
-                child: buttonChild,
+    if(this.shape is CircleBorder) {
+      return Container(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: <Widget>[
+            buildLabel(),
+            Container(
+              width: 62.0,
+              height: animation.value,
+              padding: EdgeInsets.only(bottom: 62.0 - animation.value),
+              child: Container(
+                height: 62.0,
+                width: animation.value,
+                padding: EdgeInsets.only(top: 8.0, bottom: 8.0),
+                child: FloatingActionButton(
+                  heroTag: heroTag,
+                  onPressed: _performAction,
+                  backgroundColor: backgroundColor,
+                  foregroundColor: foregroundColor,
+                  elevation: elevation ?? 6.0,
+                  child: buttonChild,
+                  shape: this.shape,
+                ),
               ),
-            ),
-          )
-        ],
-      ),
-    );
+            )
+          ],
+        ),
+      );
+    } else {
+      return Container(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: <Widget>[
+            buildLabel(),
+            Container(
+              width: 62.0,
+              height: animation.value,
+              padding: EdgeInsets.only(bottom: 62.0 - animation.value),
+              child: Container(
+                height: 62.0,
+                width: animation.value,
+                padding: EdgeInsets.all(2.0),
+                child: FloatingActionButton(
+                  heroTag: heroTag,
+                  onPressed: _performAction,
+                  backgroundColor: backgroundColor,
+                  foregroundColor: foregroundColor,
+                  elevation: elevation ?? 6.0,
+                  child: buttonChild,
+                  shape: this.shape,
+                ),
+              ),
+            )
+          ],
+        ),
+      );
+    }
   }
 }
