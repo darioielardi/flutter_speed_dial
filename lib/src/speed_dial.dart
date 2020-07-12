@@ -187,13 +187,7 @@ class _SpeedDialState extends State<SpeedDial>
   @override
   void initState() {
     super.initState();
-    widget.openCloseDial?.addListener(() {
-      final show = widget.openCloseDial?.value;
-      if (!mounted) return;
-      if (_open != show) {
-        _toggleChildren();
-      }
-    });
+    widget.openCloseDial?.addListener(_onOpenCloseDial);
     Future.delayed(Duration.zero, () async {
       if (mounted && widget.isOpenOnStart) _toggleChildren();
     });
@@ -202,7 +196,7 @@ class _SpeedDialState extends State<SpeedDial>
   @override
   void dispose() {
     _controller.dispose();
-    widget.openCloseDial?.removeListener(() {});
+    widget.openCloseDial?.removeListener(_onOpenCloseDial);
     super.dispose();
   }
 
@@ -212,19 +206,22 @@ class _SpeedDialState extends State<SpeedDial>
       _controller.duration = Duration(milliseconds: widget.animationSpeed);
     }
 
-    widget.openCloseDial?.removeListener(() {});
-    widget.openCloseDial?.addListener(() {
-      final show = widget.openCloseDial?.value;
-      if (!mounted) return;
-      if (_open != show) {
-        _toggleChildren();
-      }
-    });
-
+    widget.openCloseDial?.removeListener(_onOpenCloseDial);
+    widget.openCloseDial?.addListener(_onOpenCloseDial);
     super.didUpdateWidget(oldWidget);
   }
 
+  void _onOpenCloseDial() {
+    final show = widget.openCloseDial?.value;
+    if (!mounted) return;
+    if (_open != show) {
+      _toggleChildren();
+    }
+  }
+
   void _toggleChildren() {
+    if (!mounted) return;
+
     if (widget.children.length > 0) {
       var newValue = !_open;
       toggleOverlay();
