@@ -56,6 +56,9 @@ class SpeedDial extends StatefulWidget {
   /// The speed of the animation
   final int animationSpeed;
 
+  /// The bottom margin of each child
+  final double childBottomMargin;
+
   SpeedDial({
     this.children = const [],
     this.visible = true,
@@ -77,7 +80,8 @@ class SpeedDial extends StatefulWidget {
     this.shape = const CircleBorder(),
     this.curve = Curves.linear,
     this.onPress,
-    this.animationSpeed = 150
+    this.animationSpeed = 150,
+    this.childBottomMargin = 0
   });
 
   @override
@@ -167,6 +171,7 @@ class _SpeedDialState extends State<SpeedDial> with SingleTickerProviderStateMix
             },
             shape: child.shape,
             heroTag: widget.heroTag != null ? '${widget.heroTag}-child-$index' : null,
+            childBottomMargin: widget.childBottomMargin,
           );
         })
         .toList()
