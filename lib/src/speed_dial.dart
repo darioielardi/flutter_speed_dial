@@ -175,11 +175,11 @@ class _SpeedDialState extends State<SpeedDial> with SingleTickerProviderStateMix
   }
 
   Widget _renderOverlay() {
-    return Positioned(
-      right: -16.0,
+    return PositionedDirectional(
+      end: -16.0,
       bottom: -16.0,
       top: _open ? 0.0 : null,
-      left: _open ? 0.0 : null,
+      start: _open ? 0.0 : null,
       child: GestureDetector(
         onTap: _toggleChildren,
         child: BackgroundOverlay(
@@ -217,9 +217,9 @@ class _SpeedDialState extends State<SpeedDial> with SingleTickerProviderStateMix
       curve: widget.curve,
     );
 
-    return Positioned(
+    return PositionedDirectional(
       bottom: widget.marginBottom - 16,
-      right: widget.marginRight - 16,
+      right: widget.marginEnd - 16,
       child: Container(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
@@ -227,7 +227,7 @@ class _SpeedDialState extends State<SpeedDial> with SingleTickerProviderStateMix
           children: List.from(fabChildren)
             ..add(
               Container(
-                margin: EdgeInsets.only(top: 8.0, right: 2.0),
+                margin: EdgeInsetsDirectional.only(top: 8.0, end: 2.0),
                 child: animatedFloatingButton,
               ),
             ),
