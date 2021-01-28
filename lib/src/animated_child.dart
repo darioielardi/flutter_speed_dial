@@ -81,7 +81,7 @@ class AnimatedChild extends AnimatedWidget {
         ? Container(
             width: animation.value,
             height: animation.value,
-            child: child ?? Container(),
+            child: Center(child: child) ?? Container(),
           )
         : Container(
             width: 0.0,
