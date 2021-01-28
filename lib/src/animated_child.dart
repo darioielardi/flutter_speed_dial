@@ -115,7 +115,7 @@ class AnimatedChild extends AnimatedWidget {
                 foregroundColor: foregroundColor ?? (dark ? Colors.white : Colors.black),
                 elevation: elevation ?? 6.0,
                 child: buttonChild,
-                shape: this.shape,
+                shape: shape,
               ),
             ),
           )
