@@ -38,8 +38,11 @@ class SpeedDial extends StatefulWidget {
   /// The theme for the animated icon.
   final IconThemeData animatedIconTheme;
 
-  /// The child of the main button, ignored if [animatedIcon] is non [null].
-  final Widget child;
+  /// The icon of the main button, ignored if [animatedIcon] is non [null].
+  final IconData icon;
+
+  /// The active icon of the main button, ignored if [animatedIcon] is non [null].
+  final IconData activeIcon;
 
   /// Executed when the dial is opened.
   final VoidCallback onOpen;
@@ -68,7 +71,8 @@ class SpeedDial extends StatefulWidget {
     this.heroTag,
     this.animatedIcon,
     this.animatedIconTheme,
-    this.child,
+    this.icon,
+    this.activeIcon,
     this.marginBottom = 16,
     this.marginRight = 16,
     this.onOpen,
@@ -203,7 +207,22 @@ class _SpeedDialState extends State<SpeedDial> with SingleTickerProviderStateMix
             color: widget.animatedIconTheme?.color,
             size: widget.animatedIconTheme?.size,
           )
-        : widget.child;
+        : AnimatedSwitcher(
+            duration: Duration(milliseconds: 300),
+            transitionBuilder: (widget, animation) => RotationTransition(
+              turns: animation,
+              child: widget,
+            ),
+            child: _open
+                ? Icon(
+                    widget.activeIcon,
+                    key: ValueKey<String>("active"),
+                  )
+                : Icon(
+                    widget.icon,
+                    key: ValueKey<String>("inactive"),
+                  ),
+          );
 
     var fabChildren = _getChildrenList();
 
