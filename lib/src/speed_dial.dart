@@ -212,7 +212,7 @@ class _SpeedDialState extends State<SpeedDial> with SingleTickerProviderStateMix
             size: widget.animatedIconTheme?.size,
           )
         : AnimatedSwitcher(
-            duration: Duration(milliseconds: animationSpeed),
+            duration: Duration(milliseconds: widget.animationSpeed),
             transitionBuilder: widget.iconTransitionBuilder == null
                 ? (widget, animation) => RotationTransition(
                       turns: animation,
