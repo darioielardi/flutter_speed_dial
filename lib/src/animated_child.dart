@@ -5,6 +5,7 @@ class AnimatedChild extends AnimatedWidget {
   final Color backgroundColor;
   final Color foregroundColor;
   final double elevation;
+  final double buttonSize;
   final Widget child;
 
   final String label;
@@ -18,6 +19,8 @@ class AnimatedChild extends AnimatedWidget {
   final VoidCallback toggleChildren;
   final ShapeBorder shape;
   final String heroTag;
+  
+  final double _paddingPercent = 0.125;
 
   AnimatedChild({
     Key key,
@@ -26,6 +29,7 @@ class AnimatedChild extends AnimatedWidget {
     this.backgroundColor,
     this.foregroundColor,
     this.elevation = 6.0,
+    this.buttonSize = 56.0,
     this.child,
     this.label,
     this.labelStyle,
@@ -42,7 +46,7 @@ class AnimatedChild extends AnimatedWidget {
   Widget buildLabel() {
     final Animation<double> animation = listenable;
 
-    if (!((label != null || labelWidget != null) && visible && animation.value == 62.0)) {
+    if (!((label != null || labelWidget != null) && visible && animation.value == buttonSize)) {
       return Container();
     }
 
@@ -94,13 +98,16 @@ class AnimatedChild extends AnimatedWidget {
         children: <Widget>[
           buildLabel(),
           Container(
-            width: 62.0,
+            width: buttonSize,
             height: animation.value,
-            padding: EdgeInsets.only(bottom: 62.0 - animation.value),
+            padding: EdgeInsets.only(bottom: buttonSize - animation.value),
             child: Container(
-              height: 62.0,
+              height: buttonSize,
               width: animation.value,
-              padding: (this.shape is CircleBorder) ? EdgeInsets.only(top: 8.0, bottom: 8.0) : EdgeInsets.all(2.0),
+              padding: EdgeInsets.only(
+                left: _paddingPercent * buttonSize, // This will give relative padding size
+                right: _paddingPercent * buttonSize,
+              ),
               child: FloatingActionButton(
                 heroTag: heroTag,
                 onPressed: _performAction,
