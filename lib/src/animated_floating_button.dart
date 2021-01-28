@@ -10,6 +10,7 @@ class AnimatedFloatingButton extends StatelessWidget {
   final String tooltip;
   final String heroTag;
   final double elevation;
+  final double size;
   final ShapeBorder shape;
   final Curve curve;
 
@@ -22,6 +23,7 @@ class AnimatedFloatingButton extends StatelessWidget {
     this.tooltip,
     this.heroTag,
     this.elevation = 6.0,
+    this.size = 56.0,
     this.shape = const CircleBorder(),
     this.curve = Curves.linear,
     this.onLongPress,
@@ -36,14 +38,14 @@ class AnimatedFloatingButton extends StatelessWidget {
         minHeight: 0.0,
         minWidth: 0.0,
       ),
-      width: 56.0,
-      height: 56.0,
+      width: size,
+      height: size,
       child: AnimatedContainer(
           curve: curve,
           margin: EdgeInsets.all(margin),
           duration: Duration(milliseconds: 150),
-          width: visible ? 56.0 : 0.0,
-          height: visible ? 56.0 : 0.0,
+          width: visible ? size : 0.0,
+          height: visible ? size : 0.0,
           child: GestureDetector(
             onLongPress: onLongPress,
             child: FloatingActionButton(
