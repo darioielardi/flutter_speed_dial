@@ -77,12 +77,12 @@ class SpeedDial extends StatefulWidget {
     this.shape = const CircleBorder(),
     this.curve = Curves.linear,
     this.onPress,
-    this.animationSpeed = 150
+    this.animationSpeed = 150,
   });
 
   @override
   _SpeedDialState createState() => _SpeedDialState();
-  
+
   bool _dark;
 }
 
@@ -100,8 +100,9 @@ class _SpeedDialState extends State<SpeedDial> with SingleTickerProviderStateMix
     );
   }
 
-  Duration _calculateMainControllerDuration() =>
-      Duration(milliseconds: widget.animationSpeed + widget.children.length * (widget.animationSpeed / 5).round());
+  Duration _calculateMainControllerDuration() => Duration(
+      milliseconds:
+          widget.animationSpeed + widget.children.length * (widget.animationSpeed / 5).round());
 
   @override
   void dispose() {
@@ -155,7 +156,7 @@ class _SpeedDialState extends State<SpeedDial> with SingleTickerProviderStateMix
             animation: childAnimation,
             index: index,
             visible: _open,
-            dark: _dark,
+            dark: widget._dark,
             backgroundColor: child.backgroundColor,
             foregroundColor: child.foregroundColor,
             elevation: child.elevation,
@@ -187,7 +188,7 @@ class _SpeedDialState extends State<SpeedDial> with SingleTickerProviderStateMix
         onTap: _toggleChildren,
         child: BackgroundOverlay(
           animation: _controller,
-          color: widget.overlayColor ?? (_dark ? Colors.grey[900] : Colors.white),
+          color: widget.overlayColor ?? (widget._dark ? Colors.grey[900] : Colors.white),
           opacity: widget.overlayOpacity,
         ),
       ),
@@ -209,8 +210,9 @@ class _SpeedDialState extends State<SpeedDial> with SingleTickerProviderStateMix
     var animatedFloatingButton = AnimatedFloatingButton(
       visible: widget.visible,
       tooltip: widget.tooltip,
-      backgroundColor: widget.backgroundColor  ?? (_dark ? Colors.grey[800] : Colors.grey[50]),
-      foregroundColor: widget.foregroundColor ?? (_dark ? Colors.white : Colors.black),
+      backgroundColor:
+          widget.backgroundColor ?? (widget._dark ? Colors.grey[800] : Colors.grey[50]),
+      foregroundColor: widget.foregroundColor ?? (widget._dark ? Colors.white : Colors.black),
       elevation: widget.elevation,
       onLongPress: _toggleChildren,
       callback: (_open || widget.onPress == null) ? _toggleChildren : widget.onPress,
@@ -241,7 +243,7 @@ class _SpeedDialState extends State<SpeedDial> with SingleTickerProviderStateMix
 
   @override
   Widget build(BuildContext context) {
-    final _dark = MediaQuery.of(context).platformBrightness == Brightness.dark;
+    widget._dark = MediaQuery.of(context).platformBrightness == Brightness.dark;
     final children = [
       if (!widget.closeManually) _renderOverlay(),
       _renderButton(),
