@@ -241,7 +241,7 @@ class _SpeedDialState extends State<SpeedDial> with SingleTickerProviderStateMix
 
   @override
   Widget build(BuildContext context) {
-    _dark = MediaQuery.of(context).platformBrightness == Brightness.dark;
+    final _dark = MediaQuery.of(context).platformBrightness == Brightness.dark;
     final children = [
       if (!widget.closeManually) _renderOverlay(),
       _renderButton(),
