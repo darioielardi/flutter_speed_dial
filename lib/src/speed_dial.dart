@@ -44,6 +44,9 @@ class SpeedDial extends StatefulWidget {
   /// The active icon of the main button, Defaults to icon if not specified, ignored if [animatedIcon] is non [null].
   final IconData activeIcon;
 
+  /// Transition Builder between icon and activeIcon, defaults to RotationTransition.
+  final Widget Function(Widget, Animation<double>) iconTransitionBuilder;
+
   /// Executed when the dial is opened.
   final VoidCallback onOpen;
 
@@ -56,7 +59,7 @@ class SpeedDial extends StatefulWidget {
   /// If true user is forced to close dial manually by tapping main button. WARNING: If true, overlay is not rendered.
   final bool closeManually;
 
-  /// The speed of the animation
+  /// The speed of the animation in milliseconds
   final int animationSpeed;
 
   SpeedDial({
@@ -73,6 +76,7 @@ class SpeedDial extends StatefulWidget {
     this.animatedIconTheme,
     this.icon,
     this.activeIcon,
+    this.iconTransitionBuilder,
     this.marginBottom = 16,
     this.marginRight = 16,
     this.onOpen,
@@ -208,11 +212,13 @@ class _SpeedDialState extends State<SpeedDial> with SingleTickerProviderStateMix
             size: widget.animatedIconTheme?.size,
           )
         : AnimatedSwitcher(
-            duration: Duration(milliseconds: 300),
-            transitionBuilder: (widget, animation) => RotationTransition(
-              turns: animation,
-              child: widget,
-            ),
+            duration: Duration(milliseconds: animationSpeed),
+            transitionBuilder: widget.iconTransitionBuilder == null
+                ? (widget, animation) => RotationTransition(
+                      turns: animation,
+                      child: widget,
+                    )
+                : widget.iconTransitionBuilder,
             child: _open
                 ? Icon(
                     widget.activeIcon == null ? widget.icon : widget.activeIcon,
