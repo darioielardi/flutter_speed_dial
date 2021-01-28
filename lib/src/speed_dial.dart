@@ -41,7 +41,7 @@ class SpeedDial extends StatefulWidget {
   /// The icon of the main button, ignored if [animatedIcon] is non [null].
   final IconData icon;
 
-  /// The active icon of the main button, ignored if [animatedIcon] is non [null].
+  /// The active icon of the main button, Defaults to icon if not specified, ignored if [animatedIcon] is non [null].
   final IconData activeIcon;
 
   /// Executed when the dial is opened.
@@ -215,7 +215,7 @@ class _SpeedDialState extends State<SpeedDial> with SingleTickerProviderStateMix
             ),
             child: _open
                 ? Icon(
-                    widget.activeIcon,
+                    widget.activeIcon == null ? widget.icon : widget.activeIcon,
                     key: ValueKey<String>("active"),
                   )
                 : Icon(
