@@ -100,7 +100,7 @@ class AnimatedChild extends AnimatedWidget {
             child: Container(
               height: 62.0,
               width: animation.value,
-              padding: EdgeInsets.only(top: 8.0, bottom: 8.0),
+              padding: (this.shape is CircleBorder) ? EdgeInsets.only(top: 8.0, bottom: 8.0) : EdgeInsets.all(2.0),
               child: FloatingActionButton(
                 heroTag: heroTag,
                 onPressed: _performAction,
@@ -108,6 +108,7 @@ class AnimatedChild extends AnimatedWidget {
                 foregroundColor: foregroundColor ?? (dark ? Colors.white : Colors.black),
                 elevation: elevation ?? 6.0,
                 child: buttonChild,
+                shape: this.shape,
               ),
             ),
           )
