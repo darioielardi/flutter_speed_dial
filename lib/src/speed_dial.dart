@@ -21,6 +21,7 @@ class SpeedDial extends StatefulWidget {
   final Color backgroundColor;
   final Color foregroundColor;
   final double elevation;
+  final double buttonSize;
   final ShapeBorder shape;
 
   final double marginRight;
@@ -67,7 +68,8 @@ class SpeedDial extends StatefulWidget {
     this.visible = true,
     this.backgroundColor,
     this.foregroundColor,
-    this.elevation = 6.0,
+    this.elevation = 6.0,    
+    this.buttonSize = 56.0,
     this.overlayOpacity = 0.8,
     this.overlayColor,
     this.tooltip,
@@ -153,7 +155,7 @@ class _SpeedDialState extends State<SpeedDial> with SingleTickerProviderStateMix
         .map((SpeedDialChild child) {
           int index = widget.children.indexOf(child);
 
-          var childAnimation = Tween(begin: 0.0, end: 62.0).animate(
+          var childAnimation = Tween(begin: 0.0, end: widget.buttonSize).animate(
             CurvedAnimation(
               parent: this._controller,
               curve: Interval(0, singleChildrenTween * (index + 1)),
@@ -168,6 +170,7 @@ class _SpeedDialState extends State<SpeedDial> with SingleTickerProviderStateMix
             backgroundColor: child.backgroundColor,
             foregroundColor: child.foregroundColor,
             elevation: child.elevation,
+            buttonSize: widget.buttonSize,
             child: child.child,
             label: child.label,
             labelStyle: child.labelStyle,
@@ -241,6 +244,7 @@ class _SpeedDialState extends State<SpeedDial> with SingleTickerProviderStateMix
       elevation: widget.elevation,
       onLongPress: _toggleChildren,
       callback: (_open || widget.onPress == null) ? _toggleChildren : widget.onPress,
+      size: widget.buttonSize,
       child: child,
       heroTag: widget.heroTag,
       shape: widget.shape,
@@ -257,7 +261,7 @@ class _SpeedDialState extends State<SpeedDial> with SingleTickerProviderStateMix
           children: List.from(fabChildren)
             ..add(
               Container(
-                margin: EdgeInsets.only(top: 8.0, right: 2.0),
+                margin: EdgeInsets.only(top: 8.0),
                 child: animatedFloatingButton,
               ),
             ),
