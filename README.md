@@ -1,4 +1,4 @@
-# Flutter Speed Dial - MAINTAINERS WANTED
+# Flutter Speed Dial - REBOOT
 
 Flutter package to render a [Material Design Speed Dial](https://material.io/design/components/buttons-floating-action-button.html#types-of-transitions).
 
@@ -40,9 +40,14 @@ Widget build(BuildContext context) {
           marginBottom: 20,
           animatedIcon: AnimatedIcons.menu_close,
           animatedIconTheme: IconThemeData(size: 22.0),
-          // this is ignored if animatedIcon is non null
-          // child: Icon(Icons.add),
-          visible: _dialVisible,
+          // This is ignored if animatedIcon is non null
+          // icon: Icons.add,
+          // activeIcon: Icons.remove,
+          // The Transition Builder is used to define the transition b/w elements, defaults to rotation
+          // iconTransitionBuilder: (widget, animation) => ScaleTransition(scale: animation,child: widget),
+          // The below button size defaults to 56 itself, its the FAB size + It also affects relative padding and other elements
+          buttonSize: 56.0,
+          visible: true,
           // If true user is forced to close dial manually 
           // by tapping main button and overlay is not rendered.
           closeManually: false,
@@ -87,7 +92,7 @@ Widget build(BuildContext context) {
 
 ## Issues & Feedback
 
-Please file an [issue](https://github.com/darioielardi/flutter_speed_dial/issues) to send feedback or report a bug. Thank you!
+Please file an [issue](https://github.com/prateekmedia/flutter_speed_dial/issues) to send feedback or report a bug. Thank you!
 
 ## Contributing
 
