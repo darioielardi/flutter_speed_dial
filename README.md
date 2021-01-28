@@ -4,6 +4,15 @@ Flutter package to render a [Material Design Speed Dial](https://material.io/des
 
 ![Flutter Speed Dial](https://media.giphy.com/media/ef4BpmetvvH9BdQC9t/giphy.gif)
 
+## How to Install
+Add this to your pubspec.yaml file
+```
+flutter_speed_dial:
+  git:
+    url: git://github.com/prateekmedia/flutter_speed_dial
+    ref: master
+```
+
 ## Usage
 
 The SpeedDial widget is built to be placed in the `Scaffold.floatingActionButton` argument, replacing the `FloatingActionButton` widget.
