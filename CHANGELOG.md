@@ -1,3 +1,14 @@
+## [2.0.0] - 30 Jan 2021
+
+- Add Label and activeLabel paramaters to SpeedDial
+- Made icon animation work
+- Add iconTheme
+- Add RTL support by @jacklebbos
+- Behave like FAB if no childrens are their by @Ionys320
+- Add openCloseDial parameter to programmatically control open and close the dial by @shizambles
+- Add option to customize orientation of the child buttons by @hinterlandsupplyco
+- Add childMarginBottom and childMarginTop option by @emavgl
+
 ## [1.6.0] - 29 Jan 2021
 
 - Support borders other than CircularBorder
@@ -15,7 +26,7 @@
 
 ## [1.3.0] - 16 Sept 2020
 
-- Used clipBehavior instead of Overflow as This feature was deprecated after v1.22.0-12.0.pre.
+- Used clipBehavior instead of Overflow as This feature was deprecated after v1.22.0-12.0.pre by irasekh3
 
 ## [1.2.5] - 07 Dec 2019
 
