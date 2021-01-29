@@ -4,6 +4,7 @@ import 'animated_child.dart';
 import 'animated_floating_button.dart';
 import 'background_overlay.dart';
 import 'speed_dial_child.dart';
+import 'speed_dial_orientation.dart';
 
 /// Builds the Speed Dial
 // ignore: must_be_immutable
@@ -76,6 +77,9 @@ class SpeedDial extends StatefulWidget {
   /// The speed of the animation in milliseconds
   final int animationSpeed;
 
+  /// The orientation of the children. Default is [SpeedDialOrientation.Up]
+  final SpeedDialOrientation orientation;
+
   SpeedDial({
     this.children = const [],
     this.visible = true,
@@ -99,6 +103,7 @@ class SpeedDial extends StatefulWidget {
     this.marginRight = 16,
     this.onOpen,
     this.onClose,
+    this.orientation = SpeedDialOrientation.Up,
     this.closeManually = false,
     this.shape = const CircleBorder(),
     this.curve = Curves.linear,
@@ -283,23 +288,45 @@ class _SpeedDialState extends State<SpeedDial> with SingleTickerProviderStateMix
       curve: widget.curve,
     );
 
-    return Positioned(
-      bottom: widget.marginBottom - 16,
-      right: widget.marginRight - 16,
-      child: Container(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: List.from(fabChildren)
-            ..add(
-              Container(
-                margin: EdgeInsets.only(top: 8.0),
-                child: animatedFloatingButton,
-              ),
+    switch (widget.orientation) {
+      case SpeedDialOrientation.Down:
+        return Positioned(
+          top: MediaQuery.of(context).size.height - 56 - (widget.marginBottom - 16),
+          right: widget.marginRight - 16,
+          child: Container(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: List.from(fabChildren.reversed)
+                ..insert(
+                    0,
+                    Container(
+                      margin: EdgeInsets.only(bottom: 8.0, right: 2.0),
+                      child: animatedFloatingButton,
+                    )),
             ),
-        ),
-      ),
-    );
+          ),
+        );
+        break;
+      case SpeedDialOrientation.Up:
+      default:
+        return Positioned(
+          bottom: widget.marginBottom - 16,
+          right: widget.marginRight - 16,
+          child: Container(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: List.from(fabChildren)
+                ..add(Container(
+                  margin: EdgeInsets.only(top: 8.0, right: 2.0),
+                  child: animatedFloatingButton,
+                )),
+            ),
+          ),
+        );
+        break;
+    }
   }
 
   @override
