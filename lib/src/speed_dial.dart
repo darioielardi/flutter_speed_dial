@@ -70,6 +70,9 @@ class SpeedDial extends StatefulWidget {
   /// If true user is forced to close dial manually by tapping main button. WARNING: If true, overlay is not rendered.
   final bool closeManually;
 
+  /// Open or close the dial via a notification
+  final ValueNotifier<bool> openCloseDial;
+
   /// The speed of the animation in milliseconds
   final int animationSpeed;
 
@@ -101,6 +104,7 @@ class SpeedDial extends StatefulWidget {
     this.curve = Curves.linear,
     this.onPress,
     this.animationSpeed = 150,
+    this.openCloseDial,
   });
 
   @override
@@ -121,6 +125,12 @@ class _SpeedDialState extends State<SpeedDial> with SingleTickerProviderStateMix
       duration: _calculateMainControllerDuration(),
       vsync: this,
     );
+    widget.openCloseDial?.addListener(() {
+      final show = widget.openCloseDial?.value;
+      if (_open != show) {
+        _toggleChildren();
+      }
+    });
   }
 
   Duration _calculateMainControllerDuration() => Duration(
