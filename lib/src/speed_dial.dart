@@ -152,13 +152,15 @@ class _SpeedDialState extends State<SpeedDial> with SingleTickerProviderStateMix
   }
 
   void _toggleChildren() {
-    var newValue = !_open;
-    setState(() {
-      _open = newValue;
-    });
-    if (newValue && widget.onOpen != null) widget.onOpen();
-    _performAnimation();
-    if (!newValue && widget.onClose != null) widget.onClose();
+    if (widget.children.length > 0) {
+      var newValue = !_open;
+      setState(() {
+        _open = newValue;
+      });
+      if (newValue && widget.onOpen != null) widget.onOpen();
+      _performAnimation();
+      if (!newValue && widget.onClose != null) widget.onClose();
+    } else if (widget.onOpen != null) widget.onOpen();
   }
 
   List<Widget> _getChildrenList() {
@@ -294,7 +296,7 @@ class _SpeedDialState extends State<SpeedDial> with SingleTickerProviderStateMix
   Widget build(BuildContext context) {
     widget._dark = MediaQuery.of(context).platformBrightness == Brightness.dark;
     final children = [
-      if (!widget.closeManually) _renderOverlay(),
+      if (!widget.closeManually && widget.children.length > 0) _renderOverlay(),
       _renderButton(),
     ];
 
