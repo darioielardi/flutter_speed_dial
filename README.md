@@ -15,7 +15,7 @@ flutter_speed_dial:
 
 ## Usage
 
-See [Example Code](https://github.com/prateekmedia/flutter_speed_dial/tree/master/example) or [Example Usage](#Example-Usage) for more info.
+See [Example Code](example/lib/main.dart) or [Example Usage](#Example-Usage) for more info.
 
 The SpeedDial widget is built to be placed in the `Scaffold.floatingActionButton` argument, replacing the `FloatingActionButton` widget.
 It's not possible to set its position with the `Scaffold.floatingActionButtonLocation` argument, but it's possible to set right/bottom margin with the `marginEnd` and `marginBottom` arguments (default to 16) to place the button anywhere in the screen.
@@ -90,6 +90,9 @@ Widget build(BuildContext context) {
           foregroundColor: Colors.black,
           elevation: 8.0,
           shape: CircleBorder(),
+          // orientation: SpeedDialOrientation.Up,
+          // childMarginBottom: 2,
+          // childMarginTop: 2,
           children: [
             SpeedDialChild(
               child: Icon(Icons.accessibility),
