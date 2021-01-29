@@ -46,8 +46,17 @@ class SpeedDial extends StatefulWidget {
   /// The active icon of the main button, Defaults to icon if not specified, ignored if [animatedIcon] is non [null].
   final IconData activeIcon;
 
+  /// The label of the main button.
+  final Widget label;
+
+  /// The active label of the main button, Defaults to label if not specified.
+  final Widget activeLabel;
+
   /// Transition Builder between icon and activeIcon, defaults to RotationTransition.
   final Widget Function(Widget, Animation<double>) iconTransitionBuilder;
+
+  /// Transition Builder between label and activeLabel, defaults to FadeTransition.
+  final Widget Function(Widget, Animation<double>) labelTransitionBuilder;
 
   /// Executed when the dial is opened.
   final VoidCallback onOpen;
@@ -79,7 +88,10 @@ class SpeedDial extends StatefulWidget {
     this.animatedIconTheme,
     this.icon,
     this.activeIcon,
+    this.label,
+    this.activeLabel,
     this.iconTransitionBuilder,
+    this.labelTransitionBuilder,
     this.marginBottom = 16,
     this.marginRight = 16,
     this.onOpen,
@@ -223,16 +235,22 @@ class _SpeedDialState extends State<SpeedDial> with SingleTickerProviderStateMix
                       child: widget,
                     )
                 : widget.iconTransitionBuilder,
-            child: _open
-                ? Icon(
-                    widget.activeIcon == null ? widget.icon : widget.activeIcon,
-                    key: ValueKey<String>("active"),
-                  )
-                : Icon(
-                    widget.icon,
-                    key: ValueKey<String>("inactive"),
-                  ),
+            child: Icon(
+              (!_open || widget.activeIcon == null) ? widget.icon : widget.activeIcon,
+              key: (!_open || widget.activeIcon == null) ? ValueKey<int>(0) : ValueKey<int>(1),
+            ),
           );
+
+    var label = AnimatedSwitcher(
+      duration: Duration(milliseconds: widget.animationSpeed),
+      transitionBuilder: widget.labelTransitionBuilder != null
+          ? widget.labelTransitionBuilder
+          : (child, animation) => FadeTransition(
+                opacity: animation,
+                child: child,
+              ),
+      child: (!_open || widget.activeLabel == null) ? widget.label : widget.activeLabel,
+    );
 
     var fabChildren = _open ? _getChildrenList() : [];
 
@@ -246,6 +264,7 @@ class _SpeedDialState extends State<SpeedDial> with SingleTickerProviderStateMix
       onLongPress: _toggleChildren,
       callback: (_open || widget.onPress == null) ? _toggleChildren : widget.onPress,
       size: widget.buttonSize,
+      label: widget.label != null ? label : null,
       child: child,
       heroTag: widget.heroTag,
       shape: widget.shape,
@@ -286,12 +305,6 @@ class _SpeedDialState extends State<SpeedDial> with SingleTickerProviderStateMix
       children: children,
     );
 
-    return (_open)
-        ? stack
-        : Container(
-            width: widget.buttonSize,
-            height: widget.buttonSize,
-            child: stack,
-          );
+    return stack;
   }
 }

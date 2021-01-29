@@ -4,6 +4,7 @@ class AnimatedFloatingButton extends StatelessWidget {
   final bool visible;
   final VoidCallback callback;
   final VoidCallback onLongPress;
+  final Widget label;
   final Widget child;
   final Color backgroundColor;
   final Color foregroundColor;
@@ -17,6 +18,7 @@ class AnimatedFloatingButton extends StatelessWidget {
   AnimatedFloatingButton({
     this.visible = true,
     this.callback,
+    this.label,
     this.child,
     this.backgroundColor,
     this.foregroundColor,
@@ -38,28 +40,38 @@ class AnimatedFloatingButton extends StatelessWidget {
         minHeight: 0.0,
         minWidth: 0.0,
       ),
-      width: size,
       height: size,
       child: AnimatedContainer(
-          curve: curve,
-          margin: EdgeInsets.all(margin),
-          duration: Duration(milliseconds: 150),
-          width: visible ? size : 0.0,
-          height: visible ? size : 0.0,
-          child: GestureDetector(
-            onLongPress: onLongPress,
-            child: FloatingActionButton(
-              child: visible ? child : null,
-              backgroundColor: backgroundColor,
-              foregroundColor: foregroundColor,
-              onPressed: callback,
-              tooltip: tooltip,
-              heroTag: heroTag,
-              elevation: elevation,
-              highlightElevation: elevation,
-              shape: shape,
-            ),
-          ),
+        curve: curve,
+        margin: EdgeInsets.all(margin),
+        duration: Duration(milliseconds: 150),
+        height: visible ? size : 0.0,
+        child: GestureDetector(
+          onLongPress: onLongPress,
+          child: label != null
+              ? FloatingActionButton.extended(
+                  icon: visible ? child : null,
+                  label: visible ? label : null,
+                  backgroundColor: backgroundColor,
+                  foregroundColor: foregroundColor,
+                  onPressed: callback,
+                  tooltip: tooltip,
+                  heroTag: heroTag,
+                  elevation: elevation,
+                  highlightElevation: elevation,
+                )
+              : FloatingActionButton(
+                  child: visible ? child : null,
+                  backgroundColor: backgroundColor,
+                  foregroundColor: foregroundColor,
+                  onPressed: callback,
+                  tooltip: tooltip,
+                  heroTag: heroTag,
+                  elevation: elevation,
+                  highlightElevation: elevation,
+                  shape: shape,
+                ),
+        ),
       ),
     );
   }
