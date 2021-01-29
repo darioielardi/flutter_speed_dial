@@ -80,6 +80,12 @@ class SpeedDial extends StatefulWidget {
   /// The speed of the animation in milliseconds
   final int animationSpeed;
 
+  /// The bottom margin of each child
+  final double childMarginBottom;
+
+  /// The top margin of each child
+  final double childMarginTop;
+
   /// The orientation of the children. Default is [SpeedDialOrientation.Up]
   final SpeedDialOrientation orientation;
 
@@ -114,6 +120,8 @@ class SpeedDial extends StatefulWidget {
     this.onPress,
     this.animationSpeed = 150,
     this.openCloseDial,
+    this.childMarginBottom = 0,
+    this.childMarginTop = 0,
   });
 
   @override
@@ -216,6 +224,8 @@ class _SpeedDialState extends State<SpeedDial> with SingleTickerProviderStateMix
             },
             shape: child.shape,
             heroTag: widget.heroTag != null ? '${widget.heroTag}-child-$index' : null,
+            childMarginBottom: widget.childMarginBottom,
+            childMarginTop: widget.childMarginTop,
           );
         })
         .toList()

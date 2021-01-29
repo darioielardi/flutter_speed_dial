@@ -20,6 +20,8 @@ class AnimatedChild extends AnimatedWidget {
   final ShapeBorder shape;
   final String heroTag;
 
+  final double childMarginBottom;
+  final double childMarginTop;
   final double _paddingPercent = 0.125;
 
   AnimatedChild({
@@ -41,6 +43,8 @@ class AnimatedChild extends AnimatedWidget {
     this.toggleChildren,
     this.shape,
     this.heroTag,
+    this.childMarginBottom,
+    this.childMarginTop,
   }) : super(key: key, listenable: animation);
 
   Widget buildLabel() {
@@ -56,7 +60,7 @@ class AnimatedChild extends AnimatedWidget {
       onTap: _performAction,
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 8.0),
-        margin: EdgeInsetsDirectional.only(end: 18.0),
+        margin: EdgeInsetsDirectional.fromSTEB(0, childMarginTop, 18.0, childMarginBottom),
         decoration: BoxDecoration(
           color: labelBackgroundColor ?? (dark ? Colors.grey[800] : Colors.grey[50]),
           borderRadius: BorderRadius.all(Radius.circular(6.0)),
