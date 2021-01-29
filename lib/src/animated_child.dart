@@ -19,7 +19,7 @@ class AnimatedChild extends AnimatedWidget {
   final VoidCallback toggleChildren;
   final ShapeBorder shape;
   final String heroTag;
-  
+
   final double _paddingPercent = 0.125;
 
   AnimatedChild({
@@ -56,7 +56,7 @@ class AnimatedChild extends AnimatedWidget {
       onTap: _performAction,
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 8.0),
-        margin: EdgeInsets.only(right: 18.0),
+        margin: EdgeInsetsDirectional.only(end: 18.0),
         decoration: BoxDecoration(
           color: labelBackgroundColor ?? (dark ? Colors.grey[800] : Colors.grey[50]),
           borderRadius: BorderRadius.all(Radius.circular(6.0)),

@@ -47,6 +47,9 @@ class SpeedDial extends StatefulWidget {
   /// The active icon of the main button, Defaults to icon if not specified, ignored if [animatedIcon] is non [null].
   final IconData activeIcon;
 
+  /// The theme for the icon generally includes color and size.
+  final IconThemeData iconTheme;
+
   /// The label of the main button.
   final Widget label;
 
@@ -95,6 +98,7 @@ class SpeedDial extends StatefulWidget {
     this.animatedIconTheme,
     this.icon,
     this.activeIcon,
+    this.iconTheme,
     this.label,
     this.activeLabel,
     this.iconTransitionBuilder,
@@ -255,6 +259,8 @@ class _SpeedDialState extends State<SpeedDial> with SingleTickerProviderStateMix
             child: Icon(
               (!_open || widget.activeIcon == null) ? widget.icon : widget.activeIcon,
               key: (!_open || widget.activeIcon == null) ? ValueKey<int>(0) : ValueKey<int>(1),
+              color: widget.iconTheme?.color,
+              size: widget.iconTheme?.size,
             ),
           );
 
