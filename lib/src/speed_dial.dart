@@ -6,6 +6,7 @@ import 'background_overlay.dart';
 import 'speed_dial_child.dart';
 
 /// Builds the Speed Dial
+// ignore: must_be_immutable
 class SpeedDial extends StatefulWidget {
   /// Children buttons, from the lowest to the highest.
   final List<SpeedDialChild> children;
@@ -68,7 +69,7 @@ class SpeedDial extends StatefulWidget {
     this.visible = true,
     this.backgroundColor,
     this.foregroundColor,
-    this.elevation = 6.0,    
+    this.elevation = 6.0,
     this.buttonSize = 56.0,
     this.overlayOpacity = 0.8,
     this.overlayColor,
@@ -285,10 +286,12 @@ class _SpeedDialState extends State<SpeedDial> with SingleTickerProviderStateMix
       children: children,
     );
 
-    return (_open) ? stack : Container(
-        width: widget.buttonSize,
-        height: widget.buttonSize,
-        child: stack,
-    );
+    return (_open)
+        ? stack
+        : Container(
+            width: widget.buttonSize,
+            height: widget.buttonSize,
+            child: stack,
+          );
   }
 }
