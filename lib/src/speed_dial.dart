@@ -26,7 +26,7 @@ class SpeedDial extends StatefulWidget {
   final double buttonSize;
   final ShapeBorder shape;
 
-  final double marginRight;
+  final double marginEnd;
   final double marginBottom;
 
   /// The color of the background overlay.
@@ -100,7 +100,7 @@ class SpeedDial extends StatefulWidget {
     this.iconTransitionBuilder,
     this.labelTransitionBuilder,
     this.marginBottom = 16,
-    this.marginRight = 16,
+    this.marginEnd = 16,
     this.onOpen,
     this.onClose,
     this.orientation = SpeedDialOrientation.Up,
@@ -220,11 +220,11 @@ class _SpeedDialState extends State<SpeedDial> with SingleTickerProviderStateMix
   }
 
   Widget _renderOverlay() {
-    return Positioned(
-      right: -16.0,
+    return PositionedDirectional(
+      end: -16.0,
       bottom: -16.0,
       top: _open ? 0.0 : null,
-      left: _open ? 0.0 : null,
+      start: _open ? 0.0 : null,
       child: GestureDetector(
         onTap: _toggleChildren,
         child: BackgroundOverlay(
@@ -290,9 +290,9 @@ class _SpeedDialState extends State<SpeedDial> with SingleTickerProviderStateMix
 
     switch (widget.orientation) {
       case SpeedDialOrientation.Down:
-        return Positioned(
+        return PositionedDirectional(
           top: MediaQuery.of(context).size.height - 56 - (widget.marginBottom - 16),
-          right: widget.marginRight - 16,
+          end: widget.marginEnd - 16,
           child: Container(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
@@ -301,7 +301,7 @@ class _SpeedDialState extends State<SpeedDial> with SingleTickerProviderStateMix
                 ..insert(
                     0,
                     Container(
-                      margin: EdgeInsets.only(bottom: 8.0, right: 2.0),
+                      margin: EdgeInsetsDirectional.only(bottom: 8.0, end: 2.0),
                       child: animatedFloatingButton,
                     )),
             ),
@@ -310,16 +310,16 @@ class _SpeedDialState extends State<SpeedDial> with SingleTickerProviderStateMix
         break;
       case SpeedDialOrientation.Up:
       default:
-        return Positioned(
+        return PositionedDirectional(
           bottom: widget.marginBottom - 16,
-          right: widget.marginRight - 16,
+          end: widget.marginEnd - 16,
           child: Container(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: List.from(fabChildren)
                 ..add(Container(
-                  margin: EdgeInsets.only(top: 8.0, right: 2.0),
+                  margin: EdgeInsetsDirectional.only(top: 8.0, end: 2.0),
                   child: animatedFloatingButton,
                 )),
             ),
