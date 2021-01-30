@@ -49,9 +49,6 @@ class MyAppState extends State<MyApp> with TickerProviderStateMixin {
       icon: Icons.add,
       activeIcon: Icons.remove,
       // iconTheme: IconThemeData(color: Colors.grey[50], size: 30),
-      /// The Transition Builder is used to define the transition b/w elements, defaults to rotation
-      iconTransitionBuilder: (widget, animation) =>
-          ScaleTransition(scale: animation, child: widget),
 
       /// The label of the main button.
       // label: Text("Open Speed Dial"),

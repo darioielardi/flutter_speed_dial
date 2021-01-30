@@ -1,3 +1,7 @@
+## [2.0.0+1] - 30 Jan 2021
+
+- Fix Rotation Animation
+
 ## [2.0.0] - 30 Jan 2021
 
 - Add Label and activeLabel paramaters to SpeedDial

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 import 'animated_child.dart';
@@ -56,9 +58,6 @@ class SpeedDial extends StatefulWidget {
   /// The active label of the main button, Defaults to label if not specified.
   final Widget activeLabel;
 
-  /// Transition Builder between icon and activeIcon, defaults to RotationTransition.
-  final Widget Function(Widget, Animation<double>) iconTransitionBuilder;
-
   /// Transition Builder between label and activeLabel, defaults to FadeTransition.
   final Widget Function(Widget, Animation<double>) labelTransitionBuilder;
 
@@ -107,7 +106,6 @@ class SpeedDial extends StatefulWidget {
     this.iconTheme,
     this.label,
     this.activeLabel,
-    this.iconTransitionBuilder,
     this.labelTransitionBuilder,
     this.marginBottom = 16,
     this.marginEnd = 16,
@@ -130,7 +128,7 @@ class SpeedDial extends StatefulWidget {
   bool _dark;
 }
 
-class _SpeedDialState extends State<SpeedDial> with SingleTickerProviderStateMixin {
+class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
   AnimationController _controller;
 
   bool _open = false;
@@ -258,19 +256,26 @@ class _SpeedDialState extends State<SpeedDial> with SingleTickerProviderStateMix
             color: widget.animatedIconTheme?.color,
             size: widget.animatedIconTheme?.size,
           )
-        : AnimatedSwitcher(
-            duration: Duration(milliseconds: widget.animationSpeed),
-            transitionBuilder: widget.iconTransitionBuilder == null
-                ? (widget, animation) => RotationTransition(
-                      turns: animation,
-                      child: widget,
-                    )
-                : widget.iconTransitionBuilder,
-            child: Icon(
-              (!_open || widget.activeIcon == null) ? widget.icon : widget.activeIcon,
-              key: (!_open || widget.activeIcon == null) ? ValueKey<int>(0) : ValueKey<int>(1),
-              color: widget.iconTheme?.color,
-              size: widget.iconTheme?.size,
+        : AnimatedBuilder(
+            animation: _controller,
+            child: new Container(
+              height: 150.0,
+              width: 150.0,
+              child: new Image.asset('images/batmanlogo.png'),
+            ),
+            builder: (BuildContext context, Widget _widget) => Transform.rotate(
+              angle: _controller.value * pi / 4,
+              child: AnimatedSwitcher(
+                duration: Duration(milliseconds: widget.animationSpeed),
+                child: Icon(
+                  (!_open || widget.activeIcon == null || _controller.value < 0.5)
+                      ? widget.icon
+                      : widget.activeIcon,
+                  key: (!_open || widget.activeIcon == null) ? ValueKey<int>(0) : ValueKey<int>(1),
+                  color: widget.iconTheme?.color,
+                  size: widget.iconTheme?.size,
+                ),
+              ),
             ),
           );
 

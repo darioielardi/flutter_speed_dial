@@ -34,7 +34,6 @@ The main floating action button child can set with the `icon` parameter, you can
 
 - `icon` & `activeIcon` takes an `IconData` widget
 - `iconTheme` takes its theme which includes color and size
-- `iconTransitionBuilder` takes [transitionBuilder](https://api.flutter.dev/flutter/widgets/AnimatedSwitcherTransitionBuilder.html) by which they are going to be animated defaults to rotation 
 
 
  however if you want to use an Animated icon by specifying `AnimatedIconData` then you can use `AnimatedIcon`, it has two specific parameters:
@@ -65,8 +64,6 @@ Widget build(BuildContext context) {
           icon: Icons.add,
           activeIcon: Icons.remove,
           // iconTheme: IconThemeData(color: Colors.grey[50], size: 30),
-          /// The Transition Builder is used to define the transition b/w elements, defaults to rotation
-          iconTransitionBuilder: (widget, animation) => ScaleTransition(scale: animation,child: widget),
           /// The label of the main button.
           // label: Text("Open Speed Dial"),
           /// The active label of the main button, Defaults to label if not specified.
