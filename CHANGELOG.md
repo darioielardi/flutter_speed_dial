@@ -11,22 +11,22 @@
 
 ## [1.6.0] - 29 Jan 2021
 
-- Support borders other than CircularBorder
-- buttonSize parameter which defaults to 56
-- Restrict Stack size to button size when closed
 - Updated example project to androidX
+- Support borders other than CircularBorder by @m0veax
+- buttonSize parameter which defaults to 56 by @dwach414
+- Restrict Stack size to button size when closed by @tobilarscheid
 
 ## [1.5.0] - 28 Jan 2021
 
-- Add Dark Mode Support + Fix some issues related to it
-- Centered child
-- Only Build Speed Dial if childrens are visible
 - icon and activeIcon instead of child
 - iconTransitionBuilder for custom transitions b/w icons
+- Add Dark Mode Support(@esieben1310) + Fix some issues related to it 
+- Centered child by @raviganwal
+- Only Build Speed Dial if childrens are visible by @davidmartos96
 
 ## [1.3.0] - 16 Sept 2020
 
-- Used clipBehavior instead of Overflow as This feature was deprecated after v1.22.0-12.0.pre by irasekh3
+- Used clipBehavior instead of Overflow as This feature was deprecated after v1.22.0-12.0.pre by @irasekh3
 
 ## [1.2.5] - 07 Dec 2019
 

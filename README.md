@@ -23,9 +23,9 @@ Using the `Scaffold.bottomNavigationBar` the floating button will be always plac
 
 **Labels**
 
-SpeedDial and its child all have `label` which can takes any Widget in SpeedDial and `String` in its child. SpeedDial also has `activeLabel` property by which you can specify the label that is show when SpeedDial is open. It also comes with its labelTransitionBuilder which defaults to fade transition.
+SpeedDial and its child all have `label`. SpeedDial takes any Widget as `label`. It also have `activeLabel` property by which you can specify the label which is shown when SpeedDial is open. It also comes with its labelTransitionBuilder which defaults to fade transition.
 
-Also Every child button `label` can be customized providing a `labelStyle`. 
+Also Every child button have `label` property which accepts `String` which can be styled by using `labelStyle`. 
 If the `label` parameter is not provided the label will be not rendered.
 
 **Animated Icon**
