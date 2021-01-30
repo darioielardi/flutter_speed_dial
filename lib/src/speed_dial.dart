@@ -49,6 +49,9 @@ class SpeedDial extends StatefulWidget {
   /// The active icon of the main button, Defaults to icon if not specified, ignored if [animatedIcon] is non [null].
   final IconData activeIcon;
 
+  /// If true then rotation animation will be used when animating b/w activeIcon and icon.
+  final bool useRotationAnimation;
+
   /// The theme for the icon generally includes color and size.
   final IconThemeData iconTheme;
 
@@ -103,6 +106,7 @@ class SpeedDial extends StatefulWidget {
     this.animatedIconTheme,
     this.icon,
     this.activeIcon,
+    this.useRotationAnimation = true,
     this.iconTheme,
     this.label,
     this.activeLabel,
@@ -182,6 +186,7 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
       setState(() {
         _open = newValue;
       });
+      if (widget.openCloseDial != null) widget.openCloseDial.value = newValue;
       if (newValue && widget.onOpen != null) widget.onOpen();
       _performAnimation();
       if (!newValue && widget.onClose != null) widget.onClose();
@@ -258,23 +263,26 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
           )
         : AnimatedBuilder(
             animation: _controller,
-            child: new Container(
-              height: 150.0,
-              width: 150.0,
-              child: new Image.asset('images/batmanlogo.png'),
-            ),
             builder: (BuildContext context, Widget _widget) => Transform.rotate(
-              angle: _controller.value * pi / 4,
+              angle: widget.useRotationAnimation ? _controller.value * pi / 2 : 0,
               child: AnimatedSwitcher(
                 duration: Duration(milliseconds: widget.animationSpeed),
-                child: Icon(
-                  (!_open || widget.activeIcon == null || _controller.value < 0.5)
-                      ? widget.icon
-                      : widget.activeIcon,
-                  key: (!_open || widget.activeIcon == null) ? ValueKey<int>(0) : ValueKey<int>(1),
-                  color: widget.iconTheme?.color,
-                  size: widget.iconTheme?.size,
-                ),
+                child: (!_open || widget.activeIcon == null || _controller.value < 0.5)
+                    ? Icon(
+                        widget.icon,
+                        key: ValueKey<int>(0),
+                        color: widget.iconTheme?.color,
+                        size: widget.iconTheme?.size,
+                      )
+                    : Transform.rotate(
+                        angle: -pi / 2,
+                        child: Icon(
+                          widget.activeIcon,
+                          key: ValueKey<int>(1),
+                          color: widget.iconTheme?.color,
+                          size: widget.iconTheme?.size,
+                        ),
+                      ),
               ),
             ),
           );
@@ -365,12 +373,15 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
       children: children,
     );
 
-    return (_open)
-        ? stack
-        : Container(
-            width: 56,
-            height: 56,
-            child: stack,
-          );
+    return Visibility(
+      visible: widget.visible,
+      child: (_open)
+          ? stack
+          : Container(
+              width: 56,
+              height: 56,
+              child: stack,
+            ),
+    );
   }
 }

@@ -1,6 +1,7 @@
 ## [2.0.0+1] - 30 Jan 2021
 
 - Fix Rotation Animation
+- Imrove visibility and error related to it.
 
 ## [2.0.0] - 30 Jan 2021
 
