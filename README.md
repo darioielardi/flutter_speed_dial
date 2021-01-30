@@ -55,12 +55,11 @@ Although it doesn't magically closes when you press back button, but requires a 
 ```dart
 ValueNotifier<bool> isDialOpen = ValueNotifier(false);
 ```
-
-1. Then you need to add a property to your speedDial known as openCloseManually like below.
+2. Then you need to add a property to your speedDial known as openCloseManually like below.
 ```dart
   openCloseDial: isDialOpen,
 ```
-1. Add a will Pop in your body or anywhere where you want and then simply add the following line in its onWillPop element.
+3. Add a will Pop in your body or anywhere where you want and then simply add the following line in its onWillPop element.
 ```dart
 WillPopScope(
   onWillPop: () async {
