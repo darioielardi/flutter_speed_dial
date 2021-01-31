@@ -54,7 +54,12 @@ class AnimatedChild extends AnimatedWidget {
       return Container();
     }
 
-    if (labelWidget != null) return labelWidget;
+    if (labelWidget != null) {
+      return GestureDetector(
+        onTap: _performAction,
+        child: labelWidget,
+      );
+    }
 
     return GestureDetector(
       onTap: _performAction,
