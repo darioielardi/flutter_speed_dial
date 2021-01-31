@@ -5,11 +5,11 @@ Flutter package to render a [Material Design Speed Dial](https://material.io/des
 ![Flutter Speed Dial](https://media.giphy.com/media/ef4BpmetvvH9BdQC9t/giphy.gif)
 
 ## How to Install
-Add this to your pubspec.yaml file
+Add this to your pubspec.yaml file to get the latest version
 ```
 flutter_speed_dial:
   git:
-    url: git://github.com/prateekmedia/flutter_speed_dial
+    url: git://github.com/darioielardi/flutter_speed_dial
     ref: master
 ```
 
@@ -102,6 +102,8 @@ Widget build(BuildContext context) {
           /// If true user is forced to close dial manually 
           /// by tapping main button and overlay is not rendered.
           closeManually: false,
+          /// If true overlay will render no matter what.
+          renderOverlay: false,
           curve: Curves.bounceIn,
           overlayColor: Colors.black,
           overlayOpacity: 0.5,
