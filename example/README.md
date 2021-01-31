@@ -1,8 +1,3 @@
-# example
+# flutter_speed_dial_example
 
-A new Flutter project.
-
-## Getting Started
-
-For help getting started with Flutter, view our online
-[documentation](https://flutter.io/).
+This is a sample speed dial Project, feel free to sneak at the source code.
