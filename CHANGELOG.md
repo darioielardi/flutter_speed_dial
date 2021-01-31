@@ -1,8 +1,9 @@
-## [2.0.0+1] - 30 Jan 2021
+## [2.0.0+1] - 31 Jan 2021
 
 - Fix Rotation Animation
 - Improve visibility and error related to it.
-- Add default onTap property to LabelWidget by default.
+- Add default onTap property to LabelWidget by default by @wongzq.
+- Add renderOverlay property to render overlay no matter what.
 
 ## [2.0.0] - 30 Jan 2021
 
