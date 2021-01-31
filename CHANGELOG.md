@@ -2,6 +2,7 @@
 
 - Fix Rotation Animation
 - Improve visibility and error related to it.
+- Add default onTap property to LabelWidget by default.
 
 ## [2.0.0] - 30 Jan 2021
 
