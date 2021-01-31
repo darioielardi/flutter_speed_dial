@@ -75,6 +75,9 @@ class SpeedDial extends StatefulWidget {
 
   /// If true user is forced to close dial manually by tapping main button. WARNING: If true, overlay is not rendered.
   final bool closeManually;
+  
+  /// If true overlay is rendered, no matter if closeManually is true or false.
+  final bool renderOverlay = false;
 
   /// Open or close the dial via a notification
   final ValueNotifier<bool> openCloseDial;
@@ -117,6 +120,7 @@ class SpeedDial extends StatefulWidget {
     this.onClose,
     this.orientation = SpeedDialOrientation.Up,
     this.closeManually = false,
+    this.renderOverlay = false,
     this.shape = const CircleBorder(),
     this.curve = Curves.linear,
     this.onPress,
@@ -362,7 +366,7 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     widget._dark = MediaQuery.of(context).platformBrightness == Brightness.dark;
     final children = [
-      if (!widget.closeManually && widget.children.length > 0) _renderOverlay(),
+      if ((!widget.closeManually || widget.renderOverlay) && widget.children.length > 0) _renderOverlay(),
       _renderButton(),
     ];
 
