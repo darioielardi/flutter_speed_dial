@@ -1,0 +1,1 @@
+enum SpeedDialOrientation { Up, Down }

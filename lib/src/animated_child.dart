@@ -5,6 +5,7 @@ class AnimatedChild extends AnimatedWidget {
   final Color backgroundColor;
   final Color foregroundColor;
   final double elevation;
+  final double buttonSize;
   final Widget child;
 
   final String label;
@@ -13,10 +14,15 @@ class AnimatedChild extends AnimatedWidget {
   final Widget labelWidget;
 
   final bool visible;
+  final bool dark;
   final VoidCallback onTap;
   final VoidCallback toggleChildren;
   final ShapeBorder shape;
   final String heroTag;
+
+  final double childMarginBottom;
+  final double childMarginTop;
+  final double _paddingPercent = 0.125;
 
   AnimatedChild({
     Key key,
@@ -25,24 +31,26 @@ class AnimatedChild extends AnimatedWidget {
     this.backgroundColor,
     this.foregroundColor,
     this.elevation = 6.0,
+    this.buttonSize = 56.0,
     this.child,
     this.label,
     this.labelStyle,
     this.labelBackgroundColor,
     this.labelWidget,
     this.visible = false,
+    this.dark,
     this.onTap,
     this.toggleChildren,
     this.shape,
     this.heroTag,
+    this.childMarginBottom,
+    this.childMarginTop,
   }) : super(key: key, listenable: animation);
 
   Widget buildLabel() {
     final Animation<double> animation = listenable;
 
-    if (!((label != null || labelWidget != null) &&
-        visible &&
-        animation.value == 62.0)) {
+    if (!((label != null || labelWidget != null) && visible && animation.value == buttonSize)) {
       return Container();
     }
 
@@ -57,13 +65,13 @@ class AnimatedChild extends AnimatedWidget {
       onTap: _performAction,
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 8.0),
-        margin: EdgeInsets.only(right: 18.0),
+        margin: EdgeInsetsDirectional.fromSTEB(0, childMarginTop, 18.0, childMarginBottom),
         decoration: BoxDecoration(
-          color: labelBackgroundColor ?? Colors.white,
+          color: labelBackgroundColor ?? (dark ? Colors.grey[800] : Colors.grey[50]),
           borderRadius: BorderRadius.all(Radius.circular(6.0)),
           boxShadow: [
             BoxShadow(
-              color: Colors.grey.withOpacity(0.7),
+              color: dark ? Colors.grey[900].withOpacity(0.7) : Colors.grey.withOpacity(0.7),
               offset: Offset(0.8, 0.8),
               blurRadius: 2.4,
             )
@@ -86,7 +94,7 @@ class AnimatedChild extends AnimatedWidget {
         ? Container(
             width: animation.value,
             height: animation.value,
-            child: child ?? Container(),
+            child: Center(child: child) ?? Container(),
           )
         : Container(
             width: 0.0,
@@ -99,20 +107,24 @@ class AnimatedChild extends AnimatedWidget {
         children: <Widget>[
           buildLabel(),
           Container(
-            width: 62.0,
+            width: buttonSize,
             height: animation.value,
-            padding: EdgeInsets.only(bottom: 62.0 - animation.value),
+            padding: EdgeInsets.only(bottom: buttonSize - animation.value),
             child: Container(
-              height: 62.0,
+              height: buttonSize,
               width: animation.value,
-              padding: EdgeInsets.only(top: 8.0, bottom: 8.0),
+              padding: EdgeInsets.only(
+                left: _paddingPercent * buttonSize, // This will give relative padding size
+                right: _paddingPercent * buttonSize,
+              ),
               child: FloatingActionButton(
                 heroTag: heroTag,
                 onPressed: _performAction,
-                backgroundColor: backgroundColor,
-                foregroundColor: foregroundColor,
+                backgroundColor: backgroundColor ?? (dark ? Colors.grey[800] : Colors.grey[50]),
+                foregroundColor: foregroundColor ?? (dark ? Colors.white : Colors.black),
                 elevation: elevation ?? 6.0,
                 child: buttonChild,
+                shape: shape,
               ),
             ),
           )
