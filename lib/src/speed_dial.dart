@@ -77,7 +77,7 @@ class SpeedDial extends StatefulWidget {
   final bool closeManually;
   
   /// If true overlay is rendered, no matter if closeManually is true or false.
-  final bool renderOverlay = false;
+  bool renderOverlay = false;
 
   /// Open or close the dial via a notification
   final ValueNotifier<bool> openCloseDial;
@@ -226,6 +226,7 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
             labelBackgroundColor: child.labelBackgroundColor,
             labelWidget: child.labelWidget,
             onTap: child.onTap,
+            onLongPress: child.onLongPress,
             toggleChildren: () {
               if (!widget.closeManually) _toggleChildren();
             },
