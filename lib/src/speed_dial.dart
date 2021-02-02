@@ -77,7 +77,7 @@ class SpeedDial extends StatefulWidget {
   final bool closeManually;
   
   /// If true overlay is rendered, no matter if closeManually is true or false.
-  final bool renderOverlay = false;
+  final bool renderOverlay;
 
   /// Open or close the dial via a notification
   final ValueNotifier<bool> openCloseDial;
