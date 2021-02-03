@@ -87,13 +87,11 @@ class AnimatedChild extends AnimatedWidget {
   }
 
   void _performAction() {
-    print('performAction');
     if (onTap != null) onTap();
     toggleChildren();
   }
 
   void _performLongAction() {
-    print('performLongAction');
     if (onLongPress != null) onLongPress();
     toggleChildren();
   }
