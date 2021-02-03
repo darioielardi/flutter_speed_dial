@@ -124,7 +124,8 @@ Widget build(BuildContext context) {
               backgroundColor: Colors.red,
               label: 'First',
               labelStyle: TextStyle(fontSize: 18.0),
-              onTap: () => print('FIRST CHILD')
+              onTap: () => print('FIRST CHILD'),
+              onLongPress: () => print('FIRST CHILD LONG PRESS'),
             ),
             SpeedDialChild(
               child: Icon(Icons.brush),
@@ -132,6 +133,7 @@ Widget build(BuildContext context) {
               label: 'Second',
               labelStyle: TextStyle(fontSize: 18.0),
               onTap: () => print('SECOND CHILD'),
+              onLongPress: () => print('SECOND CHILD LONG PRESS'),
             ),
             SpeedDialChild(
               child: Icon(Icons.keyboard_voice),
@@ -139,6 +141,7 @@ Widget build(BuildContext context) {
               label: 'Third',
               labelStyle: TextStyle(fontSize: 18.0),
               onTap: () => print('THIRD CHILD'),
+              onLongPress: () => print('THIRD CHILD LONG PRESS'),
             ),
           ],
         ),

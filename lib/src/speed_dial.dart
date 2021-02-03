@@ -226,6 +226,7 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
             labelBackgroundColor: child.labelBackgroundColor,
             labelWidget: child.labelWidget,
             onTap: child.onTap,
+            onLongPress: child.onLongPress,
             toggleChildren: () {
               if (!widget.closeManually) _toggleChildren();
             },

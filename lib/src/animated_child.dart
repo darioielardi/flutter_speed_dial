@@ -16,6 +16,7 @@ class AnimatedChild extends AnimatedWidget {
   final bool visible;
   final bool dark;
   final VoidCallback onTap;
+  final VoidCallback onLongPress;
   final VoidCallback toggleChildren;
   final ShapeBorder shape;
   final String heroTag;
@@ -40,6 +41,7 @@ class AnimatedChild extends AnimatedWidget {
     this.visible = false,
     this.dark,
     this.onTap,
+    this.onLongPress,
     this.toggleChildren,
     this.shape,
     this.heroTag,
@@ -57,12 +59,14 @@ class AnimatedChild extends AnimatedWidget {
     if (labelWidget != null) {
       return GestureDetector(
         onTap: _performAction,
+        onLongPress: _performLongAction,
         child: labelWidget,
       );
     }
 
     return GestureDetector(
       onTap: _performAction,
+      onLongPress: _performLongAction,
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 8.0),
         margin: EdgeInsetsDirectional.fromSTEB(0, childMarginTop, 18.0, childMarginBottom),
@@ -87,6 +91,11 @@ class AnimatedChild extends AnimatedWidget {
     toggleChildren();
   }
 
+  void _performLongAction() {
+    if (onLongPress != null) onLongPress();
+    toggleChildren();
+  }
+
   Widget build(BuildContext context) {
     final Animation<double> animation = listenable;
 
@@ -100,6 +109,16 @@ class AnimatedChild extends AnimatedWidget {
             width: 0.0,
             height: 0.0,
           );
+
+    FloatingActionButton button = FloatingActionButton(
+      heroTag: heroTag,
+      onPressed: _performAction,
+      backgroundColor: backgroundColor ?? (dark ? Colors.grey[800] : Colors.grey[50]),
+      foregroundColor: foregroundColor ?? (dark ? Colors.white : Colors.black),
+      elevation: elevation ?? 6.0,
+      child: buttonChild,
+      shape: shape,
+    );
 
     return Container(
       child: Row(
@@ -117,14 +136,9 @@ class AnimatedChild extends AnimatedWidget {
                 left: _paddingPercent * buttonSize, // This will give relative padding size
                 right: _paddingPercent * buttonSize,
               ),
-              child: FloatingActionButton(
-                heroTag: heroTag,
-                onPressed: _performAction,
-                backgroundColor: backgroundColor ?? (dark ? Colors.grey[800] : Colors.grey[50]),
-                foregroundColor: foregroundColor ?? (dark ? Colors.white : Colors.black),
-                elevation: elevation ?? 6.0,
-                child: buttonChild,
-                shape: shape,
+              child: (onLongPress == null) ? button : GestureDetector(
+                onLongPress: _performLongAction,
+                child: button,
               ),
             ),
           )

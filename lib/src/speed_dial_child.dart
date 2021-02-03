@@ -20,6 +20,7 @@ class SpeedDialChild {
   final Color foregroundColor;
   final double elevation;
   final VoidCallback onTap;
+  final VoidCallback onLongPress;
   final ShapeBorder shape;
 
   SpeedDialChild({
@@ -32,6 +33,7 @@ class SpeedDialChild {
     this.foregroundColor,
     this.elevation,
     this.onTap,
+    this.onLongPress,
     this.shape,
   });
 }
