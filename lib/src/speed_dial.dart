@@ -31,6 +31,9 @@ class SpeedDial extends StatefulWidget {
   final double marginEnd;
   final double marginBottom;
 
+  /// The key of the speed dial.
+  final Key key;
+
   /// The color of the background overlay.
   final Color overlayColor;
 
@@ -95,6 +98,7 @@ class SpeedDial extends StatefulWidget {
   final SpeedDialOrientation orientation;
 
   SpeedDial({
+    this.key,
     this.children = const [],
     this.visible = true,
     this.backgroundColor,
@@ -306,6 +310,7 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
     var fabChildren = _open ? _getChildrenList() : [];
 
     var animatedFloatingButton = AnimatedFloatingButton(
+      key: widget.key,
       visible: widget.visible,
       tooltip: widget.tooltip,
       backgroundColor:
