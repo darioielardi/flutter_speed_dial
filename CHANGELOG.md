@@ -1,4 +1,4 @@
-## [2.1.0] - 04 Frb 2021
+## [2.1.0] - 04 Feb 2021
 
 - Add onLongPress support to SpeedDialChild by @m0veax
 - Add key support for both Speed Dial and Speed Dial Child
