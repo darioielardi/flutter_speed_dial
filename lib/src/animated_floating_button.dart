@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AnimatedFloatingButton extends StatelessWidget {
+  final Key key;
   final bool visible;
   final VoidCallback callback;
   final VoidCallback onLongPress;
@@ -16,6 +17,7 @@ class AnimatedFloatingButton extends StatelessWidget {
   final Curve curve;
 
   AnimatedFloatingButton({
+    this.key,
     this.visible = true,
     this.callback,
     this.label,
@@ -50,6 +52,7 @@ class AnimatedFloatingButton extends StatelessWidget {
           onLongPress: onLongPress,
           child: label != null
               ? FloatingActionButton.extended(
+                  key:key,
                   icon: visible ? child : null,
                   label: visible ? label : null,
                   backgroundColor: backgroundColor,
@@ -61,6 +64,7 @@ class AnimatedFloatingButton extends StatelessWidget {
                   highlightElevation: elevation,
                 )
               : FloatingActionButton(
+                  key:key,
                   child: visible ? child : null,
                   backgroundColor: backgroundColor,
                   foregroundColor: foregroundColor,

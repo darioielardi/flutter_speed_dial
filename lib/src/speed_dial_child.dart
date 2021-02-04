@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 
 /// Provides data for a speed dial child
 class SpeedDialChild {
+  /// The key of the speed dial child.
+  final Key key;
+
   /// The label to render to the left of the button
   final String label;
 
@@ -24,6 +27,7 @@ class SpeedDialChild {
   final ShapeBorder shape;
 
   SpeedDialChild({
+    this.key,
     this.label,
     this.labelStyle,
     this.labelBackgroundColor,
