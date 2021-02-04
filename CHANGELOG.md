@@ -1,3 +1,8 @@
+## [2.1.0] - 04 Frb 2021
+
+- Add onLongPress support to SpeedDialChild by @m0veax
+- Add key support for both Speed Dial and Speed Dial Child
+
 ## [2.0.0+1] - 31 Jan 2021
 
 - Fix Rotation Animation
