@@ -7,6 +7,7 @@ class AnimatedChild extends AnimatedWidget {
   final double elevation;
   final double buttonSize;
   final Widget child;
+  final Key key;
 
   final String label;
   final TextStyle labelStyle;
@@ -26,7 +27,7 @@ class AnimatedChild extends AnimatedWidget {
   final double _paddingPercent = 0.125;
 
   AnimatedChild({
-    Key key,
+    this.key,
     Animation<double> animation,
     this.index,
     this.backgroundColor,
@@ -47,7 +48,7 @@ class AnimatedChild extends AnimatedWidget {
     this.heroTag,
     this.childMarginBottom,
     this.childMarginTop,
-  }) : super(key: key, listenable: animation);
+  }) : super(listenable: animation);
 
   Widget buildLabel() {
     final Animation<double> animation = listenable;
@@ -111,6 +112,7 @@ class AnimatedChild extends AnimatedWidget {
           );
 
     FloatingActionButton button = FloatingActionButton(
+      key: key,
       heroTag: heroTag,
       onPressed: _performAction,
       backgroundColor: backgroundColor ?? (dark ? Colors.grey[800] : Colors.grey[50]),
