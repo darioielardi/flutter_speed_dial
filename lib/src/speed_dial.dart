@@ -218,6 +218,7 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
           return AnimatedChild(
             animation: childAnimation,
             index: index,
+            key: child.key,
             visible: _open,
             dark: widget._dark,
             backgroundColor: child.backgroundColor,
