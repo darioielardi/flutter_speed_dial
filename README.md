@@ -142,7 +142,7 @@ Widget build(BuildContext context) {
 
 ## Issues & Feedback
 
-Please file an [issue](https://github.com/prateekmedia/flutter_speed_dial/issues) to send feedback or report a bug. Thank you!
+Please file an [issue](https://github.com/darioielardi/flutter_speed_dial/issues) to send feedback or report a bug. Thank you!
 
 ## Contributing
 
