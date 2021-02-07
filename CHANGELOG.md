@@ -1,3 +1,7 @@
+## [2.1.1] - 07 Feb 2021
+
+- README fixes
+
 ## [2.1.0] - 04 Feb 2021
 
 - Add onLongPress support to SpeedDialChild by @m0veax
