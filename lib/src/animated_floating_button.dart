@@ -52,7 +52,6 @@ class AnimatedFloatingButton extends StatelessWidget {
         duration: Duration(milliseconds: 150),
         height: visible ? size : 0.0,
         child: useGestureOrInkWell(
-          useInkWell: useInkWell,
           onLongPress: onLongPress,
           child: dialRoot != null
               ? dialRoot
@@ -88,7 +87,7 @@ class AnimatedFloatingButton extends StatelessWidget {
   }
 
   Widget useGestureOrInkWell(
-      {Function onTap, Function onLongPress, Widget child, bool useInkWell}) {
+      {Function onTap, Function onLongPress, Widget child}) {
     return useInkWell
         ? InkWell(
             onLongPress: onLongPress,

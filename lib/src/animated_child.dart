@@ -25,6 +25,7 @@ class AnimatedChild extends AnimatedWidget {
   final double childMarginBottom;
   final double childMarginTop;
   final double _paddingPercent = 0.125;
+  final bool useInkWell;
 
   AnimatedChild({
     this.key,
@@ -35,6 +36,7 @@ class AnimatedChild extends AnimatedWidget {
     this.elevation = 6.0,
     this.buttonSize = 56.0,
     this.child,
+    this.useInkWell = false,
     this.label,
     this.labelStyle,
     this.labelBackgroundColor,
@@ -60,14 +62,14 @@ class AnimatedChild extends AnimatedWidget {
     }
 
     if (labelWidget != null) {
-      return GestureDetector(
+      return useGestureOrInkWell(
         onTap: _performAction,
         onLongPress: _performLongAction,
         child: labelWidget,
       );
     }
 
-    return GestureDetector(
+    return useGestureOrInkWell(
       onTap: _performAction,
       onLongPress: _performLongAction,
       child: Container(
@@ -148,7 +150,7 @@ class AnimatedChild extends AnimatedWidget {
               ),
               child: (onLongPress == null)
                   ? button
-                  : GestureDetector(
+                  : useGestureOrInkWell(
                       onLongPress: _performLongAction,
                       child: button,
                     ),
@@ -157,5 +159,18 @@ class AnimatedChild extends AnimatedWidget {
         ],
       ),
     );
+  }
+
+  Widget useGestureOrInkWell(
+      {Function onTap, Function onLongPress, Widget child}) {
+    return useInkWell
+        ? InkWell(
+            onLongPress: onLongPress,
+            child: child,
+          )
+        : GestureDetector(
+            onLongPress: onLongPress,
+            child: child,
+          );
   }
 }
