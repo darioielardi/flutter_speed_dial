@@ -53,7 +53,9 @@ class AnimatedChild extends AnimatedWidget {
   Widget buildLabel() {
     final Animation<double> animation = listenable;
 
-    if (!((label != null || labelWidget != null) && visible && animation.value == buttonSize)) {
+    if (!((label != null || labelWidget != null) &&
+        visible &&
+        animation.value == buttonSize)) {
       return Container();
     }
 
@@ -70,13 +72,17 @@ class AnimatedChild extends AnimatedWidget {
       onLongPress: _performLongAction,
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 8.0),
-        margin: EdgeInsetsDirectional.fromSTEB(0, childMarginTop, 18.0, childMarginBottom),
+        margin: EdgeInsetsDirectional.fromSTEB(
+            0, childMarginTop, 18.0, childMarginBottom),
         decoration: BoxDecoration(
-          color: labelBackgroundColor ?? (dark ? Colors.grey[800] : Colors.grey[50]),
+          color: labelBackgroundColor ??
+              (dark ? Colors.grey[800] : Colors.grey[50]),
           borderRadius: BorderRadius.all(Radius.circular(6.0)),
           boxShadow: [
             BoxShadow(
-              color: dark ? Colors.grey[900].withOpacity(0.7) : Colors.grey.withOpacity(0.7),
+              color: dark
+                  ? Colors.grey[900].withOpacity(0.7)
+                  : Colors.grey.withOpacity(0.7),
               offset: Offset(0.8, 0.8),
               blurRadius: 2.4,
             )
@@ -115,7 +121,8 @@ class AnimatedChild extends AnimatedWidget {
       key: key,
       heroTag: heroTag,
       onPressed: _performAction,
-      backgroundColor: backgroundColor ?? (dark ? Colors.grey[800] : Colors.grey[50]),
+      backgroundColor:
+          backgroundColor ?? (dark ? Colors.grey[800] : Colors.grey[50]),
       foregroundColor: foregroundColor ?? (dark ? Colors.white : Colors.black),
       elevation: elevation ?? 6.0,
       child: buttonChild,
@@ -135,13 +142,16 @@ class AnimatedChild extends AnimatedWidget {
               height: buttonSize,
               width: animation.value,
               padding: EdgeInsets.only(
-                left: _paddingPercent * buttonSize, // This will give relative padding size
+                left: _paddingPercent *
+                    buttonSize, // This will give relative padding size
                 right: _paddingPercent * buttonSize,
               ),
-              child: (onLongPress == null) ? button : GestureDetector(
-                onLongPress: _performLongAction,
-                child: button,
-              ),
+              child: (onLongPress == null)
+                  ? button
+                  : GestureDetector(
+                      onLongPress: _performLongAction,
+                      child: button,
+                    ),
             ),
           )
         ],
