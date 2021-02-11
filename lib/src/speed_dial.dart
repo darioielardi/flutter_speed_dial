@@ -297,13 +297,13 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
           )
         : AnimatedBuilder(
             animation: _controller,
-            builder: (BuildContext context, Widget _widget) => Transform.rotate(
-              angle:
-                  widget.useRotationAnimation ? _controller.value * pi / 2 : 0,
+            builder: (BuildContext context, Widget _widget) => Transform(
+              transform: Matrix4.rotationZ(_controller.value * 0.5 * pi),
+              alignment: FractionalOffset.center,
               child: AnimatedSwitcher(
                 duration: Duration(milliseconds: widget.animationSpeed),
                 child: (widget.activeChild == null &&
-                        widget.child == null &&
+                        widget.child != null &&
                         _controller.value < 0.5)
                     ? widget.child
                     : (widget.activeChild != null && _controller.value > 0.5)
@@ -315,14 +315,11 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
                                 color: widget.iconTheme?.color,
                                 size: widget.iconTheme?.size,
                               )
-                            : Transform.rotate(
-                                angle: -pi / 2,
-                                child: Icon(
-                                  widget.activeIcon,
-                                  key: ValueKey<int>(1),
-                                  color: widget.iconTheme?.color,
-                                  size: widget.iconTheme?.size,
-                                ),
+                            : Icon(
+                                widget.activeIcon,
+                                key: ValueKey<int>(1),
+                                color: widget.iconTheme?.color,
+                                size: widget.iconTheme?.size,
                               ),
               ),
             ),
