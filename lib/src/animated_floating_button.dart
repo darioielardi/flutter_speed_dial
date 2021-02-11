@@ -92,10 +92,12 @@ class AnimatedFloatingButton extends StatelessWidget {
     return useInkWell
         ? InkWell(
             onLongPress: onLongPress,
+            onTap: onTap,
             child: child,
           )
         : GestureDetector(
             onLongPress: onLongPress,
+            onTap: onTap,
             child: child,
           );
   }
