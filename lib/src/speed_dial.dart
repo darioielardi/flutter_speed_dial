@@ -31,9 +31,6 @@ class SpeedDial extends StatefulWidget {
   final double marginEnd;
   final double marginBottom;
 
-  /// The key of the speed dial.
-  final Key key;
-
   /// The color of the background overlay.
   final Color overlayColor;
 
@@ -78,7 +75,7 @@ class SpeedDial extends StatefulWidget {
 
   /// If true user is forced to close dial manually by tapping main button. WARNING: If true, overlay is not rendered.
   final bool closeManually;
-  
+
   /// If true overlay is rendered, no matter if closeManually is true or false.
   final bool renderOverlay;
 
@@ -97,14 +94,34 @@ class SpeedDial extends StatefulWidget {
   /// The orientation of the children. Default is [SpeedDialOrientation.Up]
   final SpeedDialOrientation orientation;
 
+  /// If Provided then it will replace the default Floating Action Button
+  /// and will show the Widget Specified as dialRoot instead, it will also
+  /// ignore backgroundColor, foregroundColor or any other property
+  /// that was specific to FAB before like onPress, you will have to provide
+  /// it again to your dialRoot button.
+  final Widget dialRoot;
+
+  /// If Provided then it will use Inkwell
+  /// for onLongPress instead of GestureDetector on Top of Root Widget
+  final bool useInkWell;
+
+  /// This is the child of the FAB, if specified it will ignore icon, activeIcon.
+  final Widget child;
+
+  /// This is the active child of the FAB, if specified it will animate b/w this
+  /// and the child.
+  final Widget activeChild;
+
   SpeedDial({
-    this.key,
+    Key key,
     this.children = const [],
     this.visible = true,
     this.backgroundColor,
     this.foregroundColor,
     this.elevation = 6.0,
     this.buttonSize = 56.0,
+    this.dialRoot,
+    this.useInkWell = false,
     this.overlayOpacity = 0.8,
     this.overlayColor,
     this.tooltip,
@@ -113,6 +130,8 @@ class SpeedDial extends StatefulWidget {
     this.animatedIconTheme,
     this.icon,
     this.activeIcon,
+    this.child,
+    this.activeChild,
     this.useRotationAnimation = true,
     this.iconTheme,
     this.label,
@@ -132,7 +151,7 @@ class SpeedDial extends StatefulWidget {
     this.openCloseDial,
     this.childMarginBottom = 0,
     this.childMarginTop = 0,
-  });
+  }) : super(key: key);
 
   @override
   _SpeedDialState createState() => _SpeedDialState();
@@ -161,8 +180,8 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
   }
 
   Duration _calculateMainControllerDuration() => Duration(
-      milliseconds:
-          widget.animationSpeed + widget.children.length * (widget.animationSpeed / 5).round());
+      milliseconds: widget.animationSpeed +
+          widget.children.length * (widget.animationSpeed / 5).round());
 
   @override
   void dispose() {
@@ -208,7 +227,8 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
         .map((SpeedDialChild child) {
           int index = widget.children.indexOf(child);
 
-          var childAnimation = Tween(begin: 0.0, end: widget.buttonSize).animate(
+          var childAnimation =
+              Tween(begin: 0.0, end: widget.buttonSize).animate(
             CurvedAnimation(
               parent: this._controller,
               curve: Interval(0, singleChildrenTween * (index + 1)),
@@ -220,6 +240,7 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
             index: index,
             key: child.key,
             visible: _open,
+            useInkWell: widget.useInkWell,
             dark: widget._dark,
             backgroundColor: child.backgroundColor,
             foregroundColor: child.foregroundColor,
@@ -236,7 +257,9 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
               if (!widget.closeManually) _toggleChildren();
             },
             shape: child.shape,
-            heroTag: widget.heroTag != null ? '${widget.heroTag}-child-$index' : null,
+            heroTag: widget.heroTag != null
+                ? '${widget.heroTag}-child-$index'
+                : null,
             childMarginBottom: widget.childMarginBottom,
             childMarginTop: widget.childMarginTop,
           );
@@ -256,7 +279,8 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
         onTap: _toggleChildren,
         child: BackgroundOverlay(
           animation: _controller,
-          color: widget.overlayColor ?? (widget._dark ? Colors.grey[900] : Colors.white),
+          color: widget.overlayColor ??
+              (widget._dark ? Colors.grey[900] : Colors.white),
           opacity: widget.overlayOpacity,
         ),
       ),
@@ -273,26 +297,30 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
           )
         : AnimatedBuilder(
             animation: _controller,
-            builder: (BuildContext context, Widget _widget) => Transform.rotate(
-              angle: widget.useRotationAnimation ? _controller.value * pi / 2 : 0,
+            builder: (BuildContext context, Widget _widget) => Transform(
+              transform: Matrix4.rotationZ(_controller.value * 0.5 * pi),
+              alignment: FractionalOffset.center,
               child: AnimatedSwitcher(
                 duration: Duration(milliseconds: widget.animationSpeed),
-                child: (!_open || widget.activeIcon == null || _controller.value < 0.5)
-                    ? Icon(
-                        widget.icon,
-                        key: ValueKey<int>(0),
-                        color: widget.iconTheme?.color,
-                        size: widget.iconTheme?.size,
-                      )
-                    : Transform.rotate(
-                        angle: -pi / 2,
-                        child: Icon(
-                          widget.activeIcon,
-                          key: ValueKey<int>(1),
-                          color: widget.iconTheme?.color,
-                          size: widget.iconTheme?.size,
-                        ),
-                      ),
+                child: (widget.activeChild == null &&
+                        widget.child != null &&
+                        _controller.value < 0.5)
+                    ? widget.child
+                    : (widget.activeChild != null && _controller.value > 0.5)
+                        ? widget.activeChild
+                        : (widget.activeIcon == null || _controller.value < 0.5)
+                            ? Icon(
+                                widget.icon,
+                                key: ValueKey<int>(0),
+                                color: widget.iconTheme?.color,
+                                size: widget.iconTheme?.size,
+                              )
+                            : Icon(
+                                widget.activeIcon,
+                                key: ValueKey<int>(1),
+                                color: widget.iconTheme?.color,
+                                size: widget.iconTheme?.size,
+                              ),
               ),
             ),
           );
@@ -305,7 +333,9 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
                 opacity: animation,
                 child: child,
               ),
-      child: (!_open || widget.activeLabel == null) ? widget.label : widget.activeLabel,
+      child: (!_open || widget.activeLabel == null)
+          ? widget.label
+          : widget.activeLabel,
     );
 
     var fabChildren = _open ? _getChildrenList() : [];
@@ -313,13 +343,17 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
     var animatedFloatingButton = AnimatedFloatingButton(
       key: widget.key,
       visible: widget.visible,
+      useInkWell: widget.useInkWell,
       tooltip: widget.tooltip,
-      backgroundColor:
-          widget.backgroundColor ?? (widget._dark ? Colors.grey[800] : Colors.grey[50]),
-      foregroundColor: widget.foregroundColor ?? (widget._dark ? Colors.white : Colors.black),
+      dialRoot: widget.dialRoot,
+      backgroundColor: widget.backgroundColor ??
+          (widget._dark ? Colors.grey[800] : Colors.grey[50]),
+      foregroundColor: widget.foregroundColor ??
+          (widget._dark ? Colors.white : Colors.black),
       elevation: widget.elevation,
       onLongPress: _toggleChildren,
-      callback: (_open || widget.onPress == null) ? _toggleChildren : widget.onPress,
+      callback:
+          (_open || widget.onPress == null) ? _toggleChildren : widget.onPress,
       size: widget.buttonSize,
       label: widget.label != null ? label : null,
       child: child,
@@ -331,7 +365,9 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
     switch (widget.orientation) {
       case SpeedDialOrientation.Down:
         return PositionedDirectional(
-          top: MediaQuery.of(context).size.height - 56 - (widget.marginBottom - 16),
+          top: MediaQuery.of(context).size.height -
+              56 -
+              (widget.marginBottom - 16),
           end: widget.marginEnd - 16,
           child: Container(
             child: Column(
@@ -373,7 +409,9 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     widget._dark = MediaQuery.of(context).platformBrightness == Brightness.dark;
     final children = [
-      if ((!widget.closeManually || widget.renderOverlay) && widget.children.length > 0) _renderOverlay(),
+      if ((!widget.closeManually || widget.renderOverlay) &&
+          widget.children.length > 0)
+        _renderOverlay(),
       _renderButton(),
     ];
 
@@ -384,15 +422,12 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
       children: children,
     );
 
-    return Visibility(
-      visible: widget.visible,
-      child: (_open)
-          ? stack
-          : Container(
-              width: 56,
-              height: 56,
-              child: stack,
-            ),
-    );
+    return (_open)
+        ? stack
+        : Container(
+            width: 56,
+            height: 56,
+            child: stack,
+          );
   }
 }

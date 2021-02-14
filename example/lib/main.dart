@@ -3,7 +3,8 @@ import 'package:flutter/rendering.dart';
 
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
-void main() => runApp(MaterialApp(home: MyApp(), title: 'Flutter Speed Dial Example'));
+void main() =>
+    runApp(MaterialApp(home: MyApp(), title: 'Flutter Speed Dial Example'));
 
 class MyApp extends StatefulWidget {
   @override
@@ -20,7 +21,8 @@ class MyAppState extends State<MyApp> with TickerProviderStateMixin {
 
     scrollController = ScrollController()
       ..addListener(() {
-        setDialVisible(scrollController.position.userScrollDirection == ScrollDirection.forward);
+        setDialVisible(scrollController.position.userScrollDirection ==
+            ScrollDirection.forward);
       });
   }
 
@@ -79,12 +81,12 @@ class MyAppState extends State<MyApp> with TickerProviderStateMixin {
       // childMarginTop: 2,
       children: [
         SpeedDialChild(
-            child: Icon(Icons.accessibility),
-            backgroundColor: Colors.red,
-            label: 'First',
-            labelStyle: TextStyle(fontSize: 18.0),
-            onTap: () => print('FIRST CHILD'),
-            onLongPress: () => print('FIRST CHILD LONG PRESS'),
+          child: Icon(Icons.accessibility),
+          backgroundColor: Colors.red,
+          label: 'First',
+          labelStyle: TextStyle(fontSize: 18.0),
+          onTap: () => print('FIRST CHILD'),
+          onLongPress: () => print('FIRST CHILD LONG PRESS'),
         ),
         SpeedDialChild(
           child: Icon(Icons.brush),

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 class AnimatedFloatingButton extends StatelessWidget {
-  final Key key;
   final bool visible;
   final VoidCallback callback;
   final VoidCallback onLongPress;
@@ -15,13 +14,17 @@ class AnimatedFloatingButton extends StatelessWidget {
   final double size;
   final ShapeBorder shape;
   final Curve curve;
+  final Widget dialRoot;
+  final bool useInkWell;
 
   AnimatedFloatingButton({
-    this.key,
+    Key key,
     this.visible = true,
     this.callback,
     this.label,
     this.child,
+    this.dialRoot,
+    this.useInkWell,
     this.backgroundColor,
     this.foregroundColor,
     this.tooltip,
@@ -31,7 +34,7 @@ class AnimatedFloatingButton extends StatelessWidget {
     this.shape = const CircleBorder(),
     this.curve = Curves.linear,
     this.onLongPress,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -48,35 +51,54 @@ class AnimatedFloatingButton extends StatelessWidget {
         margin: EdgeInsets.all(margin),
         duration: Duration(milliseconds: 150),
         height: visible ? size : 0.0,
-        child: GestureDetector(
+        child: useGestureOrInkWell(
           onLongPress: onLongPress,
-          child: label != null
-              ? FloatingActionButton.extended(
-                  key:key,
-                  icon: visible ? child : null,
-                  label: visible ? label : null,
-                  backgroundColor: backgroundColor,
-                  foregroundColor: foregroundColor,
-                  onPressed: callback,
-                  tooltip: tooltip,
-                  heroTag: heroTag,
-                  elevation: elevation,
-                  highlightElevation: elevation,
-                )
-              : FloatingActionButton(
-                  key:key,
-                  child: visible ? child : null,
-                  backgroundColor: backgroundColor,
-                  foregroundColor: foregroundColor,
-                  onPressed: callback,
-                  tooltip: tooltip,
-                  heroTag: heroTag,
-                  elevation: elevation,
-                  highlightElevation: elevation,
-                  shape: shape,
-                ),
+          onTap: dialRoot != null ? callback : null,
+          child: dialRoot != null
+              ? dialRoot
+              : label != null
+                  ? FloatingActionButton.extended(
+                      key: key,
+                      icon: visible ? child : null,
+                      shape: shape == CircleBorder() ? StadiumBorder() : shape,
+                      label: visible ? label : null,
+                      backgroundColor: backgroundColor,
+                      foregroundColor: foregroundColor,
+                      onPressed: callback,
+                      tooltip: tooltip,
+                      heroTag: heroTag,
+                      elevation: elevation,
+                      highlightElevation: elevation,
+                    )
+                  : FloatingActionButton(
+                      key: key,
+                      child: visible ? child : null,
+                      backgroundColor: backgroundColor,
+                      foregroundColor: foregroundColor,
+                      onPressed: callback,
+                      tooltip: tooltip,
+                      heroTag: heroTag,
+                      elevation: elevation,
+                      highlightElevation: elevation,
+                      shape: shape,
+                    ),
         ),
       ),
     );
+  }
+
+  Widget useGestureOrInkWell(
+      {Function onTap, Function onLongPress, Widget child}) {
+    return useInkWell
+        ? InkWell(
+            onLongPress: onLongPress,
+            onTap: onTap,
+            child: child,
+          )
+        : GestureDetector(
+            onLongPress: onLongPress,
+            onTap: onTap,
+            child: child,
+          );
   }
 }
