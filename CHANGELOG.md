@@ -1,3 +1,11 @@
+## [2.2.0] - 14 Feb 2021
+
+- Add child and activeChild
+- Fixed animation b/w non-active and active child's
+- Add useInkWell Property if you want to use Inkwell instead of GestureDetector
+- Add dialRoot Property to let you specify the root instead of the standard FAB button
+- Fixed formatting
+
 ## [2.1.1] - 07 Feb 2021
 
 - README fixes
