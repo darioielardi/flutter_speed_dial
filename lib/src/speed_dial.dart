@@ -28,6 +28,7 @@ class SpeedDial extends StatefulWidget {
   final double buttonSize;
   final ShapeBorder shape;
   final Gradient gradient;
+  final BoxShape gradientBoxShape;
 
   final double marginEnd;
   final double marginBottom;
@@ -120,6 +121,7 @@ class SpeedDial extends StatefulWidget {
     this.backgroundColor,
     this.foregroundColor,
     this.gradient,
+    this.gradientBoxShape = BoxShape.rectangle,
     this.elevation = 6.0,
     this.buttonSize = 56.0,
     this.dialRoot,
@@ -303,38 +305,57 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
               ),
             ),
             decoration: BoxDecoration(
-              shape: shape,
+              shape: widget.gradientBoxShape,
               gradient: widget.gradient,
             ),
-        )
-
+          )
         : AnimatedBuilder(
             animation: _controller,
             builder: (BuildContext context, Widget _widget) => Transform(
               transform: Matrix4.rotationZ(_controller.value * 0.5 * pi),
               alignment: FractionalOffset.center,
               child: AnimatedSwitcher(
-                duration: Duration(milliseconds: widget.animationSpeed),
-                child: (widget.activeChild == null &&
-                        widget.child != null &&
-                        _controller.value < 0.5)
-                    ? widget.child
-                    : (widget.activeChild != null && _controller.value > 0.5)
-                        ? widget.activeChild
-                        : (widget.activeIcon == null || _controller.value < 0.5)
-                            ? Icon(
-                                widget.icon,
-                                key: ValueKey<int>(0),
-                                color: widget.iconTheme?.color,
-                                size: widget.iconTheme?.size,
-                              )
-                            : Icon(
-                                widget.activeIcon,
-                                key: ValueKey<int>(1),
-                                color: widget.iconTheme?.color,
-                                size: widget.iconTheme?.size,
-                              ),
-              ),
+                  duration: Duration(milliseconds: widget.animationSpeed),
+                  child: (widget.activeChild == null &&
+                          widget.child != null &&
+                          _controller.value < 0.5)
+                      ? widget.child
+                      : (widget.activeChild != null && _controller.value > 0.5)
+                          ? widget.activeChild
+                          : (widget.activeIcon == null ||
+                                  _controller.value < 0.5)
+                              ? Container(
+                                  width: 56.0,
+                                  height: 56.0,
+                                  child: Center(
+                                    child: Icon(
+                                      widget.icon,
+                                      key: ValueKey<int>(0),
+                                      color: widget.iconTheme?.color,
+                                      size: widget.iconTheme?.size,
+                                    ),
+                                  ),
+                                  decoration: BoxDecoration(
+                                    shape: widget.gradientBoxShape,
+                                    gradient: widget.gradient,
+                                  ),
+                                )
+                              : Container(
+                                  width: 56.0,
+                                  height: 56.0,
+                                  child: Center(
+                                    child: Icon(
+                                      widget.activeIcon,
+                                      key: ValueKey<int>(1),
+                                      color: widget.iconTheme?.color,
+                                      size: widget.iconTheme?.size,
+                                    ),
+                                  ),
+                                  decoration: BoxDecoration(
+                                    shape: widget.gradientBoxShape,
+                                    gradient: widget.gradient,
+                                  ),
+                                )),
             ),
           );
 

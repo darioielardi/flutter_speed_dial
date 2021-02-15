@@ -76,13 +76,15 @@ class MyAppState extends State<MyApp> with TickerProviderStateMixin {
       foregroundColor: Colors.black,
       elevation: 8.0,
       shape: CircleBorder(),
+
       // orientation: SpeedDialOrientation.Up,
       // childMarginBottom: 2,
       // childMarginTop: 2,
+      gradientBoxShape: BoxShape.circle,
       gradient: LinearGradient(
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
-        colors: [Colors.white, Colors.black],
+        colors: [Colors.black, Colors.white],
       ),
       children: [
         SpeedDialChild(
