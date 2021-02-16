@@ -294,8 +294,8 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
   Widget _renderButton() {
     var child = widget.animatedIcon != null
         ? Container(
-            width: 56.0,
-            height: 56.0,
+            width: widget.buttonSize,
+            height: widget.buttonSize,
             child: Center(
               child: AnimatedIcon(
                 icon: widget.animatedIcon,
@@ -325,8 +325,8 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
                           : (widget.activeIcon == null ||
                                   _controller.value < 0.5)
                               ? Container(
-                                  width: 56.0,
-                                  height: 56.0,
+                                  width: widget.buttonSize,
+                                  height: widget.buttonSize,
                                   child: Center(
                                     child: Icon(
                                       widget.icon,
@@ -341,8 +341,8 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
                                   ),
                                 )
                               : Container(
-                                  width: 56.0,
-                                  height: 56.0,
+                                  width: widget.buttonSize,
+                                  height: widget.buttonSize,
                                   child: Center(
                                     child: Icon(
                                       widget.activeIcon,
@@ -400,7 +400,7 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
       case SpeedDialOrientation.Down:
         return PositionedDirectional(
           top: MediaQuery.of(context).size.height -
-              56 -
+              widget.buttonSize -
               (widget.marginBottom - 16),
           end: widget.marginEnd - 16,
           child: Container(
@@ -459,8 +459,8 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
     return (_open)
         ? stack
         : Container(
-            width: 56,
-            height: 56,
+            width: widget.buttonSize,
+            height: widget.buttonSize,
             child: stack,
           );
   }
