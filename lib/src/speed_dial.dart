@@ -27,6 +27,8 @@ class SpeedDial extends StatefulWidget {
   final double elevation;
   final double buttonSize;
   final ShapeBorder shape;
+  final Gradient gradient;
+  final BoxShape gradientBoxShape;
 
   final double marginEnd;
   final double marginBottom;
@@ -118,6 +120,8 @@ class SpeedDial extends StatefulWidget {
     this.visible = true,
     this.backgroundColor,
     this.foregroundColor,
+    this.gradient,
+    this.gradientBoxShape = BoxShape.rectangle,
     this.elevation = 6.0,
     this.buttonSize = 56.0,
     this.dialRoot,
@@ -289,11 +293,21 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
 
   Widget _renderButton() {
     var child = widget.animatedIcon != null
-        ? AnimatedIcon(
-            icon: widget.animatedIcon,
-            progress: _controller,
-            color: widget.animatedIconTheme?.color,
-            size: widget.animatedIconTheme?.size,
+        ? Container(
+            width: widget.buttonSize,
+            height: widget.buttonSize,
+            child: Center(
+              child: AnimatedIcon(
+                icon: widget.animatedIcon,
+                progress: _controller,
+                color: widget.animatedIconTheme?.color,
+                size: widget.animatedIconTheme?.size,
+              ),
+            ),
+            decoration: BoxDecoration(
+              shape: widget.gradientBoxShape,
+              gradient: widget.gradient,
+            ),
           )
         : AnimatedBuilder(
             animation: _controller,
@@ -301,27 +315,47 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
               transform: Matrix4.rotationZ(_controller.value * 0.5 * pi),
               alignment: FractionalOffset.center,
               child: AnimatedSwitcher(
-                duration: Duration(milliseconds: widget.animationSpeed),
-                child: (widget.activeChild == null &&
-                        widget.child != null &&
-                        _controller.value < 0.5)
-                    ? widget.child
-                    : (widget.activeChild != null && _controller.value > 0.5)
-                        ? widget.activeChild
-                        : (widget.activeIcon == null || _controller.value < 0.5)
-                            ? Icon(
-                                widget.icon,
-                                key: ValueKey<int>(0),
-                                color: widget.iconTheme?.color,
-                                size: widget.iconTheme?.size,
-                              )
-                            : Icon(
-                                widget.activeIcon,
-                                key: ValueKey<int>(1),
-                                color: widget.iconTheme?.color,
-                                size: widget.iconTheme?.size,
-                              ),
-              ),
+                  duration: Duration(milliseconds: widget.animationSpeed),
+                  child: (widget.activeChild == null &&
+                          widget.child != null &&
+                          _controller.value < 0.5)
+                      ? widget.child
+                      : (widget.activeChild != null && _controller.value > 0.5)
+                          ? widget.activeChild
+                          : (widget.activeIcon == null ||
+                                  _controller.value < 0.5)
+                              ? Container(
+                                  width: widget.buttonSize,
+                                  height: widget.buttonSize,
+                                  child: Center(
+                                    child: Icon(
+                                      widget.icon,
+                                      key: ValueKey<int>(0),
+                                      color: widget.iconTheme?.color,
+                                      size: widget.iconTheme?.size,
+                                    ),
+                                  ),
+                                  decoration: BoxDecoration(
+                                    shape: widget.gradientBoxShape,
+                                    gradient: widget.gradient,
+                                  ),
+                                )
+                              : Container(
+                                  width: widget.buttonSize,
+                                  height: widget.buttonSize,
+                                  child: Center(
+                                    child: Icon(
+                                      widget.activeIcon,
+                                      key: ValueKey<int>(1),
+                                      color: widget.iconTheme?.color,
+                                      size: widget.iconTheme?.size,
+                                    ),
+                                  ),
+                                  decoration: BoxDecoration(
+                                    shape: widget.gradientBoxShape,
+                                    gradient: widget.gradient,
+                                  ),
+                                )),
             ),
           );
 
@@ -366,7 +400,7 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
       case SpeedDialOrientation.Down:
         return PositionedDirectional(
           top: MediaQuery.of(context).size.height -
-              56 -
+              widget.buttonSize -
               (widget.marginBottom - 16),
           end: widget.marginEnd - 16,
           child: Container(
@@ -425,8 +459,8 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
     return (_open)
         ? stack
         : Container(
-            width: 56,
-            height: 56,
+            width: widget.buttonSize,
+            height: widget.buttonSize,
             child: stack,
           );
   }
