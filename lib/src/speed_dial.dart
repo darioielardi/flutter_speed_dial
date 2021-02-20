@@ -456,12 +456,6 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
       children: children,
     );
 
-    return (_open)
-        ? stack
-        : Container(
-            width: widget.buttonSize,
-            height: widget.buttonSize,
-            child: stack,
-          );
+    return stack;
   }
 }
