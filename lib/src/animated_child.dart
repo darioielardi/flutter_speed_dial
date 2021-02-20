@@ -108,11 +108,11 @@ class AnimatedChild extends AnimatedWidget {
   Widget build(BuildContext context) {
     final Animation<double> animation = listenable;
 
-    final Widget buttonChild = animation.value > 50.0
+    final Widget buttonChild = animation.value > 50.0 && child !=null
         ? Container(
             width: animation.value,
             height: animation.value,
-            child: Center(child: child) ?? Container(),
+            child: child,
           )
         : Container(
             width: 0.0,
