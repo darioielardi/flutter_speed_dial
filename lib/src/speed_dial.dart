@@ -20,60 +20,60 @@ class SpeedDial extends StatefulWidget {
   /// The curve used to animate the button on scrolling.
   final Curve curve;
 
-  final String tooltip;
-  final String heroTag;
-  final Color backgroundColor;
-  final Color foregroundColor;
+  final String? tooltip;
+  final String? heroTag;
+  final Color? backgroundColor;
+  final Color? foregroundColor;
   final double elevation;
   final double buttonSize;
   final ShapeBorder shape;
-  final Gradient gradient;
+  final Gradient? gradient;
   final BoxShape gradientBoxShape;
 
   final double marginEnd;
   final double marginBottom;
 
   /// The color of the background overlay.
-  final Color overlayColor;
+  final Color? overlayColor;
 
   /// The opacity of the background overlay when the dial is open.
   final double overlayOpacity;
 
   /// The animated icon to show as the main button child. If this is provided the [child] is ignored.
-  final AnimatedIconData animatedIcon;
+  final AnimatedIconData? animatedIcon;
 
   /// The theme for the animated icon.
-  final IconThemeData animatedIconTheme;
+  final IconThemeData? animatedIconTheme;
 
   /// The icon of the main button, ignored if [animatedIcon] is non [null].
-  final IconData icon;
+  final IconData? icon;
 
   /// The active icon of the main button, Defaults to icon if not specified, ignored if [animatedIcon] is non [null].
-  final IconData activeIcon;
+  final IconData? activeIcon;
 
   /// If true then rotation animation will be used when animating b/w activeIcon and icon.
   final bool useRotationAnimation;
 
   /// The theme for the icon generally includes color and size.
-  final IconThemeData iconTheme;
+  final IconThemeData? iconTheme;
 
   /// The label of the main button.
-  final Widget label;
+  final Widget? label;
 
   /// The active label of the main button, Defaults to label if not specified.
-  final Widget activeLabel;
+  final Widget? activeLabel;
 
   /// Transition Builder between label and activeLabel, defaults to FadeTransition.
-  final Widget Function(Widget, Animation<double>) labelTransitionBuilder;
+  final Widget Function(Widget, Animation<double>)? labelTransitionBuilder;
 
   /// Executed when the dial is opened.
-  final VoidCallback onOpen;
+  final VoidCallback? onOpen;
 
   /// Executed when the dial is closed.
-  final VoidCallback onClose;
+  final VoidCallback? onClose;
 
   /// Executed when the dial is pressed. If given, the dial only opens on long press!
-  final VoidCallback onPress;
+  final VoidCallback? onPress;
 
   /// If true user is forced to close dial manually by tapping main button. WARNING: If true, overlay is not rendered.
   final bool closeManually;
@@ -82,7 +82,7 @@ class SpeedDial extends StatefulWidget {
   final bool renderOverlay;
 
   /// Open or close the dial via a notification
-  final ValueNotifier<bool> openCloseDial;
+  final ValueNotifier<bool>? openCloseDial;
 
   /// The speed of the animation in milliseconds
   final int animationSpeed;
@@ -101,21 +101,21 @@ class SpeedDial extends StatefulWidget {
   /// ignore backgroundColor, foregroundColor or any other property
   /// that was specific to FAB before like onPress, you will have to provide
   /// it again to your dialRoot button.
-  final Widget dialRoot;
+  final Widget? dialRoot;
 
   /// If Provided then it will use Inkwell
   /// for onLongPress instead of GestureDetector on Top of Root Widget
   final bool useInkWell;
 
   /// This is the child of the FAB, if specified it will ignore icon, activeIcon.
-  final Widget child;
+  final Widget? child;
 
   /// This is the active child of the FAB, if specified it will animate b/w this
   /// and the child.
-  final Widget activeChild;
+  final Widget? activeChild;
 
   SpeedDial({
-    Key key,
+    Key? key,
     this.children = const [],
     this.visible = true,
     this.backgroundColor,
@@ -160,11 +160,11 @@ class SpeedDial extends StatefulWidget {
   @override
   _SpeedDialState createState() => _SpeedDialState();
 
-  bool _dark;
+  late bool _dark;
 }
 
 class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
-  AnimationController _controller;
+  late AnimationController _controller;
 
   bool _open = false;
 
@@ -217,11 +217,11 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
       setState(() {
         _open = newValue;
       });
-      if (widget.openCloseDial != null) widget.openCloseDial.value = newValue;
-      if (newValue && widget.onOpen != null) widget.onOpen();
+      if (widget.openCloseDial != null) widget.openCloseDial?.value = newValue;
+      if (newValue && widget.onOpen != null) widget.onOpen?.call();
       _performAnimation();
-      if (!newValue && widget.onClose != null) widget.onClose();
-    } else if (widget.onOpen != null) widget.onOpen();
+      if (!newValue && widget.onClose != null) widget.onClose?.call();
+    } else if (widget.onOpen != null) widget.onOpen?.call();
   }
 
   List<Widget> _getChildrenList() {
@@ -298,7 +298,7 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
             height: widget.buttonSize,
             child: Center(
               child: AnimatedIcon(
-                icon: widget.animatedIcon,
+                icon: widget.animatedIcon!,
                 progress: _controller,
                 color: widget.animatedIconTheme?.color,
                 size: widget.animatedIconTheme?.size,
@@ -311,7 +311,7 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
           )
         : AnimatedBuilder(
             animation: _controller,
-            builder: (BuildContext context, Widget _widget) => Transform(
+            builder: (BuildContext context, Widget? _widget) => Transform(
               transform: Matrix4.rotationZ(_controller.value * 0.5 * pi),
               alignment: FractionalOffset.center,
               child: AnimatedSwitcher(
@@ -361,9 +361,8 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
 
     var label = AnimatedSwitcher(
       duration: Duration(milliseconds: widget.animationSpeed),
-      transitionBuilder: widget.labelTransitionBuilder != null
-          ? widget.labelTransitionBuilder
-          : (child, animation) => FadeTransition(
+      transitionBuilder: widget.labelTransitionBuilder ??
+          (child, animation) => FadeTransition(
                 opacity: animation,
                 child: child,
               ),
@@ -417,7 +416,6 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
             ),
           ),
         );
-        break;
       case SpeedDialOrientation.Up:
       default:
         return PositionedDirectional(
@@ -435,7 +433,6 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
             ),
           ),
         );
-        break;
     }
   }
 
