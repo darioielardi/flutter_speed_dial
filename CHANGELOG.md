@@ -1,8 +1,11 @@
+## [3.0.0-nullsafety] - 04 Mar 2021
+
+- Add null safety support by @michalisioak
+
 ## [2.3.0] - 04 Mar 2021
 
 - Add Gradient Support
 - Fix unclickable FAB label error
-
 
 ## [2.2.0] - 14 Feb 2021
 
