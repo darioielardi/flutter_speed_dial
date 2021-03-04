@@ -1,3 +1,8 @@
+## [3.0.0-nullsafety.1] - 04 Mar 2021
+
+- Add null safety support by @michalisioak
+- Rebased with master Branch
+
 ## [2.3.5] - 06 Mar 2021
 
 - Fix SpeedDial Alignment with respect to its childrens @lks-nbg
