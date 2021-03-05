@@ -411,7 +411,7 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
                 ..insert(
                     0,
                     Container(
-                      margin: EdgeInsetsDirectional.only(bottom: 8.0, end: 2.0),
+                      margin: EdgeInsetsDirectional.only(bottom: 8.0),
                       child: animatedFloatingButton,
                     )),
             ),
@@ -429,7 +429,7 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: List.from(fabChildren)
                 ..add(Container(
-                  margin: EdgeInsetsDirectional.only(top: 8.0, end: 2.0),
+                  margin: EdgeInsetsDirectional.only(top: 8.0),
                   child: animatedFloatingButton,
                 )),
             ),
