@@ -12,6 +12,10 @@ The SpeedDial widget is built to be placed in the `Scaffold.floatingActionButton
 It's not possible to set its position with the `Scaffold.floatingActionButtonLocation` argument, but it's possible to set right/bottom margin with the `marginEnd` and `marginBottom` arguments (default to 16) to place the button anywhere in the screen.
 Using the `Scaffold.bottomNavigationBar` the floating button will be always placed above the bar, so the `BottomAppBar.hasNotch` should be always `false`.
 
+### Nullsafety
+
+You can find a branch named [nullsafety](https://github.com/darioielardi/flutter_speed_dial/tree/nullsafety) to try out your app with nullsafety features. Let us know if you find any issues.
+
 **Labels**
 
 SpeedDial and its child all have `label`. SpeedDial takes any Widget as `label`. It also have `activeLabel` property by which you can specify the label which is shown when SpeedDial is open. It also comes with its labelTransitionBuilder which defaults to fade transition.
