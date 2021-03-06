@@ -177,6 +177,7 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
     );
     widget.openCloseDial?.addListener(() {
       final show = widget.openCloseDial?.value;
+      if (!mounted) return; 
       if (_open != show) {
         _toggleChildren();
       }
@@ -190,6 +191,7 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
   @override
   void dispose() {
     _controller.dispose();
+    widget.openCloseDial?.removeListener(() { });
     super.dispose();
   }
 
@@ -208,6 +210,15 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
       _controller.duration = _calculateMainControllerDuration();
     }
 
+    widget.openCloseDial?.removeListener(() { });
+    widget.openCloseDial?.addListener(() {
+      final show = widget.openCloseDial?.value;
+      if (!mounted) return;
+      if(_open != show) {
+        _toggleChildren();
+      }
+    });
+    
     super.didUpdateWidget(oldWidget);
   }
 
