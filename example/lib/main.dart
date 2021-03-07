@@ -12,7 +12,7 @@ class MyApp extends StatefulWidget {
 }
 
 class MyAppState extends State<MyApp> with TickerProviderStateMixin {
-  ScrollController scrollController;
+  ScrollController? scrollController;
   bool dialVisible = true;
 
   @override
@@ -21,7 +21,7 @@ class MyAppState extends State<MyApp> with TickerProviderStateMixin {
 
     scrollController = ScrollController()
       ..addListener(() {
-        setDialVisible(scrollController.position.userScrollDirection ==
+        setDialVisible(scrollController!.position.userScrollDirection ==
             ScrollDirection.forward);
       });
   }
