@@ -1,6 +1,8 @@
 name: flutter_speed_dial_example
 description: flutter_speed_dial example.
 
+publish_to: none
+
 version: 1.0.0+1
 
 environment:
@@ -9,7 +11,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_speed_dial:	
+  flutter_speed_dial:
     path: ../
 
 dev_dependencies:

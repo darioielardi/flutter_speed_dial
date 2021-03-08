@@ -14,7 +14,7 @@ Using the `Scaffold.bottomNavigationBar` the floating button will be always plac
 
 **Nullsafety**
 
-You can find a branch named [nullsafety](https://github.com/darioielardi/flutter_speed_dial/tree/nullsafety) to try out your app with nullsafety features. Let us know if you find any issues.
+This branch contains nullsafe code by which you can try out your app with nullsafety features. Let us know if you find any issues.
 
 **Labels**
 

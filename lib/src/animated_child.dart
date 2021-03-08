@@ -1,35 +1,35 @@
 import 'package:flutter/material.dart';
 
 class AnimatedChild extends AnimatedWidget {
-  final int index;
-  final Color backgroundColor;
-  final Color foregroundColor;
-  final double elevation;
+  final int? index;
+  final Color? backgroundColor;
+  final Color? foregroundColor;
+  final double? elevation;
   final double buttonSize;
-  final Widget child;
-  final Key key;
+  final Widget? child;
+  final Key? key;
 
-  final String label;
-  final TextStyle labelStyle;
-  final Color labelBackgroundColor;
-  final Widget labelWidget;
+  final String? label;
+  final TextStyle? labelStyle;
+  final Color? labelBackgroundColor;
+  final Widget? labelWidget;
 
   final bool visible;
-  final bool dark;
-  final VoidCallback onTap;
-  final VoidCallback onLongPress;
-  final VoidCallback toggleChildren;
-  final ShapeBorder shape;
-  final String heroTag;
+  final bool? dark;
+  final VoidCallback? onTap;
+  final VoidCallback? onLongPress;
+  final VoidCallback? toggleChildren;
+  final ShapeBorder? shape;
+  final String? heroTag;
 
-  final double childMarginBottom;
-  final double childMarginTop;
+  final double? childMarginBottom;
+  final double? childMarginTop;
   final double _paddingPercent = 0.125;
   final bool useInkWell;
 
   AnimatedChild({
     this.key,
-    Animation<double> animation,
+    required Animation<double> animation,
     this.index,
     this.backgroundColor,
     this.foregroundColor,
@@ -53,7 +53,7 @@ class AnimatedChild extends AnimatedWidget {
   }) : super(listenable: animation);
 
   Widget buildLabel() {
-    final Animation<double> animation = listenable;
+    final Animation<double> animation = listenable as Animation<double>;
 
     if (!((label != null || labelWidget != null) &&
         visible &&
@@ -75,38 +75,38 @@ class AnimatedChild extends AnimatedWidget {
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 8.0),
         margin: EdgeInsetsDirectional.fromSTEB(
-            0, childMarginTop, 18.0, childMarginBottom),
+            0, childMarginTop!, 18.0, childMarginBottom!),
         decoration: BoxDecoration(
           color: labelBackgroundColor ??
-              (dark ? Colors.grey[800] : Colors.grey[50]),
+              (dark! ? Colors.grey[800] : Colors.grey[50]),
           borderRadius: BorderRadius.all(Radius.circular(6.0)),
           boxShadow: [
             BoxShadow(
-              color: dark
-                  ? Colors.grey[900].withOpacity(0.7)
+              color: dark!
+                  ? Colors.grey[900]!.withOpacity(0.7)
                   : Colors.grey.withOpacity(0.7),
               offset: Offset(0.8, 0.8),
               blurRadius: 2.4,
             )
           ],
         ),
-        child: Text(label, style: labelStyle),
+        child: Text(label!, style: labelStyle),
       ),
     );
   }
 
   void _performAction() {
-    if (onTap != null) onTap();
-    toggleChildren();
+    if (onTap != null) onTap!();
+    toggleChildren!();
   }
 
   void _performLongAction() {
-    if (onLongPress != null) onLongPress();
-    toggleChildren();
+    if (onLongPress != null) onLongPress!();
+    toggleChildren!();
   }
 
   Widget build(BuildContext context) {
-    final Animation<double> animation = listenable;
+    final Animation<double> animation = listenable as Animation<double>;
 
     final Widget buttonChild = animation.value > buttonSize*0.9 && child !=null
         ? Container(
@@ -124,8 +124,8 @@ class AnimatedChild extends AnimatedWidget {
       heroTag: heroTag,
       onPressed: _performAction,
       backgroundColor:
-          backgroundColor ?? (dark ? Colors.grey[800] : Colors.grey[50]),
-      foregroundColor: foregroundColor ?? (dark ? Colors.white : Colors.black),
+          backgroundColor ?? (dark! ? Colors.grey[800] : Colors.grey[50]),
+      foregroundColor: foregroundColor ?? (dark! ? Colors.white : Colors.black),
       elevation: elevation ?? 6.0,
       child: buttonChild,
       shape: shape,
@@ -162,14 +162,14 @@ class AnimatedChild extends AnimatedWidget {
   }
 
   Widget useGestureOrInkWell(
-      {Function onTap, Function onLongPress, Widget child}) {
+      {Function? onTap, Function? onLongPress, Widget? child}) {
     return useInkWell
         ? InkWell(
-            onLongPress: onLongPress,
+            onLongPress: onLongPress as void Function()?,
             child: child,
           )
         : GestureDetector(
-            onLongPress: onLongPress,
+            onLongPress: onLongPress as void Function()?,
             child: child,
           );
   }
