@@ -24,6 +24,8 @@ class SpeedDial extends StatefulWidget {
   final String? heroTag;
   final Color? backgroundColor;
   final Color? foregroundColor;
+  final Color? activeBackgroundColor;
+  final Color? activeForegroundColor;
   final double elevation;
   final double buttonSize;
   final ShapeBorder shape;
@@ -120,6 +122,8 @@ class SpeedDial extends StatefulWidget {
     this.visible = true,
     this.backgroundColor,
     this.foregroundColor,
+    this.activeBackgroundColor,
+    this.activeForegroundColor,
     this.gradient,
     this.gradientBoxShape = BoxShape.rectangle,
     this.elevation = 6.0,
@@ -177,7 +181,7 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
     );
     widget.openCloseDial?.addListener(() {
       final show = widget.openCloseDial?.value;
-      if (!mounted) return; 
+      if (!mounted) return;
       if (_open != show) {
         _toggleChildren();
       }
@@ -191,7 +195,7 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
   @override
   void dispose() {
     _controller.dispose();
-    widget.openCloseDial?.removeListener(() { });
+    widget.openCloseDial?.removeListener(() {});
     super.dispose();
   }
 
@@ -210,15 +214,15 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
       _controller.duration = _calculateMainControllerDuration();
     }
 
-    widget.openCloseDial?.removeListener(() { });
+    widget.openCloseDial?.removeListener(() {});
     widget.openCloseDial?.addListener(() {
       final show = widget.openCloseDial?.value;
       if (!mounted) return;
-      if(_open != show) {
+      if (_open != show) {
         _toggleChildren();
       }
     });
-    
+
     super.didUpdateWidget(oldWidget);
   }
 
@@ -384,26 +388,39 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
 
     var fabChildren = _open ? _getChildrenList() : [];
 
-    var animatedFloatingButton = AnimatedFloatingButton(
-      key: widget.key,
-      visible: widget.visible,
-      useInkWell: widget.useInkWell,
-      tooltip: widget.tooltip,
-      dialRoot: widget.dialRoot,
-      backgroundColor: widget.backgroundColor ??
-          (widget._dark ? Colors.grey[800] : Colors.grey[50]),
-      foregroundColor: widget.foregroundColor ??
-          (widget._dark ? Colors.white : Colors.black),
-      elevation: widget.elevation,
-      onLongPress: _toggleChildren,
-      callback:
-          (_open || widget.onPress == null) ? _toggleChildren : widget.onPress,
-      size: widget.buttonSize,
-      label: widget.label != null ? label : null,
-      child: child,
-      heroTag: widget.heroTag,
-      shape: widget.shape,
-      curve: widget.curve,
+    final backgroundColor = widget.backgroundColor ??
+        (widget._dark ? Colors.grey[800] : Colors.grey[50]);
+    final foregroundColor =
+        widget.foregroundColor ?? (widget._dark ? Colors.white : Colors.black);
+
+    final backgroundColorTween = ColorTween(
+        begin: backgroundColor, end: widget.activeBackgroundColor ?? backgroundColor);
+    final foregroundColorTween = ColorTween(
+        begin: foregroundColor, end: widget.activeForegroundColor ?? foregroundColor);
+
+    var animatedFloatingButton = AnimatedBuilder(
+      animation: _controller,
+      builder: (context, _) => AnimatedFloatingButton(
+        key: widget.key,
+        visible: widget.visible,
+        useInkWell: widget.useInkWell,
+        tooltip: widget.tooltip,
+        dialRoot: widget.dialRoot,
+        backgroundColor: backgroundColorTween.lerp(_controller.value),
+        foregroundColor:
+            foregroundColorTween.lerp(_controller.value),
+        elevation: widget.elevation,
+        onLongPress: _toggleChildren,
+        callback: (_open || widget.onPress == null)
+            ? _toggleChildren
+            : widget.onPress,
+        size: widget.buttonSize,
+        label: widget.label != null ? label : null,
+        child: child,
+        heroTag: widget.heroTag,
+        shape: widget.shape,
+        curve: widget.curve,
+      ),
     );
 
     switch (widget.orientation) {
