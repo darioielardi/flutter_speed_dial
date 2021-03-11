@@ -22,7 +22,7 @@ If you want to user the nullsafe branch in your app, before we were able to rele
   flutter_speed_dial:
     git:
       url: https://github.com/darioielardi/flutter_speed_dial.git
-      ref: nullsafety
+      ref: master
 ```
 
 **Labels**
