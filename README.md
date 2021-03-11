@@ -16,6 +16,15 @@ Using the `Scaffold.bottomNavigationBar` the floating button will be always plac
 
 This branch contains nullsafe code by which you can try out your app with nullsafety features. Let us know if you find any issues.
 
+If you want to user the nullsafe branch in your app, before we were able to release it, use this snippet in your pubspec.yaml
+
+```
+  flutter_speed_dial:
+    git:
+      url: https://github.com/darioielardi/flutter_speed_dial.git
+      ref: nullsafety
+```
+
 **Labels**
 
 SpeedDial and its child all have `label`. SpeedDial takes any Widget as `label`. It also have `activeLabel` property by which you can specify the label which is shown when SpeedDial is open. It also comes with its labelTransitionBuilder which defaults to fade transition.
