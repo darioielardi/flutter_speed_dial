@@ -1,3 +1,8 @@
+## [3.0.5] - 12 Mar 2021
+
+- Fix closing animation by @Amir-P
+- Add two new parameters activeBackgroundColor and activeForegroundColor for SpeedDial by @Amir-P
+
 ## [3.0.0] - 09 Mar 2021
 
 - Add null safety support by @michalisioak
