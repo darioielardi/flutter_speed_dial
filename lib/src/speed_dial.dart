@@ -382,7 +382,7 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
           : widget.activeLabel,
     );
 
-    var fabChildren = _open ? _getChildrenList() : [];
+    var fabChildren = _getChildrenList();
 
     var animatedFloatingButton = AnimatedFloatingButton(
       key: widget.key,
