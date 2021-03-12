@@ -394,9 +394,11 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
         widget.foregroundColor ?? (widget._dark ? Colors.white : Colors.black);
 
     final backgroundColorTween = ColorTween(
-        begin: backgroundColor, end: widget.activeBackgroundColor ?? backgroundColor);
+        begin: backgroundColor,
+        end: widget.activeBackgroundColor ?? backgroundColor);
     final foregroundColorTween = ColorTween(
-        begin: foregroundColor, end: widget.activeForegroundColor ?? foregroundColor);
+        begin: foregroundColor,
+        end: widget.activeForegroundColor ?? foregroundColor);
 
     var animatedFloatingButton = AnimatedBuilder(
       animation: _controller,
@@ -407,8 +409,7 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
         tooltip: widget.tooltip,
         dialRoot: widget.dialRoot,
         backgroundColor: backgroundColorTween.lerp(_controller.value),
-        foregroundColor:
-            foregroundColorTween.lerp(_controller.value),
+        foregroundColor: foregroundColorTween.lerp(_controller.value),
         elevation: widget.elevation,
         onLongPress: _toggleChildren,
         callback: (_open || widget.onPress == null)

@@ -12,7 +12,7 @@ class MyApp extends StatefulWidget {
 }
 
 class MyAppState extends State<MyApp> with TickerProviderStateMixin {
-  ScrollController scrollController;
+  late ScrollController scrollController;
   bool dialVisible = true;
 
   @override
