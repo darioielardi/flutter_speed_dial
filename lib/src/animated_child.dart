@@ -108,16 +108,17 @@ class AnimatedChild extends AnimatedWidget {
   Widget build(BuildContext context) {
     final Animation<double> animation = listenable as Animation<double>;
 
-    final Widget buttonChild = animation.value > buttonSize*0.9 && child !=null
-        ? Container(
-            width: animation.value,
-            height: animation.value,
-            child: child,
-          )
-        : Container(
-            width: 0.0,
-            height: 0.0,
-          );
+    final Widget buttonChild =
+        animation.value > buttonSize * 0.9 && child != null
+            ? Container(
+                width: animation.value,
+                height: animation.value,
+                child: child,
+              )
+            : Container(
+                width: 0.0,
+                height: 0.0,
+              );
 
     FloatingActionButton button = FloatingActionButton(
       key: key,
