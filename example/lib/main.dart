@@ -32,30 +32,40 @@ class MyAppState extends State<MyApp> with TickerProviderStateMixin {
     });
   }
 
+  Widget get _speedDial => SpeedDial(
+        icon: Icons.more_vert,
+        useRotationAnimation: false,
+        iconTheme: const IconThemeData(size: 30),
+        activeBackgroundColor: Colors.blue.shade900,
+        activeForegroundColor: Colors.white,
+        buttonPadding: EdgeInsets.only(top: 4),
+        overlayOpacity: 0,
+        curve: Curves.bounceIn,
+        backgroundColor: Colors.white,
+        marginEnd: 0,
+        foregroundColor: Theme.of(context).primaryColorDark,
+        buttonSize: 30,
+        children: <SpeedDialChild>[
+          SpeedDialChild(
+            child: Icon(Icons.share, size: 20),
+            backgroundColor: Colors.white,
+            foregroundColor: Theme.of(context).primaryColorDark,
+          ),
+          SpeedDialChild(
+            child: Icon(Icons.favorite, size: 20),
+            backgroundColor: Colors.white,
+            foregroundColor: Theme.of(context).primaryColorDark,
+          )
+        ],
+      );
+
   Widget buildBody() {
     return ListView.builder(
       controller: scrollController,
       itemCount: 30,
       itemBuilder: (ctx, i) => ListTile(
         title: Text('Item $i'),
-        trailing: Container(
-            width: 50,
-            height: 50,
-            child: SpeedDial(
-              animatedIcon: AnimatedIcons.menu_close,
-              buttonSize: 30,
-              overlayOpacity: 0,
-              backgroundColor: Colors.black,
-              foregroundColor: Colors.white,
-              buttonPadding: EdgeInsets.zero,
-              children: [
-                SpeedDialChild(
-                    child: Icon(
-                  Icons.share,
-                  size: 20,
-                ))
-              ],
-            )),
+        trailing: Container(width: 50, height: 50, child: _speedDial),
       ),
     );
   }

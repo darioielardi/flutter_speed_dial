@@ -135,6 +135,12 @@ class AnimatedChild extends AnimatedWidget {
     );
 
     return Container(
+      padding: buttonPadding ??
+          EdgeInsets.only(
+            left: _paddingPercent *
+                buttonSize, // This will give relative padding size
+            right: _paddingPercent * buttonSize,
+          ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
@@ -146,12 +152,6 @@ class AnimatedChild extends AnimatedWidget {
             child: Container(
               height: buttonSize,
               width: animation.value,
-              padding: buttonPadding ??
-                  EdgeInsets.only(
-                    left: _paddingPercent *
-                        buttonSize, // This will give relative padding size
-                    right: _paddingPercent * buttonSize,
-                  ),
               child: (onLongPress == null)
                   ? button
                   : useGestureOrInkWell(
