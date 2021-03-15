@@ -22,6 +22,7 @@ class AnimatedChild extends AnimatedWidget {
   final ShapeBorder? shape;
   final String? heroTag;
 
+  final EdgeInsets? buttonPadding;
   final double? childMarginBottom;
   final double? childMarginTop;
   final double _paddingPercent = 0.125;
@@ -48,6 +49,7 @@ class AnimatedChild extends AnimatedWidget {
     this.toggleChildren,
     this.shape,
     this.heroTag,
+    this.buttonPadding,
     this.childMarginBottom,
     this.childMarginTop,
   }) : super(listenable: animation);
@@ -144,11 +146,12 @@ class AnimatedChild extends AnimatedWidget {
             child: Container(
               height: buttonSize,
               width: animation.value,
-              padding: EdgeInsets.only(
-                left: _paddingPercent *
-                    buttonSize, // This will give relative padding size
-                right: _paddingPercent * buttonSize,
-              ),
+              padding: buttonPadding ??
+                  EdgeInsets.only(
+                    left: _paddingPercent *
+                        buttonSize, // This will give relative padding size
+                    right: _paddingPercent * buttonSize,
+                  ),
               child: (onLongPress == null)
                   ? button
                   : useGestureOrInkWell(

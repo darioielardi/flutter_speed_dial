@@ -116,6 +116,9 @@ class SpeedDial extends StatefulWidget {
   /// and the child.
   final Widget? activeChild;
 
+  /// Adds padding to every [children] provided.
+  final EdgeInsets? buttonPadding;
+
   SpeedDial({
     Key? key,
     this.children = const [],
@@ -159,6 +162,7 @@ class SpeedDial extends StatefulWidget {
     this.openCloseDial,
     this.childMarginBottom = 0,
     this.childMarginTop = 0,
+    this.buttonPadding,
   }) : super(key: key);
 
   @override
@@ -268,6 +272,7 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
             child: child.child,
             label: child.label,
             labelStyle: child.labelStyle,
+            buttonPadding: widget.buttonPadding,
             labelBackgroundColor: child.labelBackgroundColor,
             labelWidget: child.labelWidget,
             onTap: child.onTap,
@@ -327,7 +332,9 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
         : AnimatedBuilder(
             animation: _controller,
             builder: (BuildContext context, Widget? _widget) => Transform(
-              transform: Matrix4.rotationZ(_controller.value * 0.5 * pi),
+              transform: Matrix4.rotationZ(widget.useRotationAnimation
+                  ? (_controller.value * 0.5 * pi)
+                  : 0),
               alignment: FractionalOffset.center,
               child: AnimatedSwitcher(
                   duration: Duration(milliseconds: widget.animationSpeed),
@@ -434,7 +441,10 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
           child: Container(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.end,
+              crossAxisAlignment:
+                  widget.children.any((child) => child.label != null)
+                      ? CrossAxisAlignment.end
+                      : CrossAxisAlignment.center,
               children: List.from(fabChildren.reversed)
                 ..insert(
                     0,
@@ -453,7 +463,10 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
           child: Container(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.end,
+              crossAxisAlignment:
+                  widget.children.any((child) => child.label != null)
+                      ? CrossAxisAlignment.end
+                      : CrossAxisAlignment.center,
               children: List.from(fabChildren)
                 ..add(Container(
                   margin: EdgeInsetsDirectional.only(top: 8.0),

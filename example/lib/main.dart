@@ -12,7 +12,7 @@ class MyApp extends StatefulWidget {
 }
 
 class MyAppState extends State<MyApp> with TickerProviderStateMixin {
-  late ScrollController scrollController;
+  ScrollController scrollController;
   bool dialVisible = true;
 
   @override
@@ -36,15 +36,35 @@ class MyAppState extends State<MyApp> with TickerProviderStateMixin {
     return ListView.builder(
       controller: scrollController,
       itemCount: 30,
-      itemBuilder: (ctx, i) => ListTile(title: Text('Item $i')),
+      itemBuilder: (ctx, i) => ListTile(
+        title: Text('Item $i'),
+        trailing: Container(
+            width: 50,
+            height: 50,
+            child: SpeedDial(
+              animatedIcon: AnimatedIcons.menu_close,
+              buttonSize: 30,
+              overlayOpacity: 0,
+              backgroundColor: Colors.black,
+              foregroundColor: Colors.white,
+              buttonPadding: EdgeInsets.zero,
+              children: [
+                SpeedDialChild(
+                    child: Icon(
+                  Icons.share,
+                  size: 20,
+                ))
+              ],
+            )),
+      ),
     );
   }
 
   SpeedDial buildSpeedDial() {
     return SpeedDial(
       /// both default to 16
-      marginEnd: 18,
-      marginBottom: 20,
+      marginEnd: 24,
+      marginBottom: 16,
       // animatedIcon: AnimatedIcons.menu_close,
       // animatedIconTheme: IconThemeData(size: 22.0),
       /// This is ignored if animatedIcon is non null
