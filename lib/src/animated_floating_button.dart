@@ -49,7 +49,6 @@ class AnimatedFloatingButton extends StatelessWidget {
       height: visible ? size : 0.0,
       child: GestureDetector(
         onLongPress: onLongPress,
-        onTap: dialRoot != null ? callback : null,
         child: dialRoot != null
             ? dialRoot
             : label != null

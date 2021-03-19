@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'speed_dial.dart';
 
 class AnimatedChild extends AnimatedWidget {
   final int? index;
@@ -21,6 +22,8 @@ class AnimatedChild extends AnimatedWidget {
   final VoidCallback? toggleChildren;
   final ShapeBorder? shape;
   final String? heroTag;
+  final bool useColumn;
+  final bool switchLabelPosition;
 
   final double? childMarginBottom;
   final double? childMarginTop;
@@ -41,6 +44,8 @@ class AnimatedChild extends AnimatedWidget {
     this.visible = false,
     this.dark,
     this.onTap,
+    required this.switchLabelPosition,
+    required this.useColumn,
     this.onLongPress,
     this.toggleChildren,
     this.shape,
@@ -112,22 +117,25 @@ class AnimatedChild extends AnimatedWidget {
           shape: shape,
         ));
 
-    return Row(
+    List<Widget> children = [
+      ScaleTransition(scale: animation, child: buildLabel()),
+      Container(
+        padding: EdgeInsets.symmetric(vertical: 5),
+        height: buttonSize,
+        width: buttonSize,
+        child: (onLongPress == null)
+            ? button
+            : GestureDetector(
+                onLongPress: _performLongAction,
+                child: button,
+              ),
+      )
+    ];
+
+    return buildColumnOrRow(
+      useColumn,
       mainAxisSize: MainAxisSize.min,
-      children: [
-        ScaleTransition(scale: animation, child: buildLabel()),
-        Container(
-          padding: EdgeInsets.symmetric(vertical: 5),
-          height: buttonSize,
-          width: buttonSize,
-          child: (onLongPress == null)
-              ? button
-              : GestureDetector(
-                  onLongPress: _performLongAction,
-                  child: button,
-                ),
-        )
-      ],
+      children: switchLabelPosition ? children.reversed.toList() : children,
     );
   }
 }
