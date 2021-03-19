@@ -14,6 +14,7 @@ class AnimatedFloatingButton extends StatelessWidget {
   final double size;
   final ShapeBorder shape;
   final Curve curve;
+  final GlobalKey? dialKey;
   final Widget? dialRoot;
   final bool useInkWell;
 
@@ -23,6 +24,7 @@ class AnimatedFloatingButton extends StatelessWidget {
     this.callback,
     this.label,
     this.child,
+    this.dialKey,
     this.dialRoot,
     this.useInkWell = false,
     this.backgroundColor,
@@ -40,67 +42,45 @@ class AnimatedFloatingButton extends StatelessWidget {
   Widget build(BuildContext context) {
     var margin = visible ? 0.0 : 28.0;
 
-    return Container(
-      constraints: BoxConstraints(
-        minHeight: 0.0,
-        minWidth: 0.0,
-      ),
-      height: size,
-      child: AnimatedContainer(
-        curve: curve,
-        margin: EdgeInsets.all(margin),
-        duration: Duration(milliseconds: 150),
-        height: visible ? size : 0.0,
-        child: useGestureOrInkWell(
-          onLongPress: onLongPress,
-          onTap: dialRoot != null ? callback : null,
-          child: dialRoot != null
-              ? dialRoot
-              : label != null
-                  ? FloatingActionButton.extended(
-                      key: key,
-                      icon: visible ? child : null,
-                      shape: shape == CircleBorder() ? StadiumBorder() : shape,
-                      label: visible
-                          ? label ?? const SizedBox.shrink()
-                          : const SizedBox.shrink(),
-                      backgroundColor: backgroundColor,
-                      foregroundColor: foregroundColor,
-                      onPressed: callback,
-                      tooltip: tooltip,
-                      heroTag: heroTag,
-                      elevation: elevation,
-                      highlightElevation: elevation,
-                    )
-                  : FloatingActionButton(
-                      key: key,
-                      child: visible ? child : null,
-                      backgroundColor: backgroundColor,
-                      foregroundColor: foregroundColor,
-                      onPressed: callback,
-                      tooltip: tooltip,
-                      heroTag: heroTag,
-                      elevation: elevation,
-                      highlightElevation: elevation,
-                      shape: shape,
-                    ),
-        ),
+    return AnimatedContainer(
+      curve: curve,
+      margin: EdgeInsets.all(margin),
+      duration: Duration(milliseconds: 150),
+      height: visible ? size : 0.0,
+      child: GestureDetector(
+        onLongPress: onLongPress,
+        onTap: dialRoot != null ? callback : null,
+        child: dialRoot != null
+            ? dialRoot
+            : label != null
+                ? FloatingActionButton.extended(
+                    key: dialKey,
+                    icon: visible ? child : null,
+                    shape: shape == CircleBorder() ? StadiumBorder() : shape,
+                    label: visible
+                        ? label ?? const SizedBox.shrink()
+                        : const SizedBox.shrink(),
+                    backgroundColor: backgroundColor,
+                    foregroundColor: foregroundColor,
+                    onPressed: callback,
+                    tooltip: tooltip,
+                    heroTag: heroTag,
+                    elevation: elevation,
+                    highlightElevation: elevation,
+                  )
+                : FloatingActionButton(
+                    key: dialKey,
+                    child: visible ? child : null,
+                    backgroundColor: backgroundColor,
+                    foregroundColor: foregroundColor,
+                    onPressed: callback,
+                    tooltip: tooltip,
+                    heroTag: heroTag,
+                    elevation: elevation,
+                    highlightElevation: elevation,
+                    shape: shape,
+                  ),
       ),
     );
-  }
-
-  Widget useGestureOrInkWell(
-      {Function? onTap, Function? onLongPress, Widget? child}) {
-    return useInkWell
-        ? InkWell(
-            onLongPress: onLongPress as void Function()?,
-            onTap: onTap as void Function()?,
-            child: child,
-          )
-        : GestureDetector(
-            onLongPress: onLongPress as void Function()?,
-            onTap: onTap as void Function()?,
-            child: child,
-          );
   }
 }

@@ -24,8 +24,6 @@ class AnimatedChild extends AnimatedWidget {
 
   final double? childMarginBottom;
   final double? childMarginTop;
-  final double _paddingPercent = 0.125;
-  final bool useInkWell;
 
   AnimatedChild({
     this.key,
@@ -36,7 +34,6 @@ class AnimatedChild extends AnimatedWidget {
     this.elevation = 6.0,
     this.buttonSize = 56.0,
     this.child,
-    this.useInkWell = false,
     this.label,
     this.labelStyle,
     this.labelBackgroundColor,
@@ -53,29 +50,21 @@ class AnimatedChild extends AnimatedWidget {
   }) : super(listenable: animation);
 
   Widget buildLabel() {
-    final Animation<double> animation = listenable as Animation<double>;
-
-    if (!((label != null || labelWidget != null) &&
-        visible &&
-        animation.value == buttonSize)) {
-      return Container();
-    }
-
     if (labelWidget != null) {
-      return useGestureOrInkWell(
+      return GestureDetector(
         onTap: _performAction,
         onLongPress: _performLongAction,
         child: labelWidget,
       );
     }
 
-    return useGestureOrInkWell(
+    return GestureDetector(
       onTap: _performAction,
       onLongPress: _performLongAction,
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 8.0),
         margin: EdgeInsetsDirectional.fromSTEB(
-            0, childMarginTop!, 18.0, childMarginBottom!),
+            20.0, childMarginTop!, 15.0, childMarginBottom!),
         decoration: BoxDecoration(
           color: labelBackgroundColor ??
               (dark! ? Colors.grey[800] : Colors.grey[50]),
@@ -108,70 +97,37 @@ class AnimatedChild extends AnimatedWidget {
   Widget build(BuildContext context) {
     final Animation<double> animation = listenable as Animation<double>;
 
-    final Widget buttonChild =
-        animation.value > buttonSize * 0.9 && child != null
-            ? Container(
-                width: animation.value,
-                height: animation.value,
-                child: child,
-              )
-            : Container(
-                width: 0.0,
-                height: 0.0,
-              );
+    Widget button = ScaleTransition(
+        scale: animation,
+        child: FloatingActionButton(
+          key: key,
+          heroTag: heroTag,
+          onPressed: _performAction,
+          backgroundColor:
+              backgroundColor ?? (dark! ? Colors.grey[800] : Colors.grey[50]),
+          foregroundColor:
+              foregroundColor ?? (dark! ? Colors.white : Colors.black),
+          elevation: elevation ?? 6.0,
+          child: child,
+          shape: shape,
+        ));
 
-    FloatingActionButton button = FloatingActionButton(
-      key: key,
-      heroTag: heroTag,
-      onPressed: _performAction,
-      backgroundColor:
-          backgroundColor ?? (dark! ? Colors.grey[800] : Colors.grey[50]),
-      foregroundColor: foregroundColor ?? (dark! ? Colors.white : Colors.black),
-      elevation: elevation ?? 6.0,
-      child: buttonChild,
-      shape: shape,
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        ScaleTransition(scale: animation, child: buildLabel()),
+        Container(
+          padding: EdgeInsets.symmetric(vertical: 5),
+          height: buttonSize,
+          width: buttonSize,
+          child: (onLongPress == null)
+              ? button
+              : GestureDetector(
+                  onLongPress: _performLongAction,
+                  child: button,
+                ),
+        )
+      ],
     );
-
-    return Container(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: <Widget>[
-          buildLabel(),
-          Container(
-            width: buttonSize,
-            height: animation.value,
-            padding: EdgeInsets.only(bottom: buttonSize - animation.value),
-            child: Container(
-              height: buttonSize,
-              width: animation.value,
-              padding: EdgeInsets.only(
-                left: _paddingPercent *
-                    buttonSize, // This will give relative padding size
-                right: _paddingPercent * buttonSize,
-              ),
-              child: (onLongPress == null)
-                  ? button
-                  : useGestureOrInkWell(
-                      onLongPress: _performLongAction,
-                      child: button,
-                    ),
-            ),
-          )
-        ],
-      ),
-    );
-  }
-
-  Widget useGestureOrInkWell(
-      {Function? onTap, Function? onLongPress, Widget? child}) {
-    return useInkWell
-        ? InkWell(
-            onLongPress: onLongPress as void Function()?,
-            child: child,
-          )
-        : GestureDetector(
-            onLongPress: onLongPress as void Function()?,
-            child: child,
-          );
   }
 }
