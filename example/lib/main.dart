@@ -40,14 +40,16 @@ class _MyHomePageState extends State<MyHomePage> {
   var switchLabelPosition = false;
   var isDialOpen = ValueNotifier<bool>(false);
   var speedDialDirection = SpeedDialDirection.Up;
-  var selectedfABLocation = FloatingActionButtonLocation.endFloat;
+  var selectedfABLocation = FloatingActionButtonLocation.endDocked;
   var items = [
-    FloatingActionButtonLocation.endFloat,
-    FloatingActionButtonLocation.centerFloat,
     FloatingActionButtonLocation.startFloat,
+    FloatingActionButtonLocation.startDocked,
+    FloatingActionButtonLocation.centerFloat,
+    FloatingActionButtonLocation.endFloat,
+    FloatingActionButtonLocation.endDocked,
     FloatingActionButtonLocation.startTop,
+    FloatingActionButtonLocation.centerTop,
     FloatingActionButtonLocation.endTop,
-    FloatingActionButtonLocation.centerTop
   ];
   @override
   Widget build(BuildContext context) {
@@ -132,11 +134,11 @@ class _MyHomePageState extends State<MyHomePage> {
                           speedDialDirection = sdo!;
                           selectedfABLocation = (sdo.value == "Up" ||
                                   sdo.value == "Left")
-                              ? FloatingActionButtonLocation.endFloat
+                              ? FloatingActionButtonLocation.endDocked
                               : (sdo.value == "Down")
                                   ? FloatingActionButtonLocation.endTop
                                   : sdo.value == "Right"
-                                      ? FloatingActionButtonLocation.startTop
+                                      ? FloatingActionButtonLocation.startDocked
                                       : selectedfABLocation;
                         });
                       },
@@ -187,75 +189,38 @@ class _MyHomePageState extends State<MyHomePage> {
                     switchLabelPosition = val;
                   });
                 }),
-            SizedBox(height: 20),
-            Row(
-              children: [
-                Expanded(
-                  child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 15),
-                      child: ElevatedButton(
-                          onPressed: () {
-                            widget.theme.value = widget.theme.value.index == 2
-                                ? ThemeMode.light
-                                : ThemeMode.dark;
-                          },
-                          style: ElevatedButton.styleFrom(
-                            padding: EdgeInsets.all(20),
-                          ),
-                          child: Text("Toggle Theme"))),
-                ),
-                Expanded(
-                  child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 15),
-                      child: ValueListenableBuilder<bool>(
-                          valueListenable: isDialOpen,
-                          builder: (context, value, child) => ElevatedButton(
-                              onPressed: () {
-                                isDialOpen.value = !isDialOpen.value;
-                              },
-                              style: ElevatedButton.styleFrom(
-                                padding: EdgeInsets.all(20),
-                              ),
-                              child: Text(
-                                  "${!value ? "Open" : "Close"} Speed Dial")))),
-                ),
-              ],
-            ),
           ]),
         ),
         floatingActionButtonLocation: selectedfABLocation,
         floatingActionButton: SpeedDial(
-          /// both default to 16
-          marginEnd: 18,
-          marginBottom: 20,
           // animatedIcon: AnimatedIcons.menu_close,
           // animatedIconTheme: IconThemeData(size: 22.0),
           /// This is ignored if animatedIcon is non null
+          // child: Text(
+          //   "ih",
+          //   style: TextStyle(color: Colors.grey),
+          // ),
+          // activeChild: Text("hi"),
           icon: Icons.add,
           activeIcon: Icons.close,
           openCloseDial: isDialOpen,
           // dialRoot: (ctx, open, key, toggleChildren, layerLink) {
-          //   return Stack(
-          //     children: [
-          //       Positioned(
-          //           bottom: 10,
-          //           left: 150,
-          //           child: CompositedTransformTarget(
-          //             link: LayerLink(),
-          //             child: TextButton(
-          //               onPressed: toggleChildren,
-          //               child: Text("Test"),
-          //               key: key,
-          //             ),
-          //           )),
-          //     ],
+          //   return CompositedTransformTarget(
+          //     link: LayerLink(),
+          //     child: TextButton(
+          //       onPressed: toggleChildren,
+          //       child: Text("Test"),
+          //       key: key,
+          //     ),
           //   );
           // },
           // iconTheme: IconThemeData(color: Colors.grey[50], size: 30),
           /// The label of the main button.
           // label: Text("Open Speed Dial"),
+
           /// The active label of the main button, Defaults to label if not specified.
           // activeLabel: Text("Close Speed Dial"),
+
           /// Transition Builder between label and activeLabel, defaults to FadeTransition.
           // labelTransitionBuilder: (widget, animation) => ScaleTransition(scale: animation,child: widget),
           /// The below button size defaults to 56 itself, its the FAB size + It also affects relative padding and other elements
@@ -291,7 +256,7 @@ class _MyHomePageState extends State<MyHomePage> {
               backgroundColor: Colors.red,
               foregroundColor: Colors.white,
               label: 'First',
-              onTap: () => print("Hi"),
+              onTap: () => print("FIRST CHILD"),
             ),
             SpeedDialChild(
               child: Icon(Icons.brush),
@@ -309,6 +274,32 @@ class _MyHomePageState extends State<MyHomePage> {
               onLongPress: () => print('THIRD CHILD LONG PRESS'),
             ),
           ],
+        ),
+        bottomNavigationBar: BottomAppBar(
+          shape: CircularNotchedRectangle(),
+          notchMargin: 8.0,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              IconButton(
+                icon: Icon(Icons.nightlight_round),
+                tooltip: "Switch Theme",
+                onPressed: () => {
+                  widget.theme.value = widget.theme.value.index == 2
+                      ? ThemeMode.light
+                      : ThemeMode.dark
+                },
+              ),
+              ValueListenableBuilder<bool>(
+                  valueListenable: isDialOpen,
+                  builder: (ctx, value, _) => IconButton(
+                        icon: Icon(Icons.open_in_browser),
+                        tooltip: (!value ? "Open" : "Close") + " Speed Dial",
+                        onPressed: () => {isDialOpen.value = !isDialOpen.value},
+                      ))
+            ],
+          ),
         ),
       ),
     );

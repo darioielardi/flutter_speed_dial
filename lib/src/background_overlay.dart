@@ -33,8 +33,7 @@ class BackgroundOverlay extends AnimatedWidget {
                 color: color, backgroundBlendMode: BlendMode.dstOut),
           ),
           Positioned(
-            left: 0,
-            top: 0,
+            width: dialKey.globalPaintBounds!.size.width,
             child: CompositedTransformFollower(
               link: layerLink,
               showWhenUnlinked: false,

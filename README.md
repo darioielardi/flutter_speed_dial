@@ -1,16 +1,14 @@
-# Flutter Speed Dial - REBOOT
+# Flutter Speed Dial - Ultimate Edition
 
 Flutter package to render a [Material Design Speed Dial](https://material.io/design/components/buttons-floating-action-button.html#types-of-transitions).
 
-![Flutter Speed Dial](https://media.giphy.com/media/ef4BpmetvvH9BdQC9t/giphy.gif)
+![Flutter Speed Dial](https://media.giphy.com/media/LR9S0lMOt8U3NAGUOi/giphy.gif)
 
 ## Usage
 
-See [Example Code](example/lib/main.dart) or [Example Usage](#Example-Usage) for more info.
-
 The SpeedDial widget is built to be placed in the `Scaffold.floatingActionButton` argument, replacing the `FloatingActionButton` widget.
-It's not possible to set its position with the `Scaffold.floatingActionButtonLocation` argument, but it's possible to set right/bottom margin with the `marginEnd` and `marginBottom` arguments (default to 16) to place the button anywhere in the screen.
-Using the `Scaffold.bottomNavigationBar` the floating button will be always placed above the bar, so the `BottomAppBar.hasNotch` should be always `false`.
+You can set its position using `Scaffold.floatingActionButtonLocation` argument.
+It can also be used with `Scaffold.bottomNavigationBar` and `Snackbar`.
 
 **Nullsafety** is availabile from version **3.0.5** *( It is also backward compatible,  meaning you can use it with not null safe code too )*
 
@@ -18,7 +16,7 @@ Using the `Scaffold.bottomNavigationBar` the floating button will be always plac
 
 SpeedDial and its child all have `label`. SpeedDial takes any Widget as `label`. It also have `activeLabel` property by which you can specify the label which is shown when SpeedDial is open. It also comes with its labelTransitionBuilder which defaults to fade transition.
 
-Also Every child button have `label` property which accepts `String` which can be styled by using `labelStyle`. 
+Also Every child button have `label` property which accepts `String` which can be styled by using `labelStyle`. If you want to specify a widget then you can use labelWidget.
 If the `label` parameter is not provided the label will be not rendered.
 
 **Animated Icon**
@@ -70,77 +68,7 @@ WillPopScope(
 
 ### Example Usage
 
-```dart
-Widget build(BuildContext context) {
-  return Scaffold(
-    floatingActionButton: SpeedDial(
-      /// both default to 16
-      marginEnd: 18,
-      marginBottom: 20,
-      // animatedIcon: AnimatedIcons.menu_close,
-      // animatedIconTheme: IconThemeData(size: 22.0),
-      /// This is ignored if animatedIcon is non null
-      icon: Icons.add,
-      activeIcon: Icons.remove,
-      // iconTheme: IconThemeData(color: Colors.grey[50], size: 30),
-      /// The label of the main button.
-      // label: Text("Open Speed Dial"),
-      /// The active label of the main button, Defaults to label if not specified.
-      // activeLabel: Text("Close Speed Dial"),
-      /// Transition Builder between label and activeLabel, defaults to FadeTransition.
-      // labelTransitionBuilder: (widget, animation) => ScaleTransition(scale: animation,child: widget),
-      /// The below button size defaults to 56 itself, its the FAB size + It also affects relative padding and other elements
-      buttonSize: 56.0,
-      visible: true,
-      /// If true user is forced to close dial manually 
-      /// by tapping main button and overlay is not rendered.
-      closeManually: false,
-      /// If true overlay will render no matter what.
-      renderOverlay: false,
-      curve: Curves.bounceIn,
-      overlayColor: Colors.black,
-      overlayOpacity: 0.5,
-      onOpen: () => print('OPENING DIAL'),
-      onClose: () => print('DIAL CLOSED'),
-      tooltip: 'Speed Dial',
-      heroTag: 'speed-dial-hero-tag',
-      backgroundColor: Colors.white,
-      foregroundColor: Colors.black,
-      elevation: 8.0,
-      shape: CircleBorder(),
-      // orientation: SpeedDialOrientation.Up,
-      // childMarginBottom: 2,
-      // childMarginTop: 2,
-      children: [
-        SpeedDialChild(
-          child: Icon(Icons.accessibility),
-          backgroundColor: Colors.red,
-          label: 'First',
-          labelStyle: TextStyle(fontSize: 18.0),
-          onTap: () => print('FIRST CHILD'),
-          onLongPress: () => print('FIRST CHILD LONG PRESS'),
-        ),
-        SpeedDialChild(
-          child: Icon(Icons.brush),
-          backgroundColor: Colors.blue,
-          label: 'Second',
-          labelStyle: TextStyle(fontSize: 18.0),
-          onTap: () => print('SECOND CHILD'),
-          onLongPress: () => print('SECOND CHILD LONG PRESS'),
-        ),
-        SpeedDialChild(
-          child: Icon(Icons.keyboard_voice),
-          backgroundColor: Colors.green,
-          label: 'Third',
-          labelStyle: TextStyle(fontSize: 18.0),
-          onTap: () => print('THIRD CHILD'),
-          onLongPress: () => print('THIRD CHILD LONG PRESS'),
-        ),
-      ],
-    ),
-  );
-}
-```
+See [Example Code](example/lib/main.dart) for more info.
 
 ## Issues & Feedback
 

@@ -40,22 +40,19 @@ class AnimatedFloatingButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var margin = visible ? 0.0 : 28.0;
-
     return AnimatedContainer(
       curve: curve,
-      margin: EdgeInsets.all(margin),
       duration: Duration(milliseconds: 150),
       height: visible ? size : 0.0,
       child: GestureDetector(
         onLongPress: onLongPress,
-        child: dialRoot != null
+        child: dialRoot != null && !(dialRoot! is Container)
             ? dialRoot
             : label != null
                 ? FloatingActionButton.extended(
                     key: dialKey,
                     icon: visible ? child : null,
-                    shape: shape == CircleBorder() ? StadiumBorder() : shape,
+                    shape: shape is CircleBorder ? StadiumBorder() : shape,
                     label: visible
                         ? label ?? const SizedBox.shrink()
                         : const SizedBox.shrink(),

@@ -55,6 +55,8 @@ class AnimatedChild extends AnimatedWidget {
   }) : super(listenable: animation);
 
   Widget buildLabel() {
+    if (label == null && labelWidget == null) return Container();
+
     if (labelWidget != null) {
       return GestureDetector(
         onTap: _performAction,
@@ -118,7 +120,8 @@ class AnimatedChild extends AnimatedWidget {
         ));
 
     List<Widget> children = [
-      ScaleTransition(scale: animation, child: buildLabel()),
+      if (label != null || labelWidget != null)
+        ScaleTransition(scale: animation, child: buildLabel()),
       Container(
         padding: EdgeInsets.symmetric(vertical: 5),
         height: buttonSize,
