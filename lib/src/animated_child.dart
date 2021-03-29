@@ -121,18 +121,25 @@ class AnimatedChild extends AnimatedWidget {
 
     List<Widget> children = [
       if (label != null || labelWidget != null)
-        ScaleTransition(scale: animation, child: buildLabel()),
-      Container(
-        padding: EdgeInsets.symmetric(vertical: 5),
-        height: buttonSize,
-        width: buttonSize,
-        child: (onLongPress == null)
-            ? button
-            : GestureDetector(
-                onLongPress: _performLongAction,
-                child: button,
-              ),
-      )
+        ScaleTransition(
+          scale: animation,
+          child: Container(
+            padding: (child == null) ? EdgeInsets.symmetric(vertical: 8) : null,
+            child: buildLabel(),
+          ),
+        ),
+      if (child != null)
+        Container(
+          padding: EdgeInsets.symmetric(vertical: 5),
+          height: buttonSize,
+          width: buttonSize,
+          child: (onLongPress == null)
+              ? button
+              : GestureDetector(
+                  onLongPress: _performLongAction,
+                  child: button,
+                ),
+        )
     ];
 
     return buildColumnOrRow(

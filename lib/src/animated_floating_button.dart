@@ -44,38 +44,40 @@ class AnimatedFloatingButton extends StatelessWidget {
       curve: curve,
       duration: Duration(milliseconds: 150),
       height: visible ? size : 0.0,
-      child: GestureDetector(
-        onLongPress: onLongPress,
-        child: dialRoot != null && !(dialRoot! is Container)
-            ? dialRoot
-            : label != null
-                ? FloatingActionButton.extended(
-                    key: dialKey,
-                    icon: visible ? child : null,
-                    shape: shape is CircleBorder ? StadiumBorder() : shape,
-                    label: visible
-                        ? label ?? const SizedBox.shrink()
-                        : const SizedBox.shrink(),
-                    backgroundColor: backgroundColor,
-                    foregroundColor: foregroundColor,
-                    onPressed: callback,
-                    tooltip: tooltip,
-                    heroTag: heroTag,
-                    elevation: elevation,
-                    highlightElevation: elevation,
-                  )
-                : FloatingActionButton(
-                    key: dialKey,
-                    child: visible ? child : null,
-                    backgroundColor: backgroundColor,
-                    foregroundColor: foregroundColor,
-                    onPressed: callback,
-                    tooltip: tooltip,
-                    heroTag: heroTag,
-                    elevation: elevation,
-                    highlightElevation: elevation,
-                    shape: shape,
-                  ),
+      child: Container(
+        height: size,
+        key: dialKey,
+        child: FittedBox(
+          child: GestureDetector(
+            onLongPress: onLongPress,
+            child: dialRoot != null && !(dialRoot! is Container)
+                ? dialRoot
+                : label != null
+                    ? FloatingActionButton.extended(
+                        icon: visible ? child : null,
+                        shape: shape is CircleBorder ? StadiumBorder() : shape,
+                        label: visible ? label! : SizedBox.shrink(),
+                        backgroundColor: backgroundColor,
+                        foregroundColor: foregroundColor,
+                        onPressed: callback,
+                        tooltip: tooltip,
+                        heroTag: heroTag,
+                        elevation: elevation,
+                        highlightElevation: elevation,
+                      )
+                    : FloatingActionButton(
+                        child: visible ? child : null,
+                        backgroundColor: backgroundColor,
+                        foregroundColor: foregroundColor,
+                        onPressed: callback,
+                        tooltip: tooltip,
+                        heroTag: heroTag,
+                        elevation: elevation,
+                        highlightElevation: elevation,
+                        shape: shape,
+                      ),
+          ),
+        ),
       ),
     );
   }

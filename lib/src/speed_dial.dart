@@ -27,6 +27,7 @@ class SpeedDial extends StatefulWidget {
   final Color? activeForegroundColor;
   final double elevation;
   final double buttonSize;
+  final double childrenButtonSize;
   final ShapeBorder shape;
   final Gradient? gradient;
   final BoxShape gradientBoxShape;
@@ -123,6 +124,7 @@ class SpeedDial extends StatefulWidget {
     this.gradientBoxShape = BoxShape.rectangle,
     this.elevation = 6.0,
     this.buttonSize = 56.0,
+    this.childrenButtonSize = 56.0,
     this.dialRoot,
     this.overlayOpacity = 0.8,
     this.overlayColor,
@@ -252,7 +254,7 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
             backgroundColor: child.backgroundColor,
             foregroundColor: child.foregroundColor,
             elevation: child.elevation,
-            buttonSize: widget.buttonSize,
+            buttonSize: widget.childrenButtonSize,
             child: child.child,
             label: child.label,
             labelStyle: child.labelStyle,
@@ -338,19 +340,20 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
                   )),
                 ],
               ));
-      backgroundOverlay = OverlayEntry(
-          builder: (ctx) => GestureDetector(
-              onTap: (_open) ? _toggleChildren : null,
-              child: BackgroundOverlay(
-                dialKey: dialKey,
-                isDark: _dark,
-                layerLink: _layerLink,
-                animation: _controller,
-                color: widget.overlayColor ??
-                    (_dark ? Colors.grey[900] : Colors.white)!,
-                opacity: widget.overlayOpacity,
-              )));
-
+      if (widget.renderOverlay) {
+        backgroundOverlay = OverlayEntry(
+            builder: (ctx) => GestureDetector(
+                onTap:
+                    (_open && !widget.closeManually) ? _toggleChildren : null,
+                child: BackgroundOverlay(
+                  dialKey: dialKey,
+                  layerLink: _layerLink,
+                  animation: _controller,
+                  color: widget.overlayColor ??
+                      (_dark ? Colors.grey[900] : Colors.white)!,
+                  opacity: widget.overlayOpacity,
+                )));
+      }
       if (!mounted) return;
 
       _controller.addListener(() {
@@ -371,8 +374,6 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
   Widget _renderButton() {
     var child = widget.animatedIcon != null
         ? Container(
-            width: widget.buttonSize,
-            height: widget.buttonSize,
             child: Center(
               child: AnimatedIcon(
                 icon: widget.animatedIcon!,
@@ -390,21 +391,23 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
             animation: _controller,
             builder: (BuildContext context, Widget? _widget) =>
                 Transform.rotate(
-              angle: (widget.activeChild != null || widget.activeIcon != null)
-                  ? _controller.value * pi / 2
-                  : 0,
+              angle:
+                  (widget.activeChild != null || widget.activeIcon != null) &&
+                          widget.useRotationAnimation
+                      ? _controller.value * pi / 2
+                      : 0,
               child: AnimatedSwitcher(
                   duration: Duration(milliseconds: widget.animationSpeed),
                   child: (widget.child != null && _controller.value < 0.4)
                       ? widget.child
                       : (widget.activeChild != null && _controller.value > 0.4)
                           ? Transform.rotate(
-                              angle: -pi * 1 / 2, child: widget.activeChild)
+                              angle:
+                                  widget.useRotationAnimation ? -pi * 1 / 2 : 0,
+                              child: widget.activeChild)
                           : (widget.activeIcon == null ||
                                   _controller.value < 0.4)
                               ? Container(
-                                  width: widget.buttonSize,
-                                  height: widget.buttonSize,
                                   child: Center(
                                     child: Icon(
                                       widget.icon,
@@ -419,10 +422,10 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
                                   ),
                                 )
                               : Transform.rotate(
-                                  angle: -pi * 1 / 2,
+                                  angle: widget.useRotationAnimation
+                                      ? -pi * 1 / 2
+                                      : 0,
                                   child: Container(
-                                    width: widget.buttonSize,
-                                    height: widget.buttonSize,
                                     child: Center(
                                       child: Icon(
                                         widget.activeIcon,
@@ -466,36 +469,33 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
 
     var animatedFloatingButton = AnimatedBuilder(
       animation: _controller,
-      builder: (context, _) => CompositedTransformTarget(
+      child: AnimatedFloatingButton(
+        dialKey: dialKey,
+        visible: widget.visible,
+        tooltip: widget.tooltip,
+        dialRoot: widget.dialRoot != null
+            ? widget.dialRoot!(
+                context, _open, dialKey, _toggleChildren, _layerLink)
+            : null,
+        backgroundColor: backgroundColorTween.lerp(_controller.value),
+        foregroundColor: foregroundColorTween.lerp(_controller.value),
+        elevation: widget.elevation,
+        onLongPress: _toggleChildren,
+        callback: (_open || widget.onPress == null)
+            ? _toggleChildren
+            : widget.onPress,
+        size: widget.buttonSize,
+        label: widget.label != null ? label : null,
+        child: child,
+        heroTag: widget.heroTag,
+        shape: widget.shape,
+      ),
+      builder: (context, child) => CompositedTransformTarget(
           link: widget.dialRoot == null ? _layerLink : LayerLink(),
-          child: AnimatedFloatingButton(
-            dialKey: dialKey,
-            visible: widget.visible,
-            tooltip: widget.tooltip,
-            dialRoot: widget.dialRoot != null
-                ? widget.dialRoot!(
-                    context, _open, dialKey, _toggleChildren, _layerLink)
-                : null,
-            backgroundColor: backgroundColorTween.lerp(_controller.value),
-            foregroundColor: foregroundColorTween.lerp(_controller.value),
-            elevation: widget.elevation,
-            onLongPress: _toggleChildren,
-            callback: (_open || widget.onPress == null)
-                ? _toggleChildren
-                : widget.onPress,
-            size: widget.buttonSize,
-            label: widget.label != null ? label : null,
-            child: child,
-            heroTag: widget.heroTag,
-            shape: widget.shape,
-            curve: widget.curve,
-          )),
+          child: child),
     );
 
-    return Container(
-      margin: EdgeInsetsDirectional.only(top: 8.0),
-      child: animatedFloatingButton,
-    );
+    return animatedFloatingButton;
   }
 
   @override
