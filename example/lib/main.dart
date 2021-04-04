@@ -152,12 +152,28 @@ class _MyHomePageState extends State<MyHomePage> {
                             onChanged: (sdo) {
                               setState(() {
                                 speedDialDirection = sdo!;
-                                selectedfABLocation = (sdo.value == "Up" ||
-                                        sdo.value == "Left")
+                                selectedfABLocation = (sdo.value == "Up" &&
+                                            selectedfABLocation
+                                                .toString()
+                                                .split('.')[1]
+                                                .contains("Top")) ||
+                                        (sdo.value == "Left" &&
+                                            selectedfABLocation
+                                                .toString()
+                                                .split('.')[1]
+                                                .contains("start"))
                                     ? FloatingActionButtonLocation.endDocked
-                                    : (sdo.value == "Down")
+                                    : sdo.value == "Down" &&
+                                            !selectedfABLocation
+                                                .toString()
+                                                .split('.')[1]
+                                                .contains("Top")
                                         ? FloatingActionButtonLocation.endTop
-                                        : sdo.value == "Right"
+                                        : sdo.value == "Right" &&
+                                                selectedfABLocation
+                                                    .toString()
+                                                    .split('.')[1]
+                                                    .contains("end")
                                             ? FloatingActionButtonLocation
                                                 .startDocked
                                             : selectedfABLocation;
@@ -223,7 +239,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   SwitchListTile(
                       contentPadding: EdgeInsets.all(15),
                       value: rmicons,
-                      title: Text("Remove Icons (children)"),
+                      title: Text("Remove Icons (for children)"),
                       onChanged: (val) {
                         setState(() {
                           rmicons = val;
