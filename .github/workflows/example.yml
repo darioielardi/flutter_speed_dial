@@ -1,0 +1,32 @@
+name: ExampleToApk
+
+on: 
+  push: {}
+  pull_request: {}
+  workflow_dispatch: {}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v1
+        with:
+          java-version: '12.x'
+      - uses: subosito/flutter-action@master
+        with:
+          channel: stable
+
+      - name: Get Packages
+        run: flutter pub get
+
+      - name: Build Example App
+        run: cd example && flutter build apk --split-per-abi
+
+      - name: Upload to Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: apk-release
+          path: example/build/app/outputs/apk/release/*-release.apk
+
