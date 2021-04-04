@@ -47,6 +47,7 @@ class _MyHomePageState extends State<MyHomePage> {
   var switchLabelPosition = false;
   var extend = false;
   var rmicons = false;
+  var closeManually = false;
   var useRAnimation = true;
   var isDialOpen = ValueNotifier<bool>(false);
   var speedDialDirection = SpeedDialDirection.Up;
@@ -212,6 +213,15 @@ class _MyHomePageState extends State<MyHomePage> {
                       }),
                   SwitchListTile(
                       contentPadding: EdgeInsets.all(15),
+                      value: closeManually,
+                      title: Text("Close Manually"),
+                      onChanged: (val) {
+                        setState(() {
+                          closeManually = val;
+                        });
+                      }),
+                  SwitchListTile(
+                      contentPadding: EdgeInsets.all(15),
                       value: rmicons,
                       title: Text("Remove Icons (children)"),
                       onChanged: (val) {
@@ -281,7 +291,7 @@ class _MyHomePageState extends State<MyHomePage> {
           switchLabelPosition: switchLabelPosition,
 
           /// If true user is forced to close dial manually
-          // closeManually: true,
+          closeManually: closeManually,
 
           /// If false, backgroundOverlay will not be rendered.
           renderOverlay: renderOverlay,
