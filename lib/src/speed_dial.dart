@@ -116,6 +116,10 @@ class SpeedDial extends StatefulWidget {
   /// and the child.
   final Widget? activeChild;
 
+  /// This is the brigtness (dark/light) of the FAB. If null it will use system
+  /// brightness
+  final Brightness? brightness;
+
   SpeedDial({
     Key? key,
     this.children = const [],
@@ -159,18 +163,19 @@ class SpeedDial extends StatefulWidget {
     this.openCloseDial,
     this.childMarginBottom = 0,
     this.childMarginTop = 0,
+    this.brightness,
   }) : super(key: key);
 
   @override
   _SpeedDialState createState() => _SpeedDialState();
 
-  late bool _dark;
 }
 
 class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
   late AnimationController _controller;
 
   bool _open = false;
+  late bool _dark;
 
   @override
   void initState() {
@@ -260,7 +265,7 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
             key: child.key,
             visible: _open,
             useInkWell: widget.useInkWell,
-            dark: widget._dark,
+            dark: _dark,
             backgroundColor: child.backgroundColor,
             foregroundColor: child.foregroundColor,
             elevation: child.elevation,
@@ -299,7 +304,7 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
         child: BackgroundOverlay(
           animation: _controller,
           color: widget.overlayColor ??
-              (widget._dark ? Colors.grey[900] : Colors.white),
+              (_dark ? Colors.grey[900] : Colors.white),
           opacity: widget.overlayOpacity,
         ),
       ),
@@ -389,9 +394,9 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
     var fabChildren = _getChildrenList();
 
     final backgroundColor = widget.backgroundColor ??
-        (widget._dark ? Colors.grey[800] : Colors.grey[50]);
+        (_dark ? Colors.grey[800] : Colors.grey[50]);
     final foregroundColor =
-        widget.foregroundColor ?? (widget._dark ? Colors.white : Colors.black);
+        widget.foregroundColor ?? (_dark ? Colors.white : Colors.black);
 
     final backgroundColorTween = ColorTween(
         begin: backgroundColor,
@@ -467,7 +472,7 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    widget._dark = MediaQuery.of(context).platformBrightness == Brightness.dark;
+    _dark = (widget.brightness ?? MediaQuery.of(context).platformBrightness) == Brightness.dark;
     final children = [
       if ((!widget.closeManually || widget.renderOverlay) &&
           widget.children.length > 0)
