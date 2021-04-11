@@ -46,7 +46,7 @@ class AnimatedFloatingButton extends StatelessWidget {
       height: visible ? size : 0.0,
       child: Container(
         height: size,
-        key: dialKey,
+        key: dialRoot == null ? dialKey : GlobalKey(),
         child: FittedBox(
           child: GestureDetector(
             onLongPress: onLongPress,

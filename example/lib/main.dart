@@ -47,6 +47,7 @@ class _MyHomePageState extends State<MyHomePage> {
   var switchLabelPosition = false;
   var extend = false;
   var rmicons = false;
+  var customDialRoot = false;
   var closeManually = false;
   var useRAnimation = true;
   var isDialOpen = ValueNotifier<bool>(false);
@@ -220,6 +221,15 @@ class _MyHomePageState extends State<MyHomePage> {
                       }),
                   SwitchListTile(
                       contentPadding: EdgeInsets.all(15),
+                      value: customDialRoot,
+                      title: Text("Custom dialRoot"),
+                      onChanged: (val) {
+                        setState(() {
+                          customDialRoot = val;
+                        });
+                      }),
+                  SwitchListTile(
+                      contentPadding: EdgeInsets.all(15),
                       value: renderOverlay,
                       title: Text("Render Overlay"),
                       onChanged: (val) {
@@ -279,16 +289,19 @@ class _MyHomePageState extends State<MyHomePage> {
           icon: Icons.add,
           activeIcon: Icons.close,
           openCloseDial: isDialOpen,
-          // dialRoot: (ctx, open, key, toggleChildren, layerLink) {
-          //   return CompositedTransformTarget(
-          //     link: LayerLink(),
-          //     child: TextButton(
-          //       onPressed: toggleChildren,
-          //       child: Text("Test"),
-          //       key: key,
-          //     ),
-          //   );
-          // },
+          dialRoot: customDialRoot
+              ? (ctx, open, key, toggleChildren, layerLink) {
+                  return CompositedTransformTarget(
+                    link: layerLink,
+                    child: TextButton(
+                      key: key,
+                      onPressed: toggleChildren,
+                      child: Text("Text Button"),
+                    ),
+                  );
+                }
+              : null,
+          buttonSize: customDialRoot ? 30 : 56,
           // iconTheme: IconThemeData(size: 22),
 
           /// The label of the main button.
@@ -319,8 +332,10 @@ class _MyHomePageState extends State<MyHomePage> {
           useRotationAnimation: useRAnimation,
           tooltip: 'Open Speed Dial',
           heroTag: 'speed-dial-hero-tag',
-          // activeForegroundColor: Colors.white,
-          // activeBackgroundColor: Colors.black,
+          // foregroundColor: Colors.black,
+          // backgroundColor: Colors.white,
+          // activeForegroundColor: Colors.red,
+          // activeBackgroundColor: Colors.blue,
           elevation: 8.0,
           shape: CircleBorder(),
           // childMarginBottom: 2,

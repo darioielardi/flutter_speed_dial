@@ -342,17 +342,16 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
               ));
       if (widget.renderOverlay) {
         backgroundOverlay = OverlayEntry(
-            builder: (ctx) => GestureDetector(
-                onTap:
-                    (_open && !widget.closeManually) ? _toggleChildren : null,
-                child: BackgroundOverlay(
+            builder: (ctx) => BackgroundOverlay(
                   dialKey: dialKey,
                   layerLink: _layerLink,
+                  onTap:
+                      (_open && !widget.closeManually) ? _toggleChildren : null,
                   animation: _controller,
                   color: widget.overlayColor ??
                       (_dark ? Colors.grey[900] : Colors.white)!,
                   opacity: widget.overlayOpacity,
-                )));
+                ));
       }
       if (!mounted) return;
 
@@ -455,17 +454,12 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
           : widget.activeLabel,
     );
 
-    final backgroundColor =
-        widget.backgroundColor ?? (_dark ? Colors.grey[800] : Colors.grey[100]);
-    final foregroundColor =
-        widget.foregroundColor ?? (_dark ? Colors.white : Colors.black);
-
     final backgroundColorTween = ColorTween(
-        begin: backgroundColor,
-        end: widget.activeBackgroundColor ?? backgroundColor);
+        begin: widget.backgroundColor,
+        end: widget.activeBackgroundColor ?? widget.backgroundColor);
     final foregroundColorTween = ColorTween(
-        begin: foregroundColor,
-        end: widget.activeForegroundColor ?? foregroundColor);
+        begin: widget.foregroundColor,
+        end: widget.activeForegroundColor ?? widget.foregroundColor);
 
     var animatedFloatingButton = AnimatedBuilder(
       animation: _controller,
@@ -477,8 +471,12 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
             ? widget.dialRoot!(
                 context, _open, dialKey, _toggleChildren, _layerLink)
             : null,
-        backgroundColor: backgroundColorTween.lerp(_controller.value),
-        foregroundColor: foregroundColorTween.lerp(_controller.value),
+        backgroundColor: widget.backgroundColor != null
+            ? backgroundColorTween.lerp(_controller.value)
+            : null,
+        foregroundColor: widget.foregroundColor != null
+            ? foregroundColorTween.lerp(_controller.value)
+            : null,
         elevation: widget.elevation,
         onLongPress: _toggleChildren,
         callback: (_open || widget.onPress == null)

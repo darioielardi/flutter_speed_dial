@@ -1,7 +1,6 @@
 library flutter_speed_dial;
 
 import 'package:flutter/material.dart';
-import 'package:flutter_speed_dial/src/custom_hole_clipper.dart';
 import 'global_key_extension.dart';
 
 class BackgroundOverlay extends AnimatedWidget {
@@ -9,9 +8,11 @@ class BackgroundOverlay extends AnimatedWidget {
   final double opacity;
   final GlobalKey dialKey;
   final LayerLink layerLink;
+  final VoidCallback? onTap;
 
   BackgroundOverlay({
     Key? key,
+    this.onTap,
     required Animation<double> animation,
     required this.dialKey,
     required this.layerLink,
@@ -21,19 +22,38 @@ class BackgroundOverlay extends AnimatedWidget {
 
   Widget build(BuildContext context) {
     final Animation<double> animation = listenable as Animation<double>;
-    return Opacity(
-      opacity: opacity * animation.value,
-          child: ClipPath(
-      clipper: InvertedClipper(
-        width: dialKey.globalPaintBounds!.size.width, 
-        height: dialKey.globalPaintBounds!.size.height,
-        dy: dialKey.offset.dy,
-        dx: dialKey.offset.dx),
-        child: Container(
-              color: color,
-        ),
-      ),
-          
-    );
+    return ColorFiltered(
+        colorFilter: ColorFilter.mode(
+            color.withOpacity(opacity * animation.value), BlendMode.srcOut),
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            GestureDetector(
+              onTap: onTap,
+              child: Container(
+                decoration: BoxDecoration(
+                    color: color, backgroundBlendMode: BlendMode.dstOut),
+              ),
+            ),
+            Positioned(
+              width: dialKey.globalPaintBounds!.size.width,
+              child: CompositedTransformFollower(
+                link: layerLink,
+                showWhenUnlinked: false,
+                child: IgnorePointer(
+                  ignoring: true,
+                  child: Container(
+                    width: dialKey.globalPaintBounds!.size.width,
+                    height: dialKey.globalPaintBounds!.size.height,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(100),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ));
   }
 }
