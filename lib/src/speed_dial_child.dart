@@ -8,6 +8,9 @@ class SpeedDialChild {
   /// The label to render to the left of the button
   final String? label;
 
+  /// The Shadow for [label] String
+  final List<BoxShadow>? labelShadow;
+
   /// The style of the label
   final TextStyle? labelStyle;
 
@@ -32,6 +35,7 @@ class SpeedDialChild {
     this.labelStyle,
     this.labelBackgroundColor,
     this.labelWidget,
+    this.labelShadow,
     this.child,
     this.backgroundColor,
     this.foregroundColor,

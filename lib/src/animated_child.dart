@@ -8,6 +8,7 @@ class AnimatedChild extends AnimatedWidget {
   final double? elevation;
   final double buttonSize;
   final Widget? child;
+  final List<BoxShadow>? labelShadow;
   final Key? key;
 
   final String? label;
@@ -37,6 +38,7 @@ class AnimatedChild extends AnimatedWidget {
     this.elevation = 6.0,
     this.buttonSize = 56.0,
     this.child,
+    this.labelShadow,
     this.label,
     this.labelStyle,
     this.labelBackgroundColor,
@@ -76,15 +78,16 @@ class AnimatedChild extends AnimatedWidget {
           color: labelBackgroundColor ??
               (dark! ? Colors.grey[800] : Colors.grey[50]),
           borderRadius: BorderRadius.all(Radius.circular(6.0)),
-          boxShadow: [
-            BoxShadow(
-              color: dark!
-                  ? Colors.grey[900]!.withOpacity(0.7)
-                  : Colors.grey.withOpacity(0.7),
-              offset: Offset(0.8, 0.8),
-              blurRadius: 2.4,
-            )
-          ],
+          boxShadow: labelShadow ??
+              [
+                BoxShadow(
+                  color: dark!
+                      ? Colors.grey[900]!.withOpacity(0.7)
+                      : Colors.grey.withOpacity(0.7),
+                  offset: Offset(0.8, 0.8),
+                  blurRadius: 2.4,
+                )
+              ],
         ),
         child: Text(label!, style: labelStyle),
       ),

@@ -110,14 +110,14 @@ class _MyHomePageState extends State<MyHomePage> {
                                 () => selectedfABLocation = fABLocation!),
                             selectedItemBuilder: (BuildContext context) {
                               return items.map<Widget>((item) {
-                                return Text(item.toString().split(".")[1]);
+                                return Text(item.value);
                               }).toList();
                             },
                             items: items.map((item) {
                               return DropdownMenuItem<
                                   FloatingActionButtonLocation>(
                                 child: Text(
-                                  item.toString().split(".")[1],
+                                  item.value,
                                 ),
                                 value: item,
                               );
@@ -154,26 +154,18 @@ class _MyHomePageState extends State<MyHomePage> {
                               setState(() {
                                 speedDialDirection = sdo!;
                                 selectedfABLocation = (sdo.value == "Up" &&
-                                            selectedfABLocation
-                                                .toString()
-                                                .split('.')[1]
+                                            selectedfABLocation.value
                                                 .contains("Top")) ||
                                         (sdo.value == "Left" &&
-                                            selectedfABLocation
-                                                .toString()
-                                                .split('.')[1]
+                                            selectedfABLocation.value
                                                 .contains("start"))
                                     ? FloatingActionButtonLocation.endDocked
                                     : sdo.value == "Down" &&
-                                            !selectedfABLocation
-                                                .toString()
-                                                .split('.')[1]
+                                            !selectedfABLocation.value
                                                 .contains("Top")
                                         ? FloatingActionButtonLocation.endTop
                                         : sdo.value == "Right" &&
-                                                selectedfABLocation
-                                                    .toString()
-                                                    .split('.')[1]
+                                                selectedfABLocation.value
                                                     .contains("end")
                                             ? FloatingActionButtonLocation
                                                 .startDocked
@@ -271,6 +263,23 @@ class _MyHomePageState extends State<MyHomePage> {
                       onChanged: (val) {
                         setState(() {
                           switchLabelPosition = val;
+                          if (val) {
+                            if ((selectedfABLocation.value.contains("end") ||
+                                    selectedfABLocation.value
+                                        .toLowerCase()
+                                        .contains("top")) &&
+                                speedDialDirection.value == "Up")
+                              selectedfABLocation =
+                                  FloatingActionButtonLocation.startDocked;
+                            else if ((selectedfABLocation.value
+                                        .contains("end") ||
+                                    !selectedfABLocation.value
+                                        .toLowerCase()
+                                        .contains("top")) &&
+                                speedDialDirection.value == "Down")
+                              selectedfABLocation =
+                                  FloatingActionButtonLocation.startTop;
+                          }
                         });
                       }),
                 ]),
@@ -350,17 +359,18 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             SpeedDialChild(
               child: !rmicons ? Icon(Icons.brush) : null,
-              backgroundColor: Colors.blue,
+              backgroundColor: Colors.deepOrange,
               foregroundColor: Colors.white,
               label: 'Second',
               onTap: () => print('SECOND CHILD'),
             ),
             SpeedDialChild(
-              child: !rmicons ? Icon(Icons.keyboard_voice) : null,
-              backgroundColor: Colors.green,
+              child: !rmicons ? Icon(Icons.margin) : null,
+              backgroundColor: Colors.indigo,
               foregroundColor: Colors.white,
-              label: 'Third',
-              onTap: () => print('THIRD CHILD'),
+              label: 'Show Snackbar',
+              onTap: () => ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text(("Third Child Pressed")))),
               onLongPress: () => print('THIRD CHILD LONG PRESS'),
             ),
           ],
@@ -399,4 +409,9 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
+}
+
+extension EnumExt on FloatingActionButtonLocation {
+  /// Get Value of The SpeedDialDirection Enum like Up, Down, etc. in String format
+  String get value => this.toString().split(".")[1];
 }

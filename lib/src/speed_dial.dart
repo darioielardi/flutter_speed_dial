@@ -110,7 +110,7 @@ class SpeedDial extends StatefulWidget {
   /// and the child.
   final Widget? activeChild;
 
-  final bool? switchLabelPosition;
+  final bool switchLabelPosition;
 
   SpeedDial({
     Key? key,
@@ -249,7 +249,7 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
             useColumn: widget.direction.value == "Left" ||
                 widget.direction.value == "Right",
             visible: _open,
-            switchLabelPosition: widget.switchLabelPosition!,
+            switchLabelPosition: widget.switchLabelPosition,
             dark: _dark,
             backgroundColor: child.backgroundColor,
             foregroundColor: child.foregroundColor,
@@ -297,19 +297,30 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
                   Positioned(
                       child: CompositedTransformFollower(
                     followerAnchor: widget.direction.value == "Down"
-                        ? Alignment.topRight
+                        ? widget.switchLabelPosition
+                            ? Alignment.topLeft
+                            : Alignment.topRight
                         : widget.direction.value == "Up"
-                            ? Alignment.bottomRight
+                            ? widget.switchLabelPosition
+                                ? Alignment.bottomLeft
+                                : Alignment.bottomRight
                             : widget.direction.value == "Left"
                                 ? Alignment.centerRight
                                 : widget.direction.value == "Right"
                                     ? Alignment.centerLeft
                                     : Alignment.center,
                     offset: widget.direction.value == "Down"
-                        ? Offset(dialKey.globalPaintBounds!.size.width,
+                        ? Offset(
+                            widget.switchLabelPosition
+                                ? 0
+                                : dialKey.globalPaintBounds!.size.width,
                             dialKey.globalPaintBounds!.size.height)
                         : widget.direction.value == "Up"
-                            ? Offset(dialKey.globalPaintBounds!.size.width, 0)
+                            ? Offset(
+                                widget.switchLabelPosition
+                                    ? 0
+                                    : dialKey.globalPaintBounds!.size.width,
+                                0)
                             : widget.direction.value == "Left"
                                 ? Offset(-10.0,
                                     dialKey.globalPaintBounds!.size.height / 2)
@@ -327,7 +338,7 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
                       child: buildColumnOrRow(
                         widget.direction.value == "Up" ||
                             widget.direction.value == "Down",
-                        crossAxisAlignment: widget.switchLabelPosition!
+                        crossAxisAlignment: widget.switchLabelPosition
                             ? CrossAxisAlignment.start
                             : CrossAxisAlignment.end,
                         mainAxisSize: MainAxisSize.min,
