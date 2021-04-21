@@ -2,6 +2,9 @@
 
 Flutter package to render a [Material Design Speed Dial](https://material.io/design/components/buttons-floating-action-button.html#types-of-transitions).
 
+### Testers Wanted - [new branch](https://github.com/darioielardi/flutter_speed_dial/tree/new)
+The Package have recieved an huge update by which all the problems related to the package are solved, but due to no one intrested in testing the new package, we cannot safely deliver it to you. if you want to become a tester then be sure to checkout the [new branch](https://github.com/darioielardi/flutter_speed_dial/tree/new).
+
 ![Flutter Speed Dial](https://media.giphy.com/media/ef4BpmetvvH9BdQC9t/giphy.gif)
 
 ## Usage
