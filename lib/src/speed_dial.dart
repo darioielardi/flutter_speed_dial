@@ -86,11 +86,8 @@ class SpeedDial extends StatefulWidget {
   /// The speed of the animation in milliseconds
   final int animationSpeed;
 
-  /// The bottom margin of each child
-  final double childMarginBottom;
-
-  /// The top margin of each child
-  final double childMarginTop;
+  /// The margin of each child
+  final EdgeInsets childMargin;
 
   /// The direction of the children. Default is [SpeedDialDirection.Up]
   final SpeedDialDirection direction;
@@ -152,8 +149,7 @@ class SpeedDial extends StatefulWidget {
     this.onPress,
     this.animationSpeed = 150,
     this.openCloseDial,
-    this.childMarginBottom = 0,
-    this.childMarginTop = 0,
+    this.childMargin = const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
   }) : super(key: key);
 
   @override
@@ -269,8 +265,7 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
             heroTag: widget.heroTag != null
                 ? '${widget.heroTag}-child-$index'
                 : null,
-            childMarginBottom: widget.childMarginBottom,
-            childMarginTop: widget.childMarginTop,
+            childMargin: widget.childMargin,
           );
         })
         .toList()
@@ -335,7 +330,7 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
                     showWhenUnlinked: false,
                     child: Material(
                       type: MaterialType.transparency,
-                      child: buildColumnOrRow(
+                      child: _buildColumnOrRow(
                         widget.direction.value == "Up" ||
                             widget.direction.value == "Down",
                         crossAxisAlignment: widget.switchLabelPosition
@@ -356,8 +351,9 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
             builder: (ctx) => BackgroundOverlay(
                   dialKey: dialKey,
                   layerLink: _layerLink,
-                  onTap:
-                      (_open && !widget.closeManually) ? _toggleChildren : null,
+                  shape: widget.shape,
+                  onTap: _toggleChildren,
+                  // (_open && !widget.closeManually) ? _toggleChildren : null,
                   animation: _controller,
                   color: widget.overlayColor ??
                       (_dark ? Colors.grey[900] : Colors.white)!,
@@ -474,61 +470,60 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
 
     var animatedFloatingButton = AnimatedBuilder(
       animation: _controller,
-      child: AnimatedFloatingButton(
-        dialKey: dialKey,
-        visible: widget.visible,
-        tooltip: widget.tooltip,
-        dialRoot: widget.dialRoot != null
-            ? widget.dialRoot!(
-                context, _open, dialKey, _toggleChildren, _layerLink)
-            : null,
-        backgroundColor: widget.backgroundColor != null
-            ? backgroundColorTween.lerp(_controller.value)
-            : null,
-        foregroundColor: widget.foregroundColor != null
-            ? foregroundColorTween.lerp(_controller.value)
-            : null,
-        elevation: widget.elevation,
-        onLongPress: _toggleChildren,
-        callback: (_open || widget.onPress == null)
-            ? _toggleChildren
-            : widget.onPress,
-        size: widget.buttonSize,
-        label: widget.label != null ? label : null,
-        child: child,
-        heroTag: widget.heroTag,
-        shape: widget.shape,
-      ),
-      builder: (context, child) => CompositedTransformTarget(
+      builder: (context, ch) => CompositedTransformTarget(
           link: widget.dialRoot == null ? _layerLink : LayerLink(),
-          child: child),
+          child: AnimatedFloatingButton(
+            dialKey: dialKey,
+            visible: widget.visible,
+            tooltip: widget.tooltip,
+            dialRoot: widget.dialRoot != null
+                ? widget.dialRoot!(
+                    context, _open, dialKey, _toggleChildren, _layerLink)
+                : null,
+            backgroundColor: widget.backgroundColor != null
+                ? backgroundColorTween.lerp(_controller.value)
+                : null,
+            foregroundColor: widget.foregroundColor != null
+                ? foregroundColorTween.lerp(_controller.value)
+                : null,
+            elevation: widget.elevation,
+            onLongPress: _toggleChildren,
+            callback: (_open || widget.onPress == null)
+                ? _toggleChildren
+                : widget.onPress,
+            size: widget.buttonSize,
+            label: widget.label != null ? label : null,
+            child: child,
+            heroTag: widget.heroTag,
+            shape: widget.shape,
+          )),
     );
 
     return animatedFloatingButton;
+  }
+
+  Widget _buildColumnOrRow(bool isColumn,
+      {CrossAxisAlignment? crossAxisAlignment,
+      MainAxisAlignment? mainAxisAlignment,
+      required List<Widget> children,
+      MainAxisSize? mainAxisSize}) {
+    return isColumn
+        ? Column(
+            mainAxisSize: mainAxisSize ?? MainAxisSize.max,
+            mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.start,
+            crossAxisAlignment: crossAxisAlignment ?? CrossAxisAlignment.center,
+            children: children,
+          )
+        : Row(
+            mainAxisSize: mainAxisSize ?? MainAxisSize.max,
+            mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.start,
+            crossAxisAlignment: crossAxisAlignment ?? CrossAxisAlignment.center,
+            children: children,
+          );
   }
 
   @override
   Widget build(BuildContext context) {
     return _renderButton();
   }
-}
-
-Widget buildColumnOrRow(bool isColumn,
-    {CrossAxisAlignment? crossAxisAlignment,
-    MainAxisAlignment? mainAxisAlignment,
-    required List<Widget> children,
-    MainAxisSize? mainAxisSize}) {
-  return isColumn
-      ? Column(
-          mainAxisSize: mainAxisSize ?? MainAxisSize.max,
-          mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.start,
-          crossAxisAlignment: crossAxisAlignment ?? CrossAxisAlignment.center,
-          children: children,
-        )
-      : Row(
-          mainAxisSize: mainAxisSize ?? MainAxisSize.max,
-          mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.start,
-          crossAxisAlignment: crossAxisAlignment ?? CrossAxisAlignment.center,
-          children: children,
-        );
 }

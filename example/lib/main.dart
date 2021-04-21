@@ -110,7 +110,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                 () => selectedfABLocation = fABLocation!),
                             selectedItemBuilder: (BuildContext context) {
                               return items.map<Widget>((item) {
-                                return Text(item.value);
+                                return Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(item.value));
                               }).toList();
                             },
                             items: items.map((item) {
@@ -176,7 +178,9 @@ class _MyHomePageState extends State<MyHomePage> {
                               return SpeedDialDirection.values
                                   .toList()
                                   .map<Widget>((item) {
-                                return Text(item.value);
+                                return Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(item.value));
                               }).toList();
                             },
                             items:
@@ -289,7 +293,7 @@ class _MyHomePageState extends State<MyHomePage> {
         floatingActionButton: SpeedDial(
           // animatedIcon: AnimatedIcons.menu_close,
           // animatedIconTheme: IconThemeData(size: 22.0),
-          /// This is ignored if animatedIcon is non null
+          // / This is ignored if animatedIcon is non null
           // child: Text(
           //   "ih",
           //   style: TextStyle(color: Colors.grey),
@@ -310,7 +314,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   );
                 }
               : null,
-          buttonSize: customDialRoot ? 30 : 56,
+
+          /// The below button size defaults to 56 itself, it's the SpeedDial size
+          buttonSize: 56,
           // iconTheme: IconThemeData(size: 22),
 
           /// The label of the main button.
@@ -321,9 +327,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
           /// Transition Builder between label and activeLabel, defaults to FadeTransition.
           // labelTransitionBuilder: (widget, animation) => ScaleTransition(scale: animation,child: widget),
-          /// The below button size defaults to 56 itself, its the FAB size + It also affects relative padding and other elements
+          /// The below button size defaults to 56 itself, its the SpeedDial childrens size
           childrenButtonSize: 56.0,
-          // buttonSize: 60,
           visible: visible,
           direction: speedDialDirection,
           switchLabelPosition: switchLabelPosition,
@@ -347,8 +352,7 @@ class _MyHomePageState extends State<MyHomePage> {
           // activeBackgroundColor: Colors.blue,
           elevation: 8.0,
           shape: CircleBorder(),
-          // childMarginBottom: 2,
-          // childMarginTop: 2,
+          // childMargin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
           children: [
             SpeedDialChild(
               child: !rmicons ? Icon(Icons.accessibility) : null,

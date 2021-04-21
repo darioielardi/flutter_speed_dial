@@ -8,11 +8,13 @@ class BackgroundOverlay extends AnimatedWidget {
   final double opacity;
   final GlobalKey dialKey;
   final LayerLink layerLink;
+  final ShapeBorder shape;
   final VoidCallback? onTap;
 
   BackgroundOverlay({
     Key? key,
     this.onTap,
+    required this.shape,
     required Animation<double> animation,
     required this.dialKey,
     required this.layerLink,
@@ -42,12 +44,13 @@ class BackgroundOverlay extends AnimatedWidget {
                 showWhenUnlinked: false,
                 child: IgnorePointer(
                   ignoring: true,
-                  child: Container(
-                    width: dialKey.globalPaintBounds!.size.width,
-                    height: dialKey.globalPaintBounds!.size.height,
-                    decoration: BoxDecoration(
+                  child: Material(
+                    type: MaterialType.transparency,
+                    shape: shape,
+                    child: Container(
+                      width: dialKey.globalPaintBounds!.size.width,
+                      height: dialKey.globalPaintBounds!.size.height,
                       color: Colors.white,
-                      borderRadius: BorderRadius.circular(100),
                     ),
                   ),
                 ),

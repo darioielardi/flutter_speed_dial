@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'speed_dial.dart';
 
 class AnimatedChild extends AnimatedWidget {
   final int? index;
@@ -26,8 +25,7 @@ class AnimatedChild extends AnimatedWidget {
   final bool useColumn;
   final bool switchLabelPosition;
 
-  final double? childMarginBottom;
-  final double? childMarginTop;
+  final EdgeInsets childMargin;
 
   AnimatedChild({
     this.key,
@@ -52,8 +50,7 @@ class AnimatedChild extends AnimatedWidget {
     this.toggleChildren,
     this.shape,
     this.heroTag,
-    this.childMarginBottom,
-    this.childMarginTop,
+    required this.childMargin,
   }) : super(listenable: animation);
 
   Widget buildLabel() {
@@ -72,8 +69,7 @@ class AnimatedChild extends AnimatedWidget {
       onLongPress: _performLongAction,
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 8.0),
-        margin: EdgeInsetsDirectional.fromSTEB(
-            20.0, childMarginTop!, 15.0, childMarginBottom!),
+        margin: childMargin,
         decoration: BoxDecoration(
           color: labelBackgroundColor ??
               (dark! ? Colors.grey[800] : Colors.grey[50]),
@@ -138,14 +134,38 @@ class AnimatedChild extends AnimatedWidget {
           width: buttonSize,
           child: (onLongPress == null)
               ? button
-              : GestureDetector(
-                  onLongPress: _performLongAction,
-                  child: button,
+              : FittedBox(
+                  child: GestureDetector(
+                    onLongPress: _performLongAction,
+                    child: button,
+                  ),
                 ),
         )
     ];
 
-    return buildColumnOrRow(
+    Widget _buildColumnOrRow(bool isColumn,
+        {CrossAxisAlignment? crossAxisAlignment,
+        MainAxisAlignment? mainAxisAlignment,
+        required List<Widget> children,
+        MainAxisSize? mainAxisSize}) {
+      return isColumn
+          ? Column(
+              mainAxisSize: mainAxisSize ?? MainAxisSize.max,
+              mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.start,
+              crossAxisAlignment:
+                  crossAxisAlignment ?? CrossAxisAlignment.center,
+              children: children,
+            )
+          : Row(
+              mainAxisSize: mainAxisSize ?? MainAxisSize.max,
+              mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.start,
+              crossAxisAlignment:
+                  crossAxisAlignment ?? CrossAxisAlignment.center,
+              children: children,
+            );
+    }
+
+    return _buildColumnOrRow(
       useColumn,
       mainAxisSize: MainAxisSize.min,
       children: switchLabelPosition ? children.reversed.toList() : children,
