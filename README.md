@@ -1,10 +1,10 @@
-# Flutter Speed Dial - Ultimate Edition
+## Flutter Speed Dial - Ultimate Edition
 
 Flutter package to render a [Material Design Speed Dial](https://material.io/design/components/buttons-floating-action-button.html#types-of-transitions).
 
 <img src="https://user-images.githubusercontent.com/41370460/113670683-0de04700-96d3-11eb-8029-aeadf1797b60.gif" width="320">
 
-## Usage
+### Usage
 
 The SpeedDial widget is built to be placed in the `Scaffold.floatingActionButton` argument, replacing the `FloatingActionButton` widget.
 You can set its position using `Scaffold.floatingActionButtonLocation` argument.
@@ -12,14 +12,14 @@ It can also be used with `Scaffold.bottomNavigationBar` and `Snackbar`.
 
 **Nullsafety** is availabile from version **3.0.5** *( It is also backward compatible,  meaning you can use it with not null safe code too )*
 
-**Labels**
+#### Labels
 
 SpeedDial can take any Widget as `label` *SpeedDial will use Extended FloatingActionButton property if label is specified*. It also have `activeLabel` property by which you can specify the label which is shown when SpeedDial is open. It also comes with its labelTransitionBuilder which defaults to fade transition.
 
 Also Every children's button have `label` property which accepts `String` which can be styled by using `labelStyle`. If you want to specify a widget then you can use labelWidget.
 If the `label` parameter is not provided the label will be not rendered.
 
-**Types of child for SpeedDial** (Ordered by their priority)
+#### Types of child for SpeedDial *(Ordered by their priority)*
 <details>
  <summary>
   <b>Animated Icon</b> using <code>animatedIcon</code> property
@@ -51,7 +51,7 @@ SpeedDial's IconData has three specific parameters:
 
 The package will handle the animation by itself.
 
-### Close on WillPop
+#### Close on WillPop
 
 Although it doesn't magically closes when you press back button, but requires a easier setup to enable this functionality, here are the steps that you need to do to enable that:
 
@@ -79,16 +79,16 @@ WillPopScope(
 
 [**Classes API Docs**](https://pub.dev/documentation/flutter_speed_dial/latest/flutter_speed_dial/flutter_speed_dial-library.html)
 
-### Example Usage
+#### Example Usage
 
 See [Example Code](example/lib/main.dart) for more info.
 
-## Issues & Feedback
+### Issues & Feedback
 
 Please file an [issue](https://github.com/darioielardi/flutter_speed_dial/issues) to send feedback or report a bug,  
 If you want to ask a question or suggest an idea then you can [open an discussion](https://github.com/darioielardi/flutter_speed_dial/discussions).  
 Thank you!
 
-## Contributing
+### Contributing
 
 Every pull request is welcome.
