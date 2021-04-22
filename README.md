@@ -14,29 +14,42 @@ It can also be used with `Scaffold.bottomNavigationBar` and `Snackbar`.
 
 **Labels**
 
-SpeedDial and its child all have `label`. SpeedDial takes any Widget as `label`. It also have `activeLabel` property by which you can specify the label which is shown when SpeedDial is open. It also comes with its labelTransitionBuilder which defaults to fade transition.
+SpeedDial can take any Widget as `label` *SpeedDial will use Extended FloatingActionButton property if label is specified*. It also have `activeLabel` property by which you can specify the label which is shown when SpeedDial is open. It also comes with its labelTransitionBuilder which defaults to fade transition.
 
-Also Every child button have `label` property which accepts `String` which can be styled by using `labelStyle`. If you want to specify a widget then you can use labelWidget.
+Also Every children's button have `label` property which accepts `String` which can be styled by using `labelStyle`. If you want to specify a widget then you can use labelWidget.
 If the `label` parameter is not provided the label will be not rendered.
 
-**Animated Icon**
-
-The main floating action button child can set with the `icon` parameter, you can animate that icon by setting `activeIcon` paramater, It have four relatable paramters:
-
-- `icon` & `activeIcon` takes an `IconData` widget
-- `iconTheme` takes its theme which includes color and size
-
-
- however if you want to use an Animated icon by specifying `AnimatedIconData` then you can use `AnimatedIcon`, it has two specific parameters:
+**Types of child for SpeedDial** (Ordered by their priority)
+<details>
+ <summary>
+  <b>Animated Icon</b> using <code>animatedIcon</code> property
+ </summary>
+SpeedDial's AnimatedIcon has two specific parameters:
 
 - `animatedIcon` takes an `AnimatedIconData` widget
-- `animatedIconTheme` takes its theme
+- `animatedIconTheme` takes `IconThemeData`
+</details>
+<details>
+ <summary>
+  <b>Widget</b> using <code>child</code> & <code>activeChild</code> property
+ </summary>
+SpeedDial's Widget has two specific parameters:
+
+- `child` takes a widget and is the default placeholder if dial is not open.
+- `activeChild` takes a widget and is the child's Widget which is used when dial is open, not required.
+</details>
+<details>
+ <summary>
+  <b>IconData</b> using <code>icon</code> & <code>activeIcon</code> property
+ </summary>
+SpeedDial's IconData has three specific parameters:
+
+- `icon` takes a `IconData` and is the default placeholder if dial is not open.
+- `activeIcon` takes a `IconData` and is the child's IconData which is used when dial is open, not required.
+- `iconTheme` takes its `IconThemeData` which includes color and size.
+</details>
 
 The package will handle the animation by itself.
-
-**Hide on Scroll**
-
-Another possibility is to make the button hide on scroll with a curve animation, with a `visible` parameter to set dynamically based on the scroll direction. See the [example project](example/lib/main.dart) for more info.
 
 ### Close on WillPop
 
