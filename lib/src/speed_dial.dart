@@ -406,46 +406,45 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
                   duration: Duration(milliseconds: widget.animationSpeed),
                   child: (widget.child != null && _controller.value < 0.4)
                       ? widget.child
-                      : (widget.activeChild != null && _controller.value > 0.4)
-                          ? Transform.rotate(
-                              angle:
-                                  widget.useRotationAnimation ? -pi * 1 / 2 : 0,
-                              child: widget.activeChild)
-                          : (widget.activeIcon == null ||
-                                  _controller.value < 0.4)
-                              ? Container(
-                                  child: Center(
-                                    child: Icon(
-                                      widget.icon,
-                                      key: ValueKey<int>(0),
-                                      color: widget.iconTheme?.color,
-                                      size: widget.iconTheme?.size,
-                                    ),
-                                  ),
-                                  decoration: BoxDecoration(
-                                    shape: widget.gradientBoxShape,
-                                    gradient: widget.gradient,
-                                  ),
-                                )
-                              : Transform.rotate(
-                                  angle: widget.useRotationAnimation
-                                      ? -pi * 1 / 2
-                                      : 0,
-                                  child: Container(
-                                    child: Center(
-                                      child: Icon(
-                                        widget.activeIcon,
-                                        key: ValueKey<int>(1),
+                      : (widget.activeIcon == null &&
+                                  widget.activeChild == null ||
+                              _controller.value < 0.4)
+                          ? Container(
+                              child: Center(
+                                child: widget.icon != null
+                                    ? Icon(
+                                        widget.icon,
+                                        key: ValueKey<int>(0),
                                         color: widget.iconTheme?.color,
                                         size: widget.iconTheme?.size,
+                                      )
+                                    : widget.child,
+                              ),
+                              decoration: BoxDecoration(
+                                shape: widget.gradientBoxShape,
+                                gradient: widget.gradient,
+                              ),
+                            )
+                          : Transform.rotate(
+                              angle:
+                                  widget.useRotationAnimation ? -pi * 1 / 2 : 0,
+                              child: widget.activeChild != null
+                                  ? widget.activeChild
+                                  : Container(
+                                      child: Center(
+                                        child: Icon(
+                                          widget.activeIcon,
+                                          key: ValueKey<int>(1),
+                                          color: widget.iconTheme?.color,
+                                          size: widget.iconTheme?.size,
+                                        ),
+                                      ),
+                                      decoration: BoxDecoration(
+                                        shape: widget.gradientBoxShape,
+                                        gradient: widget.gradient,
                                       ),
                                     ),
-                                    decoration: BoxDecoration(
-                                      shape: widget.gradientBoxShape,
-                                      gradient: widget.gradient,
-                                    ),
-                                  ),
-                                )),
+                            )),
             ),
           );
 

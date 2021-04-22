@@ -294,11 +294,8 @@ class _MyHomePageState extends State<MyHomePage> {
           // animatedIcon: AnimatedIcons.menu_close,
           // animatedIconTheme: IconThemeData(size: 22.0),
           // / This is ignored if animatedIcon is non null
-          // child: Text(
-          //   "ih",
-          //   style: TextStyle(color: Colors.grey),
-          // ),
-          // activeChild: Text("hi"),
+          // child: Text("open"),
+          // activeChild: Text("close"),
           icon: Icons.add,
           activeIcon: Icons.close,
           openCloseDial: isDialOpen,
