@@ -175,7 +175,7 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
   void initState() {
     super.initState();
     _controller = AnimationController(
-      duration: _calculateMainControllerDuration(),
+      duration: Duration(milliseconds: widget.animationSpeed),
       vsync: this,
     );
     widget.openCloseDial?.addListener(() {
@@ -186,10 +186,6 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
       }
     });
   }
-
-  Duration _calculateMainControllerDuration() => Duration(
-      milliseconds: widget.animationSpeed +
-          widget.children.length * (widget.animationSpeed / 5).round());
 
   @override
   void dispose() {
@@ -202,7 +198,7 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
   void didUpdateWidget(SpeedDial oldWidget) {
     _dark = Theme.of(context).brightness == Brightness.dark;
     if (oldWidget.children.length != widget.children.length) {
-      _controller.duration = _calculateMainControllerDuration();
+      _controller.duration = Duration(milliseconds: widget.animationSpeed);
     }
 
     widget.openCloseDial?.removeListener(() {});
@@ -346,7 +342,7 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
                   )),
                 ],
               ));
-      if (widget.renderOverlay) {
+      if (widget.renderOverlay)
         backgroundOverlay = OverlayEntry(
             builder: (ctx) => BackgroundOverlay(
                   dialKey: dialKey,
@@ -359,12 +355,8 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
                       (_dark ? Colors.grey[900] : Colors.white)!,
                   opacity: widget.overlayOpacity,
                 ));
-      }
-      if (!mounted) return;
 
-      _controller.addListener(() {
-        Overlay.of(context)!.setState(() {});
-      });
+      if (!mounted) return;
 
       _controller.forward();
       if (widget.renderOverlay) Overlay.of(context)!.insert(backgroundOverlay!);

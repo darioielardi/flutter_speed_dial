@@ -92,8 +92,6 @@ class _MyHomePageState extends State<MyHomePage> {
                             style: Theme.of(context).textTheme.bodyText1),
                         SizedBox(height: 10),
                         Container(
-                          padding:
-                              EdgeInsets.symmetric(vertical: 4, horizontal: 10),
                           decoration: BoxDecoration(
                               color: Theme.of(context).brightness ==
                                       Brightness.dark
@@ -112,7 +110,10 @@ class _MyHomePageState extends State<MyHomePage> {
                               return items.map<Widget>((item) {
                                 return Align(
                                     alignment: Alignment.centerLeft,
-                                    child: Text(item.value));
+                                    child: Container(
+                                        padding: EdgeInsets.symmetric(
+                                            vertical: 4, horizontal: 10),
+                                        child: Text(item.value)));
                               }).toList();
                             },
                             items: items.map((item) {
@@ -138,8 +139,6 @@ class _MyHomePageState extends State<MyHomePage> {
                             style: Theme.of(context).textTheme.bodyText1),
                         SizedBox(height: 10),
                         Container(
-                          padding:
-                              EdgeInsets.symmetric(vertical: 4, horizontal: 10),
                           decoration: BoxDecoration(
                               color: Theme.of(context).brightness ==
                                       Brightness.dark
@@ -178,9 +177,13 @@ class _MyHomePageState extends State<MyHomePage> {
                               return SpeedDialDirection.values
                                   .toList()
                                   .map<Widget>((item) {
-                                return Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Text(item.value));
+                                return Container(
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 4, horizontal: 10),
+                                  child: Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Text(item.value)),
+                                );
                               }).toList();
                             },
                             items:
@@ -311,14 +314,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   );
                 }
               : null,
-
-          /// The below button size defaults to 56 itself, it's the SpeedDial size
-          buttonSize: 56,
+          buttonSize: 56, // it's the SpeedDial size which defaults to 56 itself
           // iconTheme: IconThemeData(size: 22),
-
-          /// The label of the main button.
-          label: extend ? Text("Open") : null,
-
+          label: extend ? Text("Open") : null, // The label of the main button.
           /// The active label of the main button, Defaults to label if not specified.
           activeLabel: extend ? Text("Close") : null,
 
@@ -348,7 +346,7 @@ class _MyHomePageState extends State<MyHomePage> {
           // activeForegroundColor: Colors.red,
           // activeBackgroundColor: Colors.blue,
           elevation: 8.0,
-          shape: CircleBorder(),
+          shape: CircleBorder(), //default value
           // childMargin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
           children: [
             SpeedDialChild(

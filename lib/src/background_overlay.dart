@@ -44,12 +44,12 @@ class BackgroundOverlay extends AnimatedWidget {
                 showWhenUnlinked: false,
                 child: IgnorePointer(
                   ignoring: true,
-                  child: Material(
-                    type: MaterialType.transparency,
-                    shape: shape,
-                    child: Container(
-                      width: dialKey.globalPaintBounds!.size.width,
-                      height: dialKey.globalPaintBounds!.size.height,
+                  child: Container(
+                    width: dialKey.globalPaintBounds!.size.width,
+                    height: dialKey.globalPaintBounds!.size.height,
+                    decoration: ShapeDecoration(
+                      shape:
+                          (shape == CircleBorder()) ? StadiumBorder() : shape,
                       color: Colors.white,
                     ),
                   ),
