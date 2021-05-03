@@ -8,7 +8,7 @@ class AnimatedChild extends AnimatedWidget {
   final double buttonSize;
   final Widget? child;
   final List<BoxShadow>? labelShadow;
-  final Key? key;
+  final Key? btnKey;
 
   final String? label;
   final TextStyle? labelStyle;
@@ -28,7 +28,7 @@ class AnimatedChild extends AnimatedWidget {
   final EdgeInsets childMargin;
 
   AnimatedChild({
-    this.key,
+    this.btnKey,
     required Animation<double> animation,
     this.index,
     this.backgroundColor,
@@ -106,7 +106,7 @@ class AnimatedChild extends AnimatedWidget {
     Widget button = ScaleTransition(
         scale: animation,
         child: FloatingActionButton(
-          key: key,
+          key: btnKey,
           heroTag: heroTag,
           onPressed: _performAction,
           backgroundColor:

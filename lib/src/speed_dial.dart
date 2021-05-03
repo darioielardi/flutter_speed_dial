@@ -237,7 +237,7 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
           return AnimatedChild(
             animation: childAnimation,
             index: index,
-            key: child.key,
+            btnKey: child.key,
             useColumn: widget.direction.value == "Left" ||
                 widget.direction.value == "Right",
             visible: _open,
