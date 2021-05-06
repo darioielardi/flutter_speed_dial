@@ -156,28 +156,22 @@ class SpeedDial extends StatefulWidget {
   _SpeedDialState createState() => _SpeedDialState();
 }
 
-class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
-  late AnimationController _controller;
+class _SpeedDialState extends State<SpeedDial>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller = AnimationController(
+    duration: Duration(milliseconds: widget.animationSpeed),
+    vsync: this,
+  );
   bool _open = false;
   OverlayEntry? overlayEntry;
   OverlayEntry? backgroundOverlay;
   LayerLink _layerLink = LayerLink();
-  late bool _dark;
+  late bool _dark = Theme.of(context).brightness == Brightness.dark;
   final dialKey = GlobalKey<State<StatefulWidget>>();
-
-  @override
-  void didChangeDependencies() {
-    _dark = Theme.of(context).brightness == Brightness.dark;
-    super.didChangeDependencies();
-  }
 
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-      duration: Duration(milliseconds: widget.animationSpeed),
-      vsync: this,
-    );
     widget.openCloseDial?.addListener(() {
       final show = widget.openCloseDial?.value;
       if (!mounted) return;
@@ -196,7 +190,6 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
 
   @override
   void didUpdateWidget(SpeedDial oldWidget) {
-    _dark = Theme.of(context).brightness == Brightness.dark;
     if (oldWidget.children.length != widget.children.length) {
       _controller.duration = Duration(milliseconds: widget.animationSpeed);
     }
@@ -242,7 +235,6 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
                 widget.direction.value == "Right",
             visible: _open,
             switchLabelPosition: widget.switchLabelPosition,
-            dark: _dark,
             backgroundColor: child.backgroundColor,
             foregroundColor: child.foregroundColor,
             elevation: child.elevation,

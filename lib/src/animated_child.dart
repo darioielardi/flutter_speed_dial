@@ -16,7 +16,6 @@ class AnimatedChild extends AnimatedWidget {
   final Widget? labelWidget;
 
   final bool visible;
-  final bool? dark;
   final VoidCallback? onTap;
   final VoidCallback? onLongPress;
   final VoidCallback? toggleChildren;
@@ -42,7 +41,6 @@ class AnimatedChild extends AnimatedWidget {
     this.labelBackgroundColor,
     this.labelWidget,
     this.visible = false,
-    this.dark,
     this.onTap,
     required this.switchLabelPosition,
     required this.useColumn,
@@ -53,55 +51,53 @@ class AnimatedChild extends AnimatedWidget {
     required this.childMargin,
   }) : super(listenable: animation);
 
-  Widget buildLabel() {
-    if (label == null && labelWidget == null) return Container();
-
-    if (labelWidget != null) {
-      return GestureDetector(
-        onTap: _performAction,
-        onLongPress: _performLongAction,
-        child: labelWidget,
-      );
-    }
-
-    return GestureDetector(
-      onTap: _performAction,
-      onLongPress: _performLongAction,
-      child: Container(
-        padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 8.0),
-        margin: childMargin,
-        decoration: BoxDecoration(
-          color: labelBackgroundColor ??
-              (dark! ? Colors.grey[800] : Colors.grey[50]),
-          borderRadius: BorderRadius.all(Radius.circular(6.0)),
-          boxShadow: labelShadow ??
-              [
-                BoxShadow(
-                  color: dark!
-                      ? Colors.grey[900]!.withOpacity(0.7)
-                      : Colors.grey.withOpacity(0.7),
-                  offset: Offset(0.8, 0.8),
-                  blurRadius: 2.4,
-                )
-              ],
-        ),
-        child: Text(label!, style: labelStyle),
-      ),
-    );
-  }
-
-  void _performAction() {
-    if (onTap != null) onTap!();
-    toggleChildren!();
-  }
-
-  void _performLongAction() {
-    if (onLongPress != null) onLongPress!();
-    toggleChildren!();
-  }
-
   Widget build(BuildContext context) {
     final Animation<double> animation = listenable as Animation<double>;
+    bool dark = Theme.of(context).brightness == Brightness.dark;
+
+    void _performAction([bool isLong = false]) {
+      if (onTap != null && !isLong)
+        onTap!();
+      else if (onLongPress != null && isLong) onLongPress!();
+      toggleChildren!();
+    }
+
+    Widget buildLabel() {
+      if (label == null && labelWidget == null) return Container();
+
+      if (labelWidget != null) {
+        return GestureDetector(
+          onTap: _performAction,
+          onLongPress: () => _performAction(true),
+          child: labelWidget,
+        );
+      }
+
+      return GestureDetector(
+        onTap: _performAction,
+        onLongPress: () => _performAction(true),
+        child: Container(
+          padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 8.0),
+          margin: childMargin,
+          decoration: BoxDecoration(
+            color: labelBackgroundColor ??
+                (dark ? Colors.grey[800] : Colors.grey[50]),
+            borderRadius: BorderRadius.all(Radius.circular(6.0)),
+            boxShadow: labelShadow ??
+                [
+                  BoxShadow(
+                    color: dark
+                        ? Colors.grey[900]!.withOpacity(0.7)
+                        : Colors.grey.withOpacity(0.7),
+                    offset: Offset(0.8, 0.8),
+                    blurRadius: 2.4,
+                  )
+                ],
+          ),
+          child: Text(label!, style: labelStyle),
+        ),
+      );
+    }
 
     Widget button = ScaleTransition(
         scale: animation,
@@ -110,9 +106,9 @@ class AnimatedChild extends AnimatedWidget {
           heroTag: heroTag,
           onPressed: _performAction,
           backgroundColor:
-              backgroundColor ?? (dark! ? Colors.grey[800] : Colors.grey[50]),
+              backgroundColor ?? (dark ? Colors.grey[800] : Colors.grey[50]),
           foregroundColor:
-              foregroundColor ?? (dark! ? Colors.white : Colors.black),
+              foregroundColor ?? (dark ? Colors.white : Colors.black),
           elevation: elevation ?? 6.0,
           child: child,
           shape: shape,
@@ -124,6 +120,7 @@ class AnimatedChild extends AnimatedWidget {
           scale: animation,
           child: Container(
             padding: (child == null) ? EdgeInsets.symmetric(vertical: 8) : null,
+            key: (child == null) ? btnKey : null,
             child: buildLabel(),
           ),
         ),
@@ -136,7 +133,7 @@ class AnimatedChild extends AnimatedWidget {
               ? button
               : FittedBox(
                   child: GestureDetector(
-                    onLongPress: _performLongAction,
+                    onLongPress: () => _performAction(true),
                     child: button,
                   ),
                 ),
