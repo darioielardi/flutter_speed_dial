@@ -31,6 +31,7 @@ web/
 .flutter-plugins
 .flutter-plugins-dependencies
 .packages
+.metadata
 .pub-cache/
 .pub/
 /build/
