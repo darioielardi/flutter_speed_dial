@@ -3,6 +3,8 @@
 
 .idea
 .vscode
+.metadata
+*.iml
 
 .packages
 .pub/

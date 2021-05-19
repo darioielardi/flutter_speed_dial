@@ -22,6 +22,8 @@
 android/
 ios/
 linux/
+mac/
+windows/
 web/
 
 # Flutter/Dart/Pub related
