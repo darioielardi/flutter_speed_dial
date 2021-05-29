@@ -32,7 +32,7 @@ class SpeedDial extends StatefulWidget {
   final Gradient? gradient;
   final BoxShape gradientBoxShape;
 
-  /// Whether speedDial initialize with open state or not.
+  /// Whether speedDial initialize with open state or not, defaults to false.
   final bool isOpenOnStart;
 
   /// The color of the background overlay.
@@ -182,6 +182,9 @@ class _SpeedDialState extends State<SpeedDial>
       if (_open != show) {
         _toggleChildren();
       }
+    });
+    Future.delayed(Duration.zero, () async {
+      if (mounted && widget.isOpenOnStart) _toggleChildren();
     });
   }
 
@@ -510,7 +513,6 @@ class _SpeedDialState extends State<SpeedDial>
 
   @override
   Widget build(BuildContext context) {
-    if (mounted && widget.isOpenOnStart) _toggleChildren();
     return _renderButton();
   }
 }
