@@ -17,8 +17,8 @@ jobs:
         with:
           channel: stable
 
-      - name: Get Packages
-        run: flutter pub get
+      - name: Generate Example project
+        run: flutter create example/
 
       - name: Build Example App
         run: cd example && flutter build apk --split-per-abi

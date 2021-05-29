@@ -19,6 +19,13 @@
 # VS Code which you may wish to be included in version control, so this line
 # is commented out by default.
 #.vscode/
+android/
+ios/
+linux/
+macos/
+windows/
+web/
+test/
 
 # Flutter/Dart/Pub related
 **/doc/api/
@@ -27,6 +34,7 @@
 .flutter-plugins
 .flutter-plugins-dependencies
 .packages
+.metadata
 .pub-cache/
 .pub/
 /build/

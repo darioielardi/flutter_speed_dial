@@ -1,3 +1,29 @@
+## [4.0.0-dev.1] - 29 May 2021
+
+- Update Exanple Project
+- Add visibility parameter for SpeedDialChild.
+- Fix dialRoot scaling on bigger screen devices.
+- Add isOpenOnStart Porperty to set the visiblity of childrens at init ( WIP ).
+- Refactor dialRoot to only accept (context, isOpen, toogleChildren), key and layerLink is not required
+
+## [4.0.0-dev] - 19 May 2021
+
+- Update Example Project
+- Revamp Whole Codebase by using Overlays instead of stacks
+- Update dialRoot and now you specify any widget other then FAB as DialRoot too
+- Add Four Directions in SpeedDialDirection parameter namely Up, Down, Left, Right
+- Add buttonSize and childrenButtonSize parameter's to set button size for main dial and its childrens
+- Use Theme Colors When no color is specified
+- Fix weird grey offset
+- Fix useRotationAnimation not working
+- Fix issues with child and activeChild
+- Fix snackbar not visible with SpeedDial
+- Fix FloatingActionButtonLocation not working with Speed Dial
+- Fix speed Dial doesn't get docked with BottomNavigationBar and BottomAppBar
+- Remove unnecessary files
+
+By @prateekmedia and other contributers who helped me in finding the bugs and solving the issues.
+
 ## [3.0.5] - 12 Mar 2021
 
 - Fix closing animation by @Amir-P
