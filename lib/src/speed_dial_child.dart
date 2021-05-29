@@ -28,6 +28,7 @@ class SpeedDialChild {
   final VoidCallback? onTap;
   final VoidCallback? onLongPress;
   final ShapeBorder? shape;
+  final bool visible;
 
   SpeedDialChild({
     this.key,
@@ -37,6 +38,7 @@ class SpeedDialChild {
     this.labelWidget,
     this.labelShadow,
     this.child,
+    this.visible = true,
     this.backgroundColor,
     this.foregroundColor,
     this.elevation,

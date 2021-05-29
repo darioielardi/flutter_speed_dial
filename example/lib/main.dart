@@ -27,7 +27,7 @@ class _MyAppState extends State<MyApp> {
               ),
               darkTheme: ThemeData(
                 brightness: Brightness.dark,
-                primaryColor: Colors.blue[800],
+                primaryColor: Colors.lightBlue[900],
               ),
               themeMode: value,
             ));
@@ -200,15 +200,16 @@ class _MyHomePageState extends State<MyHomePage> {
                       ],
                     ),
                   ),
-                  SwitchListTile(
-                      contentPadding: EdgeInsets.all(15),
-                      value: extend,
-                      title: Text("Extend Speed Dial"),
-                      onChanged: (val) {
-                        setState(() {
-                          extend = val;
-                        });
-                      }),
+                  if (!customDialRoot)
+                    SwitchListTile(
+                        contentPadding: EdgeInsets.all(15),
+                        value: extend,
+                        title: Text("Extend Speed Dial"),
+                        onChanged: (val) {
+                          setState(() {
+                            extend = val;
+                          });
+                        }),
                   SwitchListTile(
                       contentPadding: EdgeInsets.all(15),
                       value: visible,
@@ -254,15 +255,16 @@ class _MyHomePageState extends State<MyHomePage> {
                           rmicons = val;
                         });
                       }),
-                  SwitchListTile(
-                      contentPadding: EdgeInsets.all(15),
-                      value: useRAnimation,
-                      title: Text("Use Rotation Animation"),
-                      onChanged: (val) {
-                        setState(() {
-                          useRAnimation = val;
-                        });
-                      }),
+                  if (!customDialRoot)
+                    SwitchListTile(
+                        contentPadding: EdgeInsets.all(15),
+                        value: useRAnimation,
+                        title: Text("Use Rotation Animation"),
+                        onChanged: (val) {
+                          setState(() {
+                            useRAnimation = val;
+                          });
+                        }),
                   SwitchListTile(
                       contentPadding: EdgeInsets.all(15),
                       value: switchLabelPosition,
@@ -303,13 +305,17 @@ class _MyHomePageState extends State<MyHomePage> {
           activeIcon: Icons.close,
           openCloseDial: isDialOpen,
           dialRoot: customDialRoot
-              ? (ctx, open, key, toggleChildren, layerLink) {
-                  return CompositedTransformTarget(
-                    link: layerLink,
-                    child: TextButton(
-                      key: key,
-                      onPressed: toggleChildren,
-                      child: Text("Text Button"),
+              ? (ctx, open, toggleChildren) {
+                  return ElevatedButton(
+                    onPressed: toggleChildren,
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.blue[900],
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 22, vertical: 18),
+                    ),
+                    child: Text(
+                      "Custom Dial Root",
+                      style: TextStyle(fontSize: 17),
                     ),
                   );
                 }
@@ -333,7 +339,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
           /// If false, backgroundOverlay will not be rendered.
           renderOverlay: renderOverlay,
-          curve: Curves.bounceIn,
           // overlayColor: Colors.black,
           // overlayOpacity: 0.5,
           onOpen: () => print('OPENING DIAL'),
@@ -346,7 +351,8 @@ class _MyHomePageState extends State<MyHomePage> {
           // activeForegroundColor: Colors.red,
           // activeBackgroundColor: Colors.blue,
           elevation: 8.0,
-          shape: CircleBorder(), //default value
+          isOpenOnStart: false,
+          shape: customDialRoot ? RoundedRectangleBorder() : StadiumBorder(),
           // childMargin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
           children: [
             SpeedDialChild(
@@ -368,6 +374,7 @@ class _MyHomePageState extends State<MyHomePage> {
               backgroundColor: Colors.indigo,
               foregroundColor: Colors.white,
               label: 'Show Snackbar',
+              visible: true,
               onTap: () => ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text(("Third Child Pressed")))),
               onLongPress: () => print('THIRD CHILD LONG PRESS'),

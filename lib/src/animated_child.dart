@@ -35,12 +35,12 @@ class AnimatedChild extends AnimatedWidget {
     this.elevation = 6.0,
     this.buttonSize = 56.0,
     this.child,
-    this.labelShadow,
     this.label,
     this.labelStyle,
+    this.labelShadow,
     this.labelBackgroundColor,
     this.labelWidget,
-    this.visible = false,
+    this.visible = true,
     this.onTap,
     required this.switchLabelPosition,
     required this.useColumn,
@@ -162,10 +162,13 @@ class AnimatedChild extends AnimatedWidget {
             );
     }
 
-    return _buildColumnOrRow(
-      useColumn,
-      mainAxisSize: MainAxisSize.min,
-      children: switchLabelPosition ? children.reversed.toList() : children,
-    );
+    return visible
+        ? _buildColumnOrRow(
+            useColumn,
+            mainAxisSize: MainAxisSize.min,
+            children:
+                switchLabelPosition ? children.reversed.toList() : children,
+          )
+        : Container();
   }
 }

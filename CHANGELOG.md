@@ -1,3 +1,11 @@
+## [4.0.0-dev.1] - 29 May 2021
+
+- Update Exanple Project
+- Add visibility parameter for SpeedDialChild.
+- Fix dialRoot scaling on bigger screen devices.
+- Add isOpenOnStart Porperty to set the visiblity of childrens at init ( WIP ).
+- Refactor dialRoot to only accept (context, isOpen, toogleChildren), key and layerLink is not required
+
 ## [4.0.0-dev] - 19 May 2021
 
 - Update Example Project

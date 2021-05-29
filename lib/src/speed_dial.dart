@@ -32,6 +32,9 @@ class SpeedDial extends StatefulWidget {
   final Gradient? gradient;
   final BoxShape gradientBoxShape;
 
+  /// Whether speedDial initialize with open state or not.
+  final bool isOpenOnStart;
+
   /// The color of the background overlay.
   final Color? overlayColor;
 
@@ -98,7 +101,7 @@ class SpeedDial extends StatefulWidget {
   /// that was specific to FAB before like onPress, you will have to provide
   /// it again to your dialRoot button.
   final Widget Function(
-      BuildContext context, bool open, Key, VoidCallback, LayerLink)? dialRoot;
+      BuildContext context, bool open, VoidCallback toggleChildren)? dialRoot;
 
   /// This is the child of the FAB, if specified it will ignore icon, activeIcon.
   final Widget? child;
@@ -144,11 +147,12 @@ class SpeedDial extends StatefulWidget {
     this.direction = SpeedDialDirection.Up,
     this.closeManually = false,
     this.renderOverlay = true,
-    this.shape = const CircleBorder(),
-    this.curve = Curves.linear,
+    this.shape = const StadiumBorder(),
+    this.curve = Curves.fastOutSlowIn,
     this.onPress,
     this.animationSpeed = 150,
     this.openCloseDial,
+    this.isOpenOnStart = false,
     this.childMargin = const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
   }) : super(key: key);
 
@@ -233,7 +237,7 @@ class _SpeedDialState extends State<SpeedDial>
             btnKey: child.key,
             useColumn: widget.direction.value == "Left" ||
                 widget.direction.value == "Right",
-            visible: _open,
+            visible: child.visible,
             switchLabelPosition: widget.switchLabelPosition,
             backgroundColor: child.backgroundColor,
             foregroundColor: child.foregroundColor,
@@ -454,14 +458,13 @@ class _SpeedDialState extends State<SpeedDial>
     var animatedFloatingButton = AnimatedBuilder(
       animation: _controller,
       builder: (context, ch) => CompositedTransformTarget(
-          link: widget.dialRoot == null ? _layerLink : LayerLink(),
+          link: _layerLink,
+          key: dialKey,
           child: AnimatedFloatingButton(
-            dialKey: dialKey,
             visible: widget.visible,
             tooltip: widget.tooltip,
             dialRoot: widget.dialRoot != null
-                ? widget.dialRoot!(
-                    context, _open, dialKey, _toggleChildren, _layerLink)
+                ? widget.dialRoot!(context, _open, _toggleChildren)
                 : null,
             backgroundColor: widget.backgroundColor != null
                 ? backgroundColorTween.lerp(_controller.value)
@@ -507,6 +510,7 @@ class _SpeedDialState extends State<SpeedDial>
 
   @override
   Widget build(BuildContext context) {
+    if (mounted && widget.isOpenOnStart) _toggleChildren();
     return _renderButton();
   }
 }

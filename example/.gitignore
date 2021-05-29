@@ -22,9 +22,10 @@
 android/
 ios/
 linux/
-mac/
+macos/
 windows/
 web/
+test/
 
 # Flutter/Dart/Pub related
 **/doc/api/

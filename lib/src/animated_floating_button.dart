@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class AnimatedFloatingButton extends StatelessWidget {
+class AnimatedFloatingButton extends StatefulWidget {
   final bool visible;
   final VoidCallback? callback;
   final VoidCallback? onLongPress;
@@ -14,7 +14,6 @@ class AnimatedFloatingButton extends StatelessWidget {
   final double size;
   final ShapeBorder shape;
   final Curve curve;
-  final GlobalKey? dialKey;
   final Widget? dialRoot;
   final bool useInkWell;
 
@@ -24,7 +23,6 @@ class AnimatedFloatingButton extends StatelessWidget {
     this.callback,
     this.label,
     this.child,
-    this.dialKey,
     this.dialRoot,
     this.useInkWell = false,
     this.backgroundColor,
@@ -34,51 +32,67 @@ class AnimatedFloatingButton extends StatelessWidget {
     this.elevation = 6.0,
     this.size = 56.0,
     this.shape = const CircleBorder(),
-    this.curve = Curves.linear,
+    this.curve = Curves.fastOutSlowIn,
     this.onLongPress,
   }) : super(key: key);
 
   @override
+  _AnimatedFloatingButtonState createState() => _AnimatedFloatingButtonState();
+}
+
+class _AnimatedFloatingButtonState extends State<AnimatedFloatingButton>
+    with TickerProviderStateMixin {
+  @override
   Widget build(BuildContext context) {
-    return AnimatedContainer(
-      curve: curve,
-      duration: Duration(milliseconds: 150),
-      height: visible ? size : 0.0,
-      child: Container(
-        height: size,
-        key: dialRoot == null ? dialKey : GlobalKey(),
-        child: FittedBox(
-          child: GestureDetector(
-            onLongPress: onLongPress,
-            child: dialRoot != null && !(dialRoot! is Container)
-                ? dialRoot
-                : label != null
+    return widget.dialRoot == null
+        ? AnimatedContainer(
+            curve: widget.curve,
+            duration: Duration(milliseconds: 150),
+            height: widget.visible ? widget.size : 0,
+            child: FittedBox(
+              child: GestureDetector(
+                onLongPress: widget.onLongPress,
+                child: widget.label != null
                     ? FloatingActionButton.extended(
-                        icon: visible ? child : null,
-                        shape: shape is CircleBorder ? StadiumBorder() : shape,
-                        label: visible ? label! : SizedBox.shrink(),
-                        backgroundColor: backgroundColor,
-                        foregroundColor: foregroundColor,
-                        onPressed: callback,
-                        tooltip: tooltip,
-                        heroTag: heroTag,
-                        elevation: elevation,
-                        highlightElevation: elevation,
+                        icon: widget.visible ? widget.child : null,
+                        label:
+                            widget.visible ? widget.label! : SizedBox.shrink(),
+                        shape: widget.shape is CircleBorder
+                            ? StadiumBorder()
+                            : widget.shape,
+                        backgroundColor: widget.backgroundColor,
+                        foregroundColor: widget.foregroundColor,
+                        onPressed: widget.callback,
+                        tooltip: widget.tooltip,
+                        heroTag: widget.heroTag,
+                        elevation: widget.elevation,
+                        highlightElevation: widget.elevation,
                       )
                     : FloatingActionButton(
-                        child: visible ? child : null,
-                        backgroundColor: backgroundColor,
-                        foregroundColor: foregroundColor,
-                        onPressed: callback,
-                        tooltip: tooltip,
-                        heroTag: heroTag,
-                        elevation: elevation,
-                        highlightElevation: elevation,
-                        shape: shape,
+                        child: widget.visible ? widget.child : null,
+                        shape: widget.shape,
+                        backgroundColor: widget.backgroundColor,
+                        foregroundColor: widget.foregroundColor,
+                        onPressed: widget.callback,
+                        tooltip: widget.tooltip,
+                        heroTag: widget.heroTag,
+                        elevation: widget.elevation,
+                        highlightElevation: widget.elevation,
                       ),
-          ),
-        ),
-      ),
-    );
+              ),
+            ),
+          )
+        : AnimatedSize(
+            vsync: this,
+            duration: Duration(milliseconds: 150),
+            curve: widget.curve,
+            child: Container(
+              child: Container(
+                child: widget.visible
+                    ? widget.dialRoot
+                    : Container(height: 0, width: 0),
+              ),
+            ),
+          );
   }
 }
