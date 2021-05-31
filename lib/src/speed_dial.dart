@@ -277,8 +277,9 @@ class _SpeedDialState extends State<SpeedDial>
       });
     } else {
       if (_controller.isAnimating) {
-        overlayEntry?.remove();
-        backgroundOverlay?.remove();
+        // overlayEntry?.remove();
+        // backgroundOverlay?.remove();
+        return;
       }
       overlayEntry = OverlayEntry(
           builder: (ctx) => Stack(

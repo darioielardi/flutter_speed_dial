@@ -352,6 +352,7 @@ class _MyHomePageState extends State<MyHomePage> {
           // activeBackgroundColor: Colors.blue,
           elevation: 8.0,
           isOpenOnStart: false,
+          animationSpeed: 200,
           shape: customDialRoot ? RoundedRectangleBorder() : StadiumBorder(),
           // childMargin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
           children: [
