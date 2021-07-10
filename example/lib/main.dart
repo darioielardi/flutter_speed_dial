@@ -303,7 +303,10 @@ class _MyHomePageState extends State<MyHomePage> {
           // activeChild: Text("close"),
           icon: Icons.add,
           activeIcon: Icons.close,
+          spacing: 3,
           openCloseDial: isDialOpen,
+          childPadding: EdgeInsets.all(5),
+          spaceBetweenChildren: 4,
           dialRoot: customDialRoot
               ? (ctx, open, toggleChildren) {
                   return ElevatedButton(

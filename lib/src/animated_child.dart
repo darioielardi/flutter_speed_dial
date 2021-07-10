@@ -23,6 +23,7 @@ class AnimatedChild extends AnimatedWidget {
   final String? heroTag;
   final bool useColumn;
   final bool switchLabelPosition;
+  final EdgeInsets? margin;
 
   final EdgeInsets childMargin;
   final EdgeInsets childPadding;
@@ -45,6 +46,7 @@ class AnimatedChild extends AnimatedWidget {
     this.onTap,
     required this.switchLabelPosition,
     required this.useColumn,
+    required this.margin,
     this.onLongPress,
     this.toggleChildren,
     this.shape,
@@ -165,11 +167,14 @@ class AnimatedChild extends AnimatedWidget {
     }
 
     return visible
-        ? _buildColumnOrRow(
-            useColumn,
-            mainAxisSize: MainAxisSize.min,
-            children:
-                switchLabelPosition ? children.reversed.toList() : children,
+        ? Container(
+            margin: margin,
+            child: _buildColumnOrRow(
+              useColumn,
+              mainAxisSize: MainAxisSize.min,
+              children:
+                  switchLabelPosition ? children.reversed.toList() : children,
+            ),
           )
         : Container();
   }

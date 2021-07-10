@@ -95,7 +95,10 @@ class SpeedDial extends StatefulWidget {
   /// The padding of each child
   final EdgeInsets childPadding;
 
-  /// Add a space at bottom of each children
+  /// Add a space at between speed dial and children
+  final double? spacing;
+
+  /// Add a space between each children
   final double? spaceBetweenChildren;
 
   /// The direction of the children. Default is [SpeedDialDirection.Up]
@@ -162,6 +165,7 @@ class SpeedDial extends StatefulWidget {
     this.childMargin = const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
     this.childPadding = const EdgeInsets.symmetric(vertical: 5),
     this.spaceBetweenChildren,
+    this.spacing,
   }) : super(key: key);
 
   @override
@@ -242,39 +246,50 @@ class _SpeedDialState extends State<SpeedDial>
                 curve: Interval(0.2 * index, 1.0, curve: Curves.ease)),
           );
 
-          return Container(
+          return AnimatedChild(
+            animation: childAnimation,
+            index: index,
             margin: widget.spaceBetweenChildren != null
-                ? EdgeInsets.only(bottom: widget.spaceBetweenChildren!)
+                ? EdgeInsets.fromLTRB(
+                    widget.direction.value == "Right"
+                        ? widget.spaceBetweenChildren!
+                        : 0,
+                    widget.direction.value == "Down"
+                        ? widget.spaceBetweenChildren!
+                        : 0,
+                    widget.direction.value == "Left"
+                        ? widget.spaceBetweenChildren!
+                        : 0,
+                    widget.direction.value == "Up"
+                        ? widget.spaceBetweenChildren!
+                        : 0,
+                  )
                 : null,
-            child: AnimatedChild(
-              animation: childAnimation,
-              index: index,
-              btnKey: child.key,
-              useColumn: widget.direction.value == "Left" ||
-                  widget.direction.value == "Right",
-              visible: child.visible,
-              switchLabelPosition: widget.switchLabelPosition,
-              backgroundColor: child.backgroundColor,
-              foregroundColor: child.foregroundColor,
-              elevation: child.elevation,
-              buttonSize: widget.childrenButtonSize,
-              child: child.child,
-              label: child.label,
-              labelStyle: child.labelStyle,
-              labelBackgroundColor: child.labelBackgroundColor,
-              labelWidget: child.labelWidget,
-              onTap: child.onTap,
-              onLongPress: child.onLongPress,
-              toggleChildren: () {
-                if (!widget.closeManually) _toggleChildren();
-              },
-              shape: child.shape,
-              heroTag: widget.heroTag != null
-                  ? '${widget.heroTag}-child-$index'
-                  : null,
-              childMargin: widget.childMargin,
-              childPadding: widget.childPadding,
-            ),
+            btnKey: child.key,
+            useColumn: widget.direction.value == "Left" ||
+                widget.direction.value == "Right",
+            visible: child.visible,
+            switchLabelPosition: widget.switchLabelPosition,
+            backgroundColor: child.backgroundColor,
+            foregroundColor: child.foregroundColor,
+            elevation: child.elevation,
+            buttonSize: widget.childrenButtonSize,
+            child: child.child,
+            label: child.label,
+            labelStyle: child.labelStyle,
+            labelBackgroundColor: child.labelBackgroundColor,
+            labelWidget: child.labelWidget,
+            onTap: child.onTap,
+            onLongPress: child.onLongPress,
+            toggleChildren: () {
+              if (!widget.closeManually) _toggleChildren();
+            },
+            shape: child.shape,
+            heroTag: widget.heroTag != null
+                ? '${widget.heroTag}-child-$index'
+                : null,
+            childMargin: widget.childMargin,
+            childPadding: widget.childPadding,
           );
         })
         .toList()
@@ -340,17 +355,35 @@ class _SpeedDialState extends State<SpeedDial>
                     showWhenUnlinked: false,
                     child: Material(
                       type: MaterialType.transparency,
-                      child: _buildColumnOrRow(
-                        widget.direction.value == "Up" ||
-                            widget.direction.value == "Down",
-                        crossAxisAlignment: widget.switchLabelPosition
-                            ? CrossAxisAlignment.start
-                            : CrossAxisAlignment.end,
-                        mainAxisSize: MainAxisSize.min,
-                        children: widget.direction.value == "Down" ||
+                      child: Container(
+                        margin: widget.spacing != null
+                            ? EdgeInsets.fromLTRB(
                                 widget.direction.value == "Right"
-                            ? _getChildrenList().reversed.toList()
-                            : _getChildrenList(),
+                                    ? widget.spacing!
+                                    : 0,
+                                widget.direction.value == "Down"
+                                    ? widget.spacing!
+                                    : 0,
+                                widget.direction.value == "Left"
+                                    ? widget.spacing!
+                                    : 0,
+                                widget.direction.value == "Up"
+                                    ? widget.spacing!
+                                    : 0,
+                              )
+                            : null,
+                        child: _buildColumnOrRow(
+                          widget.direction.value == "Up" ||
+                              widget.direction.value == "Down",
+                          crossAxisAlignment: widget.switchLabelPosition
+                              ? CrossAxisAlignment.start
+                              : CrossAxisAlignment.end,
+                          mainAxisSize: MainAxisSize.min,
+                          children: widget.direction.value == "Down" ||
+                                  widget.direction.value == "Right"
+                              ? _getChildrenList().reversed.toList()
+                              : _getChildrenList(),
+                        ),
                       ),
                     ),
                   )),
