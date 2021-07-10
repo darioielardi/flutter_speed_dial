@@ -4,6 +4,8 @@
 Flutter package to render a <a href="https://material.io/design/components/buttons-floating-action-button.html#types-of-transitions">Material Design Speed Dial</a>.
 </p>
 
+<p align="center"><a href="https://github.com/darioielardi/flutter_speed_dial/releases"><img alt="GitHub release" src="https://img.shields.io/github/v/release/darioielardi/flutter_speed_dial"/></a> <a href="LICENSE"><img alt="License" src="https://img.shields.io/github/license/darioielardi/flutter_speed_dial?color=blue"/></a> <a href="https://pub.dev/documentation/flutter_speed_dial/latest/flutter_speed_dial/flutter_speed_dial-library.html"><img alt="Classic API Docs" src="https://img.shields.io/badge/Classic Docs-informational"/></a> <a href="#usage"><img alt="Usage" src="https://img.shields.io/badge/Usage-blue"/></a></p>
+
 <p align="center">
 <img src="https://user-images.githubusercontent.com/41370460/113670683-0de04700-96d3-11eb-8029-aeadf1797b60.gif" height="460">
 </p>
@@ -92,8 +94,6 @@ WillPopScope(
   child: ...your child goes here
 )
 ```
-
-[**Classes API Docs**](https://pub.dev/documentation/flutter_speed_dial/latest/flutter_speed_dial/flutter_speed_dial-library.html)
 
 #### Example Usage
 
