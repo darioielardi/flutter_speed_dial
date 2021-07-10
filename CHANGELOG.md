@@ -1,3 +1,10 @@
+## [4.1.0] - 10 July 2021
+
+- Add isOpenOnStart property
+- Fix closing animation not playing if we double click on fab
+- Add spacing property to manage space b/w children and speed dial
+- Add spaceBetweenChildren and childPadding property by @carlosfiori
+
 ## [4.0.0-dev.1] - 29 May 2021
 
 - Update Exanple Project

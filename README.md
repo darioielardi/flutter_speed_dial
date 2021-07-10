@@ -1,8 +1,12 @@
-## Flutter Speed Dial - Ultimate Edition
+<h2 align="center">Flutter Speed Dial</h1>
 
-Flutter package to render a [Material Design Speed Dial](https://material.io/design/components/buttons-floating-action-button.html#types-of-transitions).
+<p align="center">
+Flutter package to render a <a href="https://material.io/design/components/buttons-floating-action-button.html#types-of-transitions">Material Design Speed Dial</a>.
+</p>
 
-<img src="https://user-images.githubusercontent.com/41370460/113670683-0de04700-96d3-11eb-8029-aeadf1797b60.gif" width="320">
+<p align="center">
+<img src="https://user-images.githubusercontent.com/41370460/113670683-0de04700-96d3-11eb-8029-aeadf1797b60.gif" height="460">
+</p>
 
 ### Usage
 
@@ -10,14 +14,14 @@ The SpeedDial widget is built to be placed in the `Scaffold.floatingActionButton
 You can set its position using `Scaffold.floatingActionButtonLocation` argument.
 It can also be used with `Scaffold.bottomNavigationBar` and `Snackbar`.
 
-**Nullsafety** is availabile from version **3.0.5** *( It is also backward compatible,  meaning you can use it with not null safe code too )*
+**Null safety** is available from version **3.0.5** *( It is also backward compatible,  meaning you can use it with non null safe code too )*
 
 #### Labels
 
 SpeedDial can take any Widget as `label` *SpeedDial will use Extended FloatingActionButton property if label is specified*. It also have `activeLabel` property by which you can specify the label which is shown when SpeedDial is open. It also comes with its labelTransitionBuilder which defaults to fade transition.
 
-Also Every children's button have `label` property which accepts `String` which can be styled by using `labelStyle`. If you want to specify a widget then you can use labelWidget.
-If the `label` parameter is not provided the label will be not rendered.
+Also Every child's button have `label` property which accepts `String` which can be styled by using `labelStyle`. If you want to specify a widget then you can use labelWidget.  
+If the `label` parameter is not provided, then the label will be not rendered.
 
 #### Types of child for SpeedDial *(Ordered by their priority)*
 <details>
@@ -51,15 +55,27 @@ SpeedDial's IconData has three specific parameters:
 
 The package will handle the animation by itself.
 
+#### Handle spacing
+
+There are various properties for SpeedDial by which you can adjust the spacing:
+
+1. `spacing` - This parameter handles the space b/w speed dial and its children.  
+
+2. `spaceBetweenChildren` - As the name suggests, this is used to adjust the space b/w every child element  
+
+3. `childPadding` - This will adjust the padding of children speed dial button, this will help you to control the size of the children button more effectively.  
+
+4. `childMargin` - This will help you to adjust the margin b/w children speed dial button and its label.  
+
 #### Close on WillPop
 
 Although it doesn't magically closes when you press back button, but requires a easier setup to enable this functionality, here are the steps that you need to do to enable that:
 
-1. Add a value Notifier inside your widgets build context where your speedDial is placed like below.
+1. Add a value Notifier inside your widgets build context where your SpeedDial is placed like below.
 ```dart
 ValueNotifier<bool> isDialOpen = ValueNotifier(false);
 ```
-2. Then you need to add a property to your speedDial known as openCloseManually like below.
+2. Then you need to add a property to your SpeedDial known as openCloseDial like below.
 ```dart
   openCloseDial: isDialOpen,
 ```
