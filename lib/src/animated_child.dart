@@ -25,6 +25,7 @@ class AnimatedChild extends AnimatedWidget {
   final bool switchLabelPosition;
 
   final EdgeInsets childMargin;
+  final EdgeInsets childPadding;
 
   AnimatedChild({
     this.btnKey,
@@ -49,6 +50,7 @@ class AnimatedChild extends AnimatedWidget {
     this.shape,
     this.heroTag,
     required this.childMargin,
+    required this.childPadding,
   }) : super(listenable: animation);
 
   Widget build(BuildContext context) {
@@ -126,7 +128,7 @@ class AnimatedChild extends AnimatedWidget {
         ),
       if (child != null)
         Container(
-          padding: EdgeInsets.symmetric(vertical: 5),
+          padding: childPadding,
           height: buttonSize,
           width: buttonSize,
           child: (onLongPress == null)
