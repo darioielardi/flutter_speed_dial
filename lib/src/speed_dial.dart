@@ -182,7 +182,6 @@ class _SpeedDialState extends State<SpeedDial>
   OverlayEntry? overlayEntry;
   OverlayEntry? backgroundOverlay;
   LayerLink _layerLink = LayerLink();
-  late bool _dark = Theme.of(context).brightness == Brightness.dark;
   final dialKey = GlobalKey<State<StatefulWidget>>();
 
   @override
@@ -389,9 +388,11 @@ class _SpeedDialState extends State<SpeedDial>
                   )),
                 ],
               ));
-      if (widget.renderOverlay)
+      if (widget.renderOverlay) {
         backgroundOverlay = OverlayEntry(
-            builder: (ctx) => BackgroundOverlay(
+            builder: (ctx) {
+                bool _dark = Theme.of(ctx).brightness == Brightness.dark;
+                return BackgroundOverlay(
                   dialKey: dialKey,
                   layerLink: _layerLink,
                   shape: widget.shape,
@@ -401,7 +402,10 @@ class _SpeedDialState extends State<SpeedDial>
                   color: widget.overlayColor ??
                       (_dark ? Colors.grey[900] : Colors.white)!,
                   opacity: widget.overlayOpacity,
-                ));
+                );
+            }
+        );
+      }
 
       if (!mounted) return;
 
