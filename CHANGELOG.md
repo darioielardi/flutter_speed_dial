@@ -1,3 +1,10 @@
+## [4.2.0] - 28 July 2021
+
+- Fix closeManually
+- Add click cursor on desktop and web when speed dial is opened
+- Add tooltip to speed dial when overlay is on
+- Fix overlay stale context brightness #184
+
 ## [4.1.0] - 10 July 2021
 
 - Add isOpenOnStart property

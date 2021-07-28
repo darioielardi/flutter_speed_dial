@@ -10,6 +10,8 @@ class BackgroundOverlay extends AnimatedWidget {
   final LayerLink layerLink;
   final ShapeBorder shape;
   final VoidCallback? onTap;
+  final bool closeManually;
+  final String? tooltip;
 
   BackgroundOverlay({
     Key? key,
@@ -18,6 +20,8 @@ class BackgroundOverlay extends AnimatedWidget {
     required Animation<double> animation,
     required this.dialKey,
     required this.layerLink,
+    required this.closeManually,
+    required this.tooltip,
     this.color = Colors.white,
     this.opacity = 0.7,
   }) : super(key: key, listenable: animation);
@@ -31,7 +35,7 @@ class BackgroundOverlay extends AnimatedWidget {
           fit: StackFit.expand,
           children: [
             GestureDetector(
-              onTap: onTap,
+              onTap: closeManually ? null : onTap,
               child: Container(
                 decoration: BoxDecoration(
                     color: color, backgroundBlendMode: BlendMode.dstOut),
@@ -42,15 +46,21 @@ class BackgroundOverlay extends AnimatedWidget {
               child: CompositedTransformFollower(
                 link: layerLink,
                 showWhenUnlinked: false,
-                child: IgnorePointer(
-                  ignoring: true,
-                  child: Container(
-                    width: dialKey.globalPaintBounds!.size.width,
-                    height: dialKey.globalPaintBounds!.size.height,
-                    decoration: ShapeDecoration(
-                      shape:
-                          (shape == CircleBorder()) ? StadiumBorder() : shape,
-                      color: Colors.white,
+                child: MouseRegion(
+                  cursor: SystemMouseCursors.click,
+                  child: Tooltip(
+                    message: tooltip ?? '',
+                    child: GestureDetector(
+                      onTap: onTap,
+                      child: Container(
+                        width: dialKey.globalPaintBounds!.size.width,
+                        height: dialKey.globalPaintBounds!.size.height,
+                        decoration: ShapeDecoration(
+                          shape:
+                              shape == CircleBorder() ? StadiumBorder() : shape,
+                          color: Colors.white,
+                        ),
+                      ),
                     ),
                   ),
                 ),

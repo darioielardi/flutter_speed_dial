@@ -390,20 +390,22 @@ class _SpeedDialState extends State<SpeedDial>
               ));
       if (widget.renderOverlay) {
         backgroundOverlay = OverlayEntry(
-            builder: (ctx) {
-                bool _dark = Theme.of(ctx).brightness == Brightness.dark;
-                return BackgroundOverlay(
-                  dialKey: dialKey,
-                  layerLink: _layerLink,
-                  shape: widget.shape,
-                  onTap: _toggleChildren,
-                  // (_open && !widget.closeManually) ? _toggleChildren : null,
-                  animation: _controller,
-                  color: widget.overlayColor ??
-                      (_dark ? Colors.grey[900] : Colors.white)!,
-                  opacity: widget.overlayOpacity,
-                );
-            }
+          builder: (ctx) {
+            bool _dark = Theme.of(ctx).brightness == Brightness.dark;
+            return BackgroundOverlay(
+              dialKey: dialKey,
+              layerLink: _layerLink,
+              closeManually: widget.closeManually,
+              tooltip: widget.tooltip,
+              shape: widget.shape,
+              onTap: _toggleChildren,
+              // (_open && !widget.closeManually) ? _toggleChildren : null,
+              animation: _controller,
+              color: widget.overlayColor ??
+                  (_dark ? Colors.grey[900] : Colors.white)!,
+              opacity: widget.overlayOpacity,
+            );
+          },
         );
       }
 
