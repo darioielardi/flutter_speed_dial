@@ -15,7 +15,7 @@ jobs:
           java-version: '12.x'
       - uses: subosito/flutter-action@master
         with:
-          channel: stable
+          channel: beta
 
       - name: Generate Example project
         run: flutter create example/
