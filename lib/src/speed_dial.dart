@@ -191,6 +191,10 @@ class _SpeedDialState extends State<SpeedDial>
     Future.delayed(Duration.zero, () async {
       if (mounted && widget.isOpenOnStart) _toggleChildren();
     });
+    if (widget.children.length > 5) {
+      print(
+          'Warning ! You are using more than 5 children, which is not compliant with Material design specs.');
+    }
   }
 
   @override
@@ -238,8 +242,13 @@ class _SpeedDialState extends State<SpeedDial>
 
           var childAnimation = Tween(begin: 0.0, end: 1.0).animate(
             CurvedAnimation(
-                parent: _controller,
-                curve: Interval(0.2 * index, 1.0, curve: Curves.ease)),
+              parent: _controller,
+              curve: Interval(
+                (0.2 * index).clamp(0.0, 1.0),
+                1.0,
+                curve: Curves.ease,
+              ),
+            ),
           );
 
           return AnimatedChild(
