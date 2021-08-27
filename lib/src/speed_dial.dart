@@ -244,7 +244,7 @@ class _SpeedDialState extends State<SpeedDial>
             CurvedAnimation(
               parent: _controller,
               curve: Interval(
-                (0.2 * index).clamp(0.0, 1.0),
+                index / widget.children.length,
                 1.0,
                 curve: Curves.ease,
               ),
