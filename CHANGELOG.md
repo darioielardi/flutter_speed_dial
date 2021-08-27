@@ -1,3 +1,7 @@
+## [4.2.1] - 27 August 2021
+
+- Fix Animation assertion error when using more than 6 SpeedDialChild
+
 ## [4.2.0] - 28 July 2021
 
 - Fix closeManually
