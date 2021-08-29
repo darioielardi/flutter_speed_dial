@@ -1,6 +1,8 @@
-## [4.2.1] - 27 August 2021
+## [4.3.0] - 27 August 2021
 
 - Fix Animation assertion error when using more than 6 SpeedDialChild
+- Fix SystemMouseCursors is undefined (#192)
+- Fix widget state interaction after dispose (#193)
 
 ## [4.2.0] - 28 July 2021
 
