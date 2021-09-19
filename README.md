@@ -1,3 +1,6 @@
+# Maintainers Wanted
+More info [here](https://github.com/darioielardi/flutter_speed_dial/issues/190)
+
 <h2 align="center">Flutter Speed Dial</h1>
 
 <p align="center">
