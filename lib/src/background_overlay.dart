@@ -14,7 +14,7 @@ class BackgroundOverlay extends AnimatedWidget {
   final bool closeManually;
   final String? tooltip;
 
-  BackgroundOverlay({
+  const BackgroundOverlay({
     Key? key,
     this.onTap,
     required this.shape,
@@ -27,6 +27,7 @@ class BackgroundOverlay extends AnimatedWidget {
     this.opacity = 0.7,
   }) : super(key: key, listenable: animation);
 
+  @override
   Widget build(BuildContext context) {
     final Animation<double> animation = listenable as Animation<double>;
     return ColorFiltered(
@@ -58,7 +59,7 @@ class BackgroundOverlay extends AnimatedWidget {
                         height: dialKey.globalPaintBounds!.size.height,
                         decoration: ShapeDecoration(
                           shape:
-                              shape == CircleBorder() ? StadiumBorder() : shape,
+                              shape == const CircleBorder() ? const StadiumBorder() : shape,
                           color: Colors.white,
                         ),
                       ),

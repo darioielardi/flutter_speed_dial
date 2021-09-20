@@ -1,6 +1,8 @@
-enum SpeedDialDirection { Up, Down, Left, Right }
+enum SpeedDialDirection { up, down, left, right }
 
 extension EnumExtension on SpeedDialDirection {
-  /// Get Value of The SpeedDialDirection Enum like Up, Down, etc. in String format
-  String get value => this.toString().split(".")[1];
+  bool get isDown => this == SpeedDialDirection.down;
+  bool get isUp => this == SpeedDialDirection.up;
+  bool get isLeft => this == SpeedDialDirection.left;
+  bool get isRight => this == SpeedDialDirection.right;
 }

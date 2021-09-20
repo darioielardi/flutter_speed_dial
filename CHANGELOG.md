@@ -1,3 +1,8 @@
+## [4.4.0] - 20 September 2021
+
+- Rename speeed dial direction to lowercase
+- Fix lint errors
+
 ## [4.3.0] - 27 August 2021
 
 - Fix Animation assertion error when using more than 6 SpeedDialChild

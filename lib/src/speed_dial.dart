@@ -101,7 +101,7 @@ class SpeedDial extends StatefulWidget {
   /// Add a space between each children
   final double? spaceBetweenChildren;
 
-  /// The direction of the children. Default is [SpeedDialDirection.Up]
+  /// The direction of the children. Default is [SpeedDialDirection.up]
   final SpeedDialDirection direction;
 
   /// If Provided then it will replace the default Floating Action Button
@@ -121,7 +121,7 @@ class SpeedDial extends StatefulWidget {
 
   final bool switchLabelPosition;
 
-  SpeedDial({
+  const SpeedDial({
     Key? key,
     this.children = const [],
     this.visible = true,
@@ -153,7 +153,7 @@ class SpeedDial extends StatefulWidget {
     this.labelTransitionBuilder,
     this.onOpen,
     this.onClose,
-    this.direction = SpeedDialDirection.Up,
+    this.direction = SpeedDialDirection.up,
     this.closeManually = false,
     this.renderOverlay = true,
     this.shape = const StadiumBorder(),
@@ -174,14 +174,14 @@ class SpeedDial extends StatefulWidget {
 
 class _SpeedDialState extends State<SpeedDial>
     with SingleTickerProviderStateMixin {
-  late AnimationController _controller = AnimationController(
+  late final AnimationController _controller = AnimationController(
     duration: Duration(milliseconds: widget.animationSpeed),
     vsync: this,
   );
   bool _open = false;
   OverlayEntry? overlayEntry;
   OverlayEntry? backgroundOverlay;
-  LayerLink _layerLink = LayerLink();
+  final LayerLink _layerLink = LayerLink();
   final dialKey = GlobalKey<State<StatefulWidget>>();
 
   @override
@@ -192,7 +192,7 @@ class _SpeedDialState extends State<SpeedDial>
       if (mounted && widget.isOpenOnStart) _toggleChildren();
     });
     if (widget.children.length > 5) {
-      print(
+      debugPrint(
           'Warning ! You are using more than 5 children, which is not compliant with Material design specs.');
     }
   }
@@ -226,13 +226,15 @@ class _SpeedDialState extends State<SpeedDial>
   void _toggleChildren() {
     if (!mounted) return;
 
-    if (widget.children.length > 0) {
+    if (widget.children.isNotEmpty) {
       var newValue = !_open;
       toggleOverlay();
       if (widget.openCloseDial != null) widget.openCloseDial!.value = newValue;
       if (newValue && widget.onOpen != null) widget.onOpen?.call();
       if (!newValue && widget.onClose != null) widget.onClose?.call();
-    } else if (widget.onOpen != null) widget.onOpen?.call();
+    } else if (widget.onOpen != null) {
+      widget.onOpen?.call();
+    }
   }
 
   List<Widget> _getChildrenList() {
@@ -256,23 +258,14 @@ class _SpeedDialState extends State<SpeedDial>
             index: index,
             margin: widget.spaceBetweenChildren != null
                 ? EdgeInsets.fromLTRB(
-                    widget.direction.value == "Right"
-                        ? widget.spaceBetweenChildren!
-                        : 0,
-                    widget.direction.value == "Down"
-                        ? widget.spaceBetweenChildren!
-                        : 0,
-                    widget.direction.value == "Left"
-                        ? widget.spaceBetweenChildren!
-                        : 0,
-                    widget.direction.value == "Up"
-                        ? widget.spaceBetweenChildren!
-                        : 0,
+                    widget.direction.isRight ? widget.spaceBetweenChildren! : 0,
+                    widget.direction.isDown ? widget.spaceBetweenChildren! : 0,
+                    widget.direction.isLeft ? widget.spaceBetweenChildren! : 0,
+                    widget.direction.isUp ? widget.spaceBetweenChildren! : 0,
                   )
                 : null,
             btnKey: child.key,
-            useColumn: widget.direction.value == "Left" ||
-                widget.direction.value == "Right",
+            useColumn: widget.direction.isLeft || widget.direction.isRight,
             visible: child.visible,
             switchLabelPosition: widget.switchLabelPosition,
             backgroundColor: child.backgroundColor,
@@ -306,8 +299,9 @@ class _SpeedDialState extends State<SpeedDial>
     if (_open) {
       _controller.reverse().whenComplete(() {
         overlayEntry?.remove();
-        if (widget.renderOverlay && backgroundOverlay!.mounted)
+        if (widget.renderOverlay && backgroundOverlay!.mounted) {
           backgroundOverlay?.remove();
+        }
       });
     } else {
       if (_controller.isAnimating) {
@@ -321,41 +315,41 @@ class _SpeedDialState extends State<SpeedDial>
                 children: [
                   Positioned(
                       child: CompositedTransformFollower(
-                    followerAnchor: widget.direction.value == "Down"
+                    followerAnchor: widget.direction.isDown
                         ? widget.switchLabelPosition
                             ? Alignment.topLeft
                             : Alignment.topRight
-                        : widget.direction.value == "Up"
+                        : widget.direction.isUp
                             ? widget.switchLabelPosition
                                 ? Alignment.bottomLeft
                                 : Alignment.bottomRight
-                            : widget.direction.value == "Left"
+                            : widget.direction.isLeft
                                 ? Alignment.centerRight
-                                : widget.direction.value == "Right"
+                                : widget.direction.isRight
                                     ? Alignment.centerLeft
                                     : Alignment.center,
-                    offset: widget.direction.value == "Down"
+                    offset: widget.direction.isDown
                         ? Offset(
                             widget.switchLabelPosition
                                 ? 0
                                 : dialKey.globalPaintBounds!.size.width,
                             dialKey.globalPaintBounds!.size.height)
-                        : widget.direction.value == "Up"
+                        : widget.direction.isUp
                             ? Offset(
                                 widget.switchLabelPosition
                                     ? 0
                                     : dialKey.globalPaintBounds!.size.width,
                                 0)
-                            : widget.direction.value == "Left"
+                            : widget.direction.isLeft
                                 ? Offset(-10.0,
                                     dialKey.globalPaintBounds!.size.height / 2)
-                                : widget.direction.value == "Right"
+                                : widget.direction.isRight
                                     ? Offset(
                                         dialKey.globalPaintBounds!.size.width +
                                             12,
                                         dialKey.globalPaintBounds!.size.height /
                                             2)
-                                    : Offset(-10.0, 0.0),
+                                    : const Offset(-10.0, 0.0),
                     link: _layerLink,
                     showWhenUnlinked: false,
                     child: Material(
@@ -363,29 +357,20 @@ class _SpeedDialState extends State<SpeedDial>
                       child: Container(
                         margin: widget.spacing != null
                             ? EdgeInsets.fromLTRB(
-                                widget.direction.value == "Right"
-                                    ? widget.spacing!
-                                    : 0,
-                                widget.direction.value == "Down"
-                                    ? widget.spacing!
-                                    : 0,
-                                widget.direction.value == "Left"
-                                    ? widget.spacing!
-                                    : 0,
-                                widget.direction.value == "Up"
-                                    ? widget.spacing!
-                                    : 0,
+                                widget.direction.isRight ? widget.spacing! : 0,
+                                widget.direction.isDown ? widget.spacing! : 0,
+                                widget.direction.isLeft ? widget.spacing! : 0,
+                                widget.direction.isUp ? widget.spacing! : 0,
                               )
                             : null,
                         child: _buildColumnOrRow(
-                          widget.direction.value == "Up" ||
-                              widget.direction.value == "Down",
+                          widget.direction.isUp || widget.direction.isDown,
                           crossAxisAlignment: widget.switchLabelPosition
                               ? CrossAxisAlignment.start
                               : CrossAxisAlignment.end,
                           mainAxisSize: MainAxisSize.min,
-                          children: widget.direction.value == "Down" ||
-                                  widget.direction.value == "Right"
+                          children: widget.direction.isDown ||
+                                  widget.direction.isRight
                               ? _getChildrenList().reversed.toList()
                               : _getChildrenList(),
                         ),
@@ -465,7 +450,7 @@ class _SpeedDialState extends State<SpeedDial>
                                 child: widget.icon != null
                                     ? Icon(
                                         widget.icon,
-                                        key: ValueKey<int>(0),
+                                        key: const ValueKey<int>(0),
                                         color: widget.iconTheme?.color,
                                         size: widget.iconTheme?.size,
                                       )
@@ -479,22 +464,21 @@ class _SpeedDialState extends State<SpeedDial>
                           : Transform.rotate(
                               angle:
                                   widget.useRotationAnimation ? -pi * 1 / 2 : 0,
-                              child: widget.activeChild != null
-                                  ? widget.activeChild
-                                  : Container(
-                                      child: Center(
-                                        child: Icon(
-                                          widget.activeIcon,
-                                          key: ValueKey<int>(1),
-                                          color: widget.iconTheme?.color,
-                                          size: widget.iconTheme?.size,
-                                        ),
-                                      ),
-                                      decoration: BoxDecoration(
-                                        shape: widget.gradientBoxShape,
-                                        gradient: widget.gradient,
+                              child: widget.activeChild ??
+                                  Container(
+                                    child: Center(
+                                      child: Icon(
+                                        widget.activeIcon,
+                                        key: const ValueKey<int>(1),
+                                        color: widget.iconTheme?.color,
+                                        size: widget.iconTheme?.size,
                                       ),
                                     ),
+                                    decoration: BoxDecoration(
+                                      shape: widget.gradientBoxShape,
+                                      gradient: widget.gradient,
+                                    ),
+                                  ),
                             )),
             ),
           );

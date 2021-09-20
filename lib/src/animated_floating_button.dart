@@ -17,7 +17,7 @@ class AnimatedFloatingButton extends StatefulWidget {
   final Widget? dialRoot;
   final bool useInkWell;
 
-  AnimatedFloatingButton({
+  const AnimatedFloatingButton({
     Key? key,
     this.visible = true,
     this.callback,
@@ -47,7 +47,7 @@ class _AnimatedFloatingButtonState extends State<AnimatedFloatingButton>
     return widget.dialRoot == null
         ? AnimatedContainer(
             curve: widget.curve,
-            duration: Duration(milliseconds: 150),
+            duration: const Duration(milliseconds: 150),
             height: widget.visible ? widget.size : 0,
             child: FittedBox(
               child: GestureDetector(
@@ -55,10 +55,11 @@ class _AnimatedFloatingButtonState extends State<AnimatedFloatingButton>
                 child: widget.label != null
                     ? FloatingActionButton.extended(
                         icon: widget.visible ? widget.child : null,
-                        label:
-                            widget.visible ? widget.label! : SizedBox.shrink(),
+                        label: widget.visible
+                            ? widget.label!
+                            : const SizedBox.shrink(),
                         shape: widget.shape is CircleBorder
-                            ? StadiumBorder()
+                            ? const StadiumBorder()
                             : widget.shape,
                         backgroundColor: widget.backgroundColor,
                         foregroundColor: widget.foregroundColor,
@@ -83,16 +84,11 @@ class _AnimatedFloatingButtonState extends State<AnimatedFloatingButton>
             ),
           )
         : AnimatedSize(
-            vsync: this,
-            duration: Duration(milliseconds: 150),
+            duration: const Duration(milliseconds: 150),
             curve: widget.curve,
-            child: Container(
-              child: Container(
-                child: widget.visible
-                    ? widget.dialRoot
-                    : Container(height: 0, width: 0),
-              ),
-            ),
+            child: widget.visible
+                ? widget.dialRoot
+                : const SizedBox(height: 0, width: 0),
           );
   }
 }

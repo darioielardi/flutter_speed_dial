@@ -1,10 +1,11 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(const MyApp());
 
 class MyApp extends StatefulWidget {
-  MyApp({Key? key}) : super(key: key);
+  const MyApp({Key? key}) : super(key: key);
   @override
   _MyAppState createState() => _MyAppState();
 }
@@ -14,7 +15,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    final appTitle = 'Flutter Speed Dial Example';
+    const appTitle = 'Flutter Speed Dial Example';
     return ValueListenableBuilder<ThemeMode>(
         valueListenable: theme,
         builder: (context, value, child) => MaterialApp(
@@ -36,7 +37,7 @@ class _MyAppState extends State<MyApp> {
 
 class MyHomePage extends StatefulWidget {
   final ValueNotifier<ThemeMode> theme;
-  MyHomePage({required this.theme});
+  const MyHomePage({Key? key, required this.theme}) : super(key: key);
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
@@ -51,7 +52,7 @@ class _MyHomePageState extends State<MyHomePage> {
   var closeManually = false;
   var useRAnimation = true;
   var isDialOpen = ValueNotifier<bool>(false);
-  var speedDialDirection = SpeedDialDirection.Up;
+  var speedDialDirection = SpeedDialDirection.up;
   var selectedfABLocation = FloatingActionButtonLocation.endDocked;
   var items = [
     FloatingActionButtonLocation.startFloat,
@@ -75,22 +76,22 @@ class _MyHomePageState extends State<MyHomePage> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text("Flutter Speed Dial Example"),
+          title: const Text("Flutter Speed Dial Example"),
         ),
         body: SingleChildScrollView(
-            physics: BouncingScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
             child: Center(
               child: Container(
-                constraints: BoxConstraints(maxWidth: 800),
+                constraints: const BoxConstraints(maxWidth: 800),
                 child: Column(children: [
                   Container(
-                    padding: EdgeInsets.all(15),
+                    padding: const EdgeInsets.all(15),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text("SpeedDial Location",
                             style: Theme.of(context).textTheme.bodyText1),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         Container(
                           decoration: BoxDecoration(
                               color: Theme.of(context).brightness ==
@@ -101,9 +102,9 @@ class _MyHomePageState extends State<MyHomePage> {
                           child: DropdownButton<FloatingActionButtonLocation>(
                             value: selectedfABLocation,
                             isExpanded: true,
-                            icon: Icon(Icons.arrow_drop_down),
+                            icon: const Icon(Icons.arrow_drop_down),
                             iconSize: 20,
-                            underline: SizedBox(),
+                            underline: const SizedBox(),
                             onChanged: (fABLocation) => setState(
                                 () => selectedfABLocation = fABLocation!),
                             selectedItemBuilder: (BuildContext context) {
@@ -111,7 +112,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 return Align(
                                     alignment: Alignment.centerLeft,
                                     child: Container(
-                                        padding: EdgeInsets.symmetric(
+                                        padding: const EdgeInsets.symmetric(
                                             vertical: 4, horizontal: 10),
                                         child: Text(item.value)));
                               }).toList();
@@ -131,13 +132,13 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                   ),
                   Container(
-                    padding: EdgeInsets.all(15),
+                    padding: const EdgeInsets.all(15),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text("SpeedDial Direction",
                             style: Theme.of(context).textTheme.bodyText1),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         Container(
                           decoration: BoxDecoration(
                               color: Theme.of(context).brightness ==
@@ -148,24 +149,24 @@ class _MyHomePageState extends State<MyHomePage> {
                           child: DropdownButton<SpeedDialDirection>(
                             value: speedDialDirection,
                             isExpanded: true,
-                            icon: Icon(Icons.arrow_drop_down),
+                            icon: const Icon(Icons.arrow_drop_down),
                             iconSize: 20,
-                            underline: SizedBox(),
+                            underline: const SizedBox(),
                             onChanged: (sdo) {
                               setState(() {
                                 speedDialDirection = sdo!;
-                                selectedfABLocation = (sdo.value == "Up" &&
+                                selectedfABLocation = (sdo.isUp &&
                                             selectedfABLocation.value
                                                 .contains("Top")) ||
-                                        (sdo.value == "Left" &&
+                                        (sdo.isLeft &&
                                             selectedfABLocation.value
                                                 .contains("start"))
                                     ? FloatingActionButtonLocation.endDocked
-                                    : sdo.value == "Down" &&
+                                    : sdo.isDown &&
                                             !selectedfABLocation.value
                                                 .contains("Top")
                                         ? FloatingActionButtonLocation.endTop
-                                        : sdo.value == "Right" &&
+                                        : sdo.isRight &&
                                                 selectedfABLocation.value
                                                     .contains("end")
                                             ? FloatingActionButtonLocation
@@ -178,20 +179,18 @@ class _MyHomePageState extends State<MyHomePage> {
                                   .toList()
                                   .map<Widget>((item) {
                                 return Container(
-                                  padding: EdgeInsets.symmetric(
+                                  padding: const EdgeInsets.symmetric(
                                       vertical: 4, horizontal: 10),
                                   child: Align(
                                       alignment: Alignment.centerLeft,
-                                      child: Text(item.value)),
+                                      child: Text(describeEnum(item))),
                                 );
                               }).toList();
                             },
                             items:
                                 SpeedDialDirection.values.toList().map((item) {
                               return DropdownMenuItem<SpeedDialDirection>(
-                                child: Text(
-                                  item.value,
-                                ),
+                                child: Text(describeEnum(item)),
                                 value: item,
                               );
                             }).toList(),
@@ -202,54 +201,54 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   if (!customDialRoot)
                     SwitchListTile(
-                        contentPadding: EdgeInsets.all(15),
+                        contentPadding: const EdgeInsets.all(15),
                         value: extend,
-                        title: Text("Extend Speed Dial"),
+                        title: const Text("Extend Speed Dial"),
                         onChanged: (val) {
                           setState(() {
                             extend = val;
                           });
                         }),
                   SwitchListTile(
-                      contentPadding: EdgeInsets.all(15),
+                      contentPadding: const EdgeInsets.all(15),
                       value: visible,
-                      title: Text("Visible"),
+                      title: const Text("Visible"),
                       onChanged: (val) {
                         setState(() {
                           visible = val;
                         });
                       }),
                   SwitchListTile(
-                      contentPadding: EdgeInsets.all(15),
+                      contentPadding: const EdgeInsets.all(15),
                       value: customDialRoot,
-                      title: Text("Custom dialRoot"),
+                      title: const Text("Custom dialRoot"),
                       onChanged: (val) {
                         setState(() {
                           customDialRoot = val;
                         });
                       }),
                   SwitchListTile(
-                      contentPadding: EdgeInsets.all(15),
+                      contentPadding: const EdgeInsets.all(15),
                       value: renderOverlay,
-                      title: Text("Render Overlay"),
+                      title: const Text("Render Overlay"),
                       onChanged: (val) {
                         setState(() {
                           renderOverlay = val;
                         });
                       }),
                   SwitchListTile(
-                      contentPadding: EdgeInsets.all(15),
+                      contentPadding: const EdgeInsets.all(15),
                       value: closeManually,
-                      title: Text("Close Manually"),
+                      title: const Text("Close Manually"),
                       onChanged: (val) {
                         setState(() {
                           closeManually = val;
                         });
                       }),
                   SwitchListTile(
-                      contentPadding: EdgeInsets.all(15),
+                      contentPadding: const EdgeInsets.all(15),
                       value: rmicons,
-                      title: Text("Remove Icons (for children)"),
+                      title: const Text("Remove Icons (for children)"),
                       onChanged: (val) {
                         setState(() {
                           rmicons = val;
@@ -257,18 +256,18 @@ class _MyHomePageState extends State<MyHomePage> {
                       }),
                   if (!customDialRoot)
                     SwitchListTile(
-                        contentPadding: EdgeInsets.all(15),
+                        contentPadding: const EdgeInsets.all(15),
                         value: useRAnimation,
-                        title: Text("Use Rotation Animation"),
+                        title: const Text("Use Rotation Animation"),
                         onChanged: (val) {
                           setState(() {
                             useRAnimation = val;
                           });
                         }),
                   SwitchListTile(
-                      contentPadding: EdgeInsets.all(15),
+                      contentPadding: const EdgeInsets.all(15),
                       value: switchLabelPosition,
-                      title: Text("Switch Label Position"),
+                      title: const Text("Switch Label Position"),
                       onChanged: (val) {
                         setState(() {
                           switchLabelPosition = val;
@@ -277,17 +276,18 @@ class _MyHomePageState extends State<MyHomePage> {
                                     selectedfABLocation.value
                                         .toLowerCase()
                                         .contains("top")) &&
-                                speedDialDirection.value == "Up")
+                                speedDialDirection.isUp) {
                               selectedfABLocation =
                                   FloatingActionButtonLocation.startDocked;
-                            else if ((selectedfABLocation.value
+                            } else if ((selectedfABLocation.value
                                         .contains("end") ||
                                     !selectedfABLocation.value
                                         .toLowerCase()
                                         .contains("top")) &&
-                                speedDialDirection.value == "Down")
+                                speedDialDirection.isDown) {
                               selectedfABLocation =
                                   FloatingActionButtonLocation.startTop;
+                            }
                           }
                         });
                       }),
@@ -305,7 +305,7 @@ class _MyHomePageState extends State<MyHomePage> {
           activeIcon: Icons.close,
           spacing: 3,
           openCloseDial: isDialOpen,
-          childPadding: EdgeInsets.all(5),
+          childPadding: const EdgeInsets.all(5),
           spaceBetweenChildren: 4,
           dialRoot: customDialRoot
               ? (ctx, open, toggleChildren) {
@@ -313,10 +313,10 @@ class _MyHomePageState extends State<MyHomePage> {
                     onPressed: toggleChildren,
                     style: ElevatedButton.styleFrom(
                       primary: Colors.blue[900],
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 22, vertical: 18),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 22, vertical: 18),
                     ),
-                    child: Text(
+                    child: const Text(
                       "Custom Dial Root",
                       style: TextStyle(fontSize: 17),
                     ),
@@ -325,9 +325,11 @@ class _MyHomePageState extends State<MyHomePage> {
               : null,
           buttonSize: 56, // it's the SpeedDial size which defaults to 56 itself
           // iconTheme: IconThemeData(size: 22),
-          label: extend ? Text("Open") : null, // The label of the main button.
+          label: extend
+              ? const Text("Open")
+              : null, // The label of the main button.
           /// The active label of the main button, Defaults to label if not specified.
-          activeLabel: extend ? Text("Close") : null,
+          activeLabel: extend ? const Text("Close") : null,
 
           /// Transition Builder between label and activeLabel, defaults to FadeTransition.
           // labelTransitionBuilder: (widget, animation) => ScaleTransition(scale: animation,child: widget),
@@ -344,8 +346,8 @@ class _MyHomePageState extends State<MyHomePage> {
           renderOverlay: renderOverlay,
           // overlayColor: Colors.black,
           // overlayOpacity: 0.5,
-          onOpen: () => print('OPENING DIAL'),
-          onClose: () => print('DIAL CLOSED'),
+          onOpen: () => debugPrint('OPENING DIAL'),
+          onClose: () => debugPrint('DIAL CLOSED'),
           useRotationAnimation: useRAnimation,
           tooltip: 'Open Speed Dial',
           heroTag: 'speed-dial-hero-tag',
@@ -356,37 +358,39 @@ class _MyHomePageState extends State<MyHomePage> {
           elevation: 8.0,
           isOpenOnStart: false,
           animationSpeed: 200,
-          shape: customDialRoot ? RoundedRectangleBorder() : StadiumBorder(),
+          shape: customDialRoot
+              ? const RoundedRectangleBorder()
+              : const StadiumBorder(),
           // childMargin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
           children: [
             SpeedDialChild(
-              child: !rmicons ? Icon(Icons.accessibility) : null,
+              child: !rmicons ? const Icon(Icons.accessibility) : null,
               backgroundColor: Colors.red,
               foregroundColor: Colors.white,
               label: 'First',
-              onTap: () => print("FIRST CHILD"),
+              onTap: () => debugPrint("FIRST CHILD"),
             ),
             SpeedDialChild(
-              child: !rmicons ? Icon(Icons.brush) : null,
+              child: !rmicons ? const Icon(Icons.brush) : null,
               backgroundColor: Colors.deepOrange,
               foregroundColor: Colors.white,
               label: 'Second',
-              onTap: () => print('SECOND CHILD'),
+              onTap: () => debugPrint('SECOND CHILD'),
             ),
             SpeedDialChild(
-              child: !rmicons ? Icon(Icons.margin) : null,
+              child: !rmicons ? const Icon(Icons.margin) : null,
               backgroundColor: Colors.indigo,
               foregroundColor: Colors.white,
               label: 'Show Snackbar',
               visible: true,
               onTap: () => ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(("Third Child Pressed")))),
-              onLongPress: () => print('THIRD CHILD LONG PRESS'),
+                  const SnackBar(content: Text(("Third Child Pressed")))),
+              onLongPress: () => debugPrint('THIRD CHILD LONG PRESS'),
             ),
           ],
         ),
         bottomNavigationBar: BottomAppBar(
-          shape: CircularNotchedRectangle(),
+          shape: const CircularNotchedRectangle(),
           notchMargin: 8.0,
           child: Row(
             mainAxisAlignment: selectedfABLocation ==
@@ -398,7 +402,7 @@ class _MyHomePageState extends State<MyHomePage> {
             mainAxisSize: MainAxisSize.max,
             children: [
               IconButton(
-                icon: Icon(Icons.nightlight_round),
+                icon: const Icon(Icons.nightlight_round),
                 tooltip: "Switch Theme",
                 onPressed: () => {
                   widget.theme.value = widget.theme.value.index == 2
@@ -409,7 +413,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ValueListenableBuilder<bool>(
                   valueListenable: isDialOpen,
                   builder: (ctx, value, _) => IconButton(
-                        icon: Icon(Icons.open_in_browser),
+                        icon: const Icon(Icons.open_in_browser),
                         tooltip: (!value ? "Open" : "Close") + " Speed Dial",
                         onPressed: () => {isDialOpen.value = !isDialOpen.value},
                       ))
@@ -423,5 +427,5 @@ class _MyHomePageState extends State<MyHomePage> {
 
 extension EnumExt on FloatingActionButtonLocation {
   /// Get Value of The SpeedDialDirection Enum like Up, Down, etc. in String format
-  String get value => this.toString().split(".")[1];
+  String get value => toString().split(".")[1];
 }

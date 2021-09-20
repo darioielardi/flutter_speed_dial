@@ -28,7 +28,8 @@ class AnimatedChild extends AnimatedWidget {
   final EdgeInsets childMargin;
   final EdgeInsets childPadding;
 
-  AnimatedChild({
+  const AnimatedChild({
+    Key? key,
     this.btnKey,
     required Animation<double> animation,
     this.index,
@@ -53,16 +54,19 @@ class AnimatedChild extends AnimatedWidget {
     this.heroTag,
     required this.childMargin,
     required this.childPadding,
-  }) : super(listenable: animation);
+  }) : super(key: key, listenable: animation);
 
+  @override
   Widget build(BuildContext context) {
     final Animation<double> animation = listenable as Animation<double>;
     bool dark = Theme.of(context).brightness == Brightness.dark;
 
     void _performAction([bool isLong = false]) {
-      if (onTap != null && !isLong)
+      if (onTap != null && !isLong) {
         onTap!();
-      else if (onLongPress != null && isLong) onLongPress!();
+      } else if (onLongPress != null && isLong) {
+        onLongPress!();
+      }
       toggleChildren!();
     }
 
@@ -81,19 +85,19 @@ class AnimatedChild extends AnimatedWidget {
         onTap: _performAction,
         onLongPress: () => _performAction(true),
         child: Container(
-          padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 8.0),
+          padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 8.0),
           margin: childMargin,
           decoration: BoxDecoration(
             color: labelBackgroundColor ??
                 (dark ? Colors.grey[800] : Colors.grey[50]),
-            borderRadius: BorderRadius.all(Radius.circular(6.0)),
+            borderRadius: const BorderRadius.all(Radius.circular(6.0)),
             boxShadow: labelShadow ??
                 [
                   BoxShadow(
                     color: dark
                         ? Colors.grey[900]!.withOpacity(0.7)
                         : Colors.grey.withOpacity(0.7),
-                    offset: Offset(0.8, 0.8),
+                    offset: const Offset(0.8, 0.8),
                     blurRadius: 2.4,
                   )
                 ],
@@ -123,7 +127,9 @@ class AnimatedChild extends AnimatedWidget {
         ScaleTransition(
           scale: animation,
           child: Container(
-            padding: (child == null) ? EdgeInsets.symmetric(vertical: 8) : null,
+            padding: (child == null)
+                ? const EdgeInsets.symmetric(vertical: 8)
+                : null,
             key: (child == null) ? btnKey : null,
             child: buildLabel(),
           ),
