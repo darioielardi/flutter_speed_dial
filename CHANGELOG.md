@@ -1,7 +1,8 @@
-## [4.4.0] - 20 September 2021
+## [4.4.0] - 21 September 2021
 
-- Rename speeed dial direction to lowercase
 - Fix lint errors
+- Rename speeed dial direction to lowercase
+- Disable tooltip if no tooltip is provided
 
 ## [4.3.0] - 27 August 2021
 
@@ -115,7 +116,7 @@ By @prateekmedia and other contributers who helped me in finding the bugs and so
 
 - icon and activeIcon instead of child
 - iconTransitionBuilder for custom transitions b/w icons
-- Add Dark Mode Support(@esieben1310) + Fix some issues related to it 
+- Add Dark Mode Support(@esieben1310) + Fix some issues related to it
 - Centered child by @raviganwal
 - Only Build Speed Dial if childrens are visible by @davidmartos96
 
@@ -129,7 +130,7 @@ By @prateekmedia and other contributers who helped me in finding the bugs and so
 
 ## [1.2.4] - 28 Oct 2019
 
-- Fix multiple heroes with same 
+- Fix multiple heroes with same
 - Make label non required
 
 ## [1.2.3] - 20 Oct 2019
