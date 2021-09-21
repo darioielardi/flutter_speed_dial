@@ -50,21 +50,27 @@ class BackgroundOverlay extends AnimatedWidget {
                 showWhenUnlinked: false,
                 child: MouseRegion(
                   cursor: SystemMouseCursors.click,
-                  child: Tooltip(
-                    message: tooltip ?? '',
-                    child: GestureDetector(
+                  child: () {
+                    final Widget child = GestureDetector(
                       onTap: onTap,
                       child: Container(
                         width: dialKey.globalPaintBounds!.size.width,
                         height: dialKey.globalPaintBounds!.size.height,
                         decoration: ShapeDecoration(
-                          shape:
-                              shape == const CircleBorder() ? const StadiumBorder() : shape,
+                          shape: shape == const CircleBorder()
+                              ? const StadiumBorder()
+                              : shape,
                           color: Colors.white,
                         ),
                       ),
-                    ),
-                  ),
+                    );
+                    return tooltip != null && tooltip!.isNotEmpty
+                        ? Tooltip(
+                            message: tooltip!,
+                            child: child,
+                          )
+                        : child;
+                  }(),
                 ),
               ),
             ),
