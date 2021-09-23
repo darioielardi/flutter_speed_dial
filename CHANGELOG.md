@@ -1,3 +1,7 @@
+## [4.4.0+1] - 23 September 2021
+
+- Update flutter sdk constraints
+
 ## [4.4.0] - 21 September 2021
 
 - Fix lint errors
