@@ -56,6 +56,9 @@ class SpeedDial extends StatefulWidget {
   /// If true then rotation animation will be used when animating b/w activeIcon and icon.
   final bool useRotationAnimation;
 
+  /// The angle of the iconRotation
+  final double animationAngle;
+
   /// The theme for the icon generally includes color and size.
   final IconThemeData? iconTheme;
 
@@ -147,6 +150,7 @@ class SpeedDial extends StatefulWidget {
     this.activeChild,
     this.switchLabelPosition = false,
     this.useRotationAnimation = true,
+    this.animationAngle = pi / 2,
     this.iconTheme,
     this.label,
     this.activeLabel,
@@ -436,7 +440,7 @@ class _SpeedDialState extends State<SpeedDial>
               angle:
                   (widget.activeChild != null || widget.activeIcon != null) &&
                           widget.useRotationAnimation
-                      ? _controller.value * pi / 2
+                      ? _controller.value * widget.animationAngle
                       : 0,
               child: AnimatedSwitcher(
                   duration: Duration(milliseconds: widget.animationSpeed),
