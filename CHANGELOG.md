@@ -1,6 +1,7 @@
 ## [4.4.0+2] - 5 October 2021
 
 - Added the RotationAngle for the Icon Animation
+
 ## [4.4.0+1] - 23 September 2021
 
 - Update flutter sdk constraints
