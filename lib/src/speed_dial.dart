@@ -203,6 +203,7 @@ class _SpeedDialState extends State<SpeedDial>
 
   @override
   void dispose() {
+    overlayEntry?.dispose();
     _controller.dispose();
     widget.openCloseDial?.removeListener(_onOpenCloseDial);
     super.dispose();

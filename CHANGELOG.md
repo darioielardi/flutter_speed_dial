@@ -1,3 +1,7 @@
+## [4.5.0] - 23 October 2021
+
+- Fix null check operator used on null value due to overlay entry not disposed.
+
 ## [4.4.0+2] - 5 October 2021
 
 - Added the RotationAngle for the Icon Animation

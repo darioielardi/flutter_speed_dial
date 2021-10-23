@@ -1,7 +1,6 @@
 library flutter_speed_dial;
 
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'global_key_extension.dart';
 
 class BackgroundOverlay extends AnimatedWidget {
