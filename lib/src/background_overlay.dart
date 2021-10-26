@@ -43,7 +43,7 @@ class BackgroundOverlay extends AnimatedWidget {
               ),
             ),
             Positioned(
-              width: dialKey.globalPaintBounds!.size.width,
+              width: dialKey.globalPaintBounds?.size.width,
               child: CompositedTransformFollower(
                 link: layerLink,
                 showWhenUnlinked: false,
@@ -53,8 +53,8 @@ class BackgroundOverlay extends AnimatedWidget {
                     final Widget child = GestureDetector(
                       onTap: onTap,
                       child: Container(
-                        width: dialKey.globalPaintBounds!.size.width,
-                        height: dialKey.globalPaintBounds!.size.height,
+                        width: dialKey.globalPaintBounds?.size.width,
+                        height: dialKey.globalPaintBounds?.size.height,
                         decoration: ShapeDecoration(
                           shape: shape == const CircleBorder()
                               ? const StadiumBorder()
