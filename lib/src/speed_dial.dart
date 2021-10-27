@@ -562,6 +562,15 @@ class _SpeedDialState extends State<SpeedDial>
 
   @override
   Widget build(BuildContext context) {
-    return _renderButton();
+    return WillPopScope(
+      child: _renderButton(),
+      onWillPop: () async{
+        if(_open) {
+          _toggleChildren();
+          return false;
+        }
+        return true;
+      },
+    );
   }
 }
