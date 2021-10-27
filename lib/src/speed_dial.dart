@@ -335,20 +335,23 @@ class _SpeedDialState extends State<SpeedDial>
                                     : Alignment.center,
                     offset: widget.direction.isDown
                         ? Offset(
-                            widget.switchLabelPosition  || dialKey.globalPaintBounds == null
+                            widget.switchLabelPosition ||
+                                    dialKey.globalPaintBounds == null
                                 ? 0
                                 : dialKey.globalPaintBounds!.size.width,
                             dialKey.globalPaintBounds!.size.height)
                         : widget.direction.isUp
                             ? Offset(
-                                widget.switchLabelPosition || dialKey.globalPaintBounds == null
+                                widget.switchLabelPosition ||
+                                        dialKey.globalPaintBounds == null
                                     ? 0
-                                    :  dialKey.globalPaintBounds!.size.width,
+                                    : dialKey.globalPaintBounds!.size.width,
                                 0)
                             : widget.direction.isLeft
                                 ? Offset(-10.0,
                                     dialKey.globalPaintBounds!.size.height / 2)
-                                : widget.direction.isRight || dialKey.globalPaintBounds == null
+                                : widget.direction.isRight ||
+                                        dialKey.globalPaintBounds == null
                                     ? Offset(
                                         dialKey.globalPaintBounds!.size.width +
                                             12,
@@ -564,8 +567,8 @@ class _SpeedDialState extends State<SpeedDial>
   Widget build(BuildContext context) {
     return WillPopScope(
       child: _renderButton(),
-      onWillPop: () async{
-        if(_open) {
+      onWillPop: () async {
+        if (_open) {
           _toggleChildren();
           return false;
         }

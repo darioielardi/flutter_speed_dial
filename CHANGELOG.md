@@ -1,6 +1,10 @@
+## [4.6.0] - 27 October 2021
+
+- Fix null check operator used on null value due to dialKey.globalPaintBounds being null.
+
 ## [4.5.0] - 23 October 2021
 
-- Fix null check operator used on null value due to overlay entry not disposed.
+- Dispose overlay entry on exit
 
 ## [4.4.0+2] - 5 October 2021
 
