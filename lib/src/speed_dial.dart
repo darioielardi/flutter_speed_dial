@@ -363,6 +363,12 @@ class _SpeedDialState extends State<SpeedDial>
                     child: Material(
                       type: MaterialType.transparency,
                       child: Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal:
+                              widget.direction.isUp || widget.direction.isDown
+                                  ? max(widget.buttonSize - 56, 0) / 2
+                                  : 0,
+                        ),
                         margin: widget.spacing != null
                             ? EdgeInsets.fromLTRB(
                                 widget.direction.isRight ? widget.spacing! : 0,
