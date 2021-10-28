@@ -1,5 +1,4 @@
-# Maintainers Wanted
-More info [here](https://github.com/darioielardi/flutter_speed_dial/issues/190)
+## Maintainers Wanted - More info [here](https://github.com/darioielardi/flutter_speed_dial/issues/190)
 
 <h2 align="center">Flutter Speed Dial</h1>
 
@@ -74,28 +73,25 @@ There are various properties for SpeedDial by which you can adjust the spacing:
 
 #### Close on WillPop
 
-Although it doesn't magically closes when you press back button, but requires a easier setup to enable this functionality, here are the steps that you need to do to enable that:
+Closes automatically on back button press, if dial is open.
 
-1. Add a value Notifier inside your widgets build context where your SpeedDial is placed like below.
+#### How to use `openCloseDial` property:
+
+1. Create a value notifier named `isDialOpen`:
 ```dart
 ValueNotifier<bool> isDialOpen = ValueNotifier(false);
 ```
-2. Then you need to add a property to your SpeedDial known as openCloseDial like below.
+2. Then set `openCloseDial` to `isDialOpen` in your `SpeedDial`:
 ```dart
+SpeedDial(
+  ...
   openCloseDial: isDialOpen,
-```
-3. Add a will Pop in your body or anywhere where you want and then simply add the following line in its onWillPop element.
-```dart
-WillPopScope(
-  onWillPop: () async {
-    if (isDialOpen.value) {
-      isDialOpen.value = false;
-      return false;
-    }
-    ...other checks here
-  }
-  child: ...your child goes here
+  ...
 )
+```
+3. Now you can change the state of dial open:
+```dart
+isDialOpen.value = false;
 ```
 
 #### Example Usage
