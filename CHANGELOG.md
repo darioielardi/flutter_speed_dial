@@ -1,3 +1,8 @@
+## [4.6.2] - 28 October 2021
+
+- Align childrens for button size > 56.
+- Automatically close speed dial(if open) on back press
+
 ## [4.6.0] - 27 October 2021
 
 - Fix null check operator used on null value due to dialKey.globalPaintBounds being null.
