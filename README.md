@@ -74,6 +74,7 @@ There are various properties for SpeedDial by which you can adjust the spacing:
 #### Close on WillPop
 
 Closes automatically on back button press, if dial is open.
+If you don't want this behaviour then simply change the value of `closeDialOnPop` to false.
 
 #### How to use `openCloseDial` property:
 

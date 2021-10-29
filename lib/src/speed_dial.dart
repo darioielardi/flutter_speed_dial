@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:math';
 import 'package:flutter/material.dart';
 
@@ -34,6 +35,9 @@ class SpeedDial extends StatefulWidget {
 
   /// Whether speedDial initialize with open state or not, defaults to false.
   final bool isOpenOnStart;
+
+  /// Whether to close the dial on pop if it's open.
+  final bool closeDialOnPop;
 
   /// The color of the background overlay.
   final Color? overlayColor;
@@ -166,6 +170,7 @@ class SpeedDial extends StatefulWidget {
     this.animationSpeed = 150,
     this.openCloseDial,
     this.isOpenOnStart = false,
+    this.closeDialOnPop = true,
     this.childMargin = const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
     this.childPadding = const EdgeInsets.symmetric(vertical: 5),
     this.spaceBetweenChildren,
@@ -571,15 +576,17 @@ class _SpeedDialState extends State<SpeedDial>
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      child: _renderButton(),
-      onWillPop: () async {
-        if (_open) {
-          _toggleChildren();
-          return false;
-        }
-        return true;
-      },
-    );
+    return !Platform.isIOS && widget.closeDialOnPop
+        ? WillPopScope(
+            child: _renderButton(),
+            onWillPop: () async {
+              if (_open) {
+                _toggleChildren();
+                return false;
+              }
+              return true;
+            },
+          )
+        : _renderButton();
   }
 }

@@ -1,3 +1,8 @@
+## [4.6.4] - 29 October 2021
+
+- Fix swipe to back not working on IOS due to WillPopScope due to https://github.com/flutter/flutter/issues/14203
+- Add `closeDialOnPop` property
+
 ## [4.6.2] - 28 October 2021
 
 - Align childrens for button size > 56.
