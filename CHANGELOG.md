@@ -1,6 +1,7 @@
 ## [4.6.6] - 30 October 2021
 
 - Fix web, Platform is not defined
+- Fix children buttons not aligned properly
 - Update Example
 
 ## [4.6.4] - 29 October 2021

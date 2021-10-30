@@ -341,17 +341,20 @@ class _SpeedDialState extends State<SpeedDial>
                                     : Alignment.center,
                     offset: widget.direction.isDown
                         ? Offset(
-                            widget.switchLabelPosition ||
-                                    dialKey.globalPaintBounds == null
-                                ? 0
-                                : dialKey.globalPaintBounds!.size.width,
+                            (widget.switchLabelPosition ||
+                                        dialKey.globalPaintBounds == null
+                                    ? 0
+                                    : dialKey.globalPaintBounds!.size.width) +
+                                max(widget.childrenButtonSize - 56, 0) / 2,
                             dialKey.globalPaintBounds!.size.height)
                         : widget.direction.isUp
                             ? Offset(
-                                widget.switchLabelPosition ||
-                                        dialKey.globalPaintBounds == null
-                                    ? 0
-                                    : dialKey.globalPaintBounds!.size.width,
+                                (widget.switchLabelPosition ||
+                                            dialKey.globalPaintBounds == null
+                                        ? 0
+                                        : dialKey
+                                            .globalPaintBounds!.size.width) +
+                                    max(widget.childrenButtonSize - 56, 0) / 2,
                                 0)
                             : widget.direction.isLeft
                                 ? Offset(-10.0,
