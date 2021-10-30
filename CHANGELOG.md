@@ -1,3 +1,8 @@
+## [4.6.6] - 30 October 2021
+
+- Fix web, Platform is not defined
+- Update Example
+
 ## [4.6.4] - 29 October 2021
 
 - Fix swipe to back not working on IOS due to WillPopScope due to https://github.com/flutter/flutter/issues/14203

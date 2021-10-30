@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:math';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'animated_child.dart';
@@ -576,7 +577,7 @@ class _SpeedDialState extends State<SpeedDial>
 
   @override
   Widget build(BuildContext context) {
-    return !Platform.isIOS && widget.closeDialOnPop
+    return (kIsWeb || !Platform.isIOS) && widget.closeDialOnPop
         ? WillPopScope(
             child: _renderButton(),
             onWillPop: () async {
