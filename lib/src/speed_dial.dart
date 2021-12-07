@@ -28,8 +28,8 @@ class SpeedDial extends StatefulWidget {
   final Color? activeBackgroundColor;
   final Color? activeForegroundColor;
   final double elevation;
-  final double buttonSize;
-  final double childrenButtonSize;
+  final Size buttonSize;
+  final Size childrenButtonSize;
   final ShapeBorder shape;
   final Gradient? gradient;
   final BoxShape gradientBoxShape;
@@ -140,8 +140,8 @@ class SpeedDial extends StatefulWidget {
     this.gradient,
     this.gradientBoxShape = BoxShape.rectangle,
     this.elevation = 6.0,
-    this.buttonSize = 56.0,
-    this.childrenButtonSize = 56.0,
+    this.buttonSize = const Size(56.0, 56.0),
+    this.childrenButtonSize = const Size(56.0, 56.0),
     this.dialRoot,
     this.overlayOpacity = 0.8,
     this.overlayColor,
@@ -345,7 +345,7 @@ class _SpeedDialState extends State<SpeedDial>
                                         dialKey.globalPaintBounds == null
                                     ? 0
                                     : dialKey.globalPaintBounds!.size.width) +
-                                max(widget.childrenButtonSize - 56, 0) / 2,
+                                max(widget.childrenButtonSize.height - 56, 0) / 2,
                             dialKey.globalPaintBounds!.size.height)
                         : widget.direction.isUp
                             ? Offset(
@@ -354,7 +354,7 @@ class _SpeedDialState extends State<SpeedDial>
                                         ? 0
                                         : dialKey
                                             .globalPaintBounds!.size.width) +
-                                    max(widget.childrenButtonSize - 56, 0) / 2,
+                                    max(widget.childrenButtonSize.width - 56, 0) / 2,
                                 0)
                             : widget.direction.isLeft
                                 ? Offset(-10.0,
@@ -375,7 +375,7 @@ class _SpeedDialState extends State<SpeedDial>
                         padding: EdgeInsets.symmetric(
                           horizontal:
                               widget.direction.isUp || widget.direction.isDown
-                                  ? max(widget.buttonSize - 56, 0) / 2
+                                  ? max(widget.buttonSize.width - 56, 0) / 2
                                   : 0,
                         ),
                         margin: widget.spacing != null

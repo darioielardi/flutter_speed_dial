@@ -11,7 +11,7 @@ class AnimatedFloatingButton extends StatefulWidget {
   final String? tooltip;
   final String? heroTag;
   final double elevation;
-  final double size;
+  final Size size;
   final ShapeBorder shape;
   final Curve curve;
   final Widget? dialRoot;
@@ -30,7 +30,7 @@ class AnimatedFloatingButton extends StatefulWidget {
     this.tooltip,
     this.heroTag,
     this.elevation = 6.0,
-    this.size = 56.0,
+    this.size = const Size(56.0, 56.0),
     this.shape = const CircleBorder(),
     this.curve = Curves.fastOutSlowIn,
     this.onLongPress,
@@ -48,7 +48,7 @@ class _AnimatedFloatingButtonState extends State<AnimatedFloatingButton>
         ? AnimatedContainer(
             curve: widget.curve,
             duration: const Duration(milliseconds: 150),
-            height: widget.visible ? widget.size : 0,
+            height: widget.visible ? widget.size.height : 0,
             child: FittedBox(
               child: GestureDetector(
                 onLongPress: widget.onLongPress,
