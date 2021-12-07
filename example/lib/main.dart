@@ -53,8 +53,8 @@ class _MyHomePageState extends State<MyHomePage> {
   var useRAnimation = true;
   var isDialOpen = ValueNotifier<bool>(false);
   var speedDialDirection = SpeedDialDirection.up;
-  var buttonSize = 56.0;
-  var childrenButtonSize = 56.0;
+  var buttonSize = const Size(56.0, 56.0);
+  var childrenButtonSize = const Size(56.0, 56.0);
   var selectedfABLocation = FloatingActionButtonLocation.endDocked;
   var items = [
     FloatingActionButtonLocation.startFloat,
@@ -301,24 +301,24 @@ class _MyHomePageState extends State<MyHomePage> {
                           }),
                       const Text("Button Size"),
                       Slider(
-                        value: buttonSize,
+                        value: buttonSize.width,
                         min: 50,
                         max: 500,
                         label: "Button Size",
                         onChanged: (val) {
                           setState(() {
-                            buttonSize = val;
+                            buttonSize = Size(val, val);
                           });
                         },
                       ),
                       const Text("Children Button Size"),
                       Slider(
-                        value: childrenButtonSize,
+                        value: childrenButtonSize.height,
                         min: 50,
                         max: 500,
                         onChanged: (val) {
                           setState(() {
-                            childrenButtonSize = val;
+                            childrenButtonSize =  Size(val, val);
                           });
                         },
                       )

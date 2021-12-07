@@ -5,7 +5,7 @@ class AnimatedChild extends AnimatedWidget {
   final Color? backgroundColor;
   final Color? foregroundColor;
   final double? elevation;
-  final double buttonSize;
+  final Size buttonSize;
   final Widget? child;
   final List<BoxShadow>? labelShadow;
   final Key? btnKey;
@@ -36,7 +36,7 @@ class AnimatedChild extends AnimatedWidget {
     this.backgroundColor,
     this.foregroundColor,
     this.elevation = 6.0,
-    this.buttonSize = 56.0,
+    this.buttonSize = const Size(56.0, 56.0),
     this.child,
     this.label,
     this.labelStyle,
@@ -137,8 +137,8 @@ class AnimatedChild extends AnimatedWidget {
       if (child != null)
         Container(
           padding: childPadding,
-          height: buttonSize,
-          width: buttonSize,
+          height: buttonSize.height,
+          width: buttonSize.width,
           child: (onLongPress == null)
               ? button
               : FittedBox(
