@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
@@ -189,7 +188,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                           vertical: 4, horizontal: 10),
                                       child: Align(
                                           alignment: Alignment.centerLeft,
-                                          child: Text(describeEnum(item))),
+                                          child: Text(item.name.toUpperCase())),
                                     );
                                   }).toList();
                                 },
@@ -197,7 +196,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                     .toList()
                                     .map((item) {
                                   return DropdownMenuItem<SpeedDialDirection>(
-                                    child: Text(describeEnum(item)),
+                                    child: Text(item.name.toUpperCase()),
                                     value: item,
                                   );
                                 }).toList(),
@@ -318,7 +317,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         max: 500,
                         onChanged: (val) {
                           setState(() {
-                            childrenButtonSize =  Size(val, val);
+                            childrenButtonSize = Size(val, val);
                           });
                         },
                       )
@@ -400,7 +399,8 @@ class _MyHomePageState extends State<MyHomePage> {
               backgroundColor: Colors.red,
               foregroundColor: Colors.white,
               label: 'First',
-              onTap: () => debugPrint("FIRST CHILD"),
+              onTap: () => setState(() => rmicons = !rmicons),
+              onLongPress: () => debugPrint('FIRST CHILD LONG PRESS'),
             ),
             SpeedDialChild(
               child: !rmicons ? const Icon(Icons.brush) : null,

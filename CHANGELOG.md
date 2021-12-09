@@ -1,3 +1,8 @@
+## [5.0.0] - 10 December 2021
+
+- **BREAKING** - Changed the parameter type of `buttonSize` and `childrenButtonSize` from `double` to `Size`.
+- Update constraints to flutter 2.8.0 and Dart 2.15 or newer.
+
 ## [4.6.6] - 30 October 2021
 
 - Fix web, Platform is not defined
