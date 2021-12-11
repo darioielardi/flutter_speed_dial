@@ -85,10 +85,10 @@ class SpeedDial extends StatefulWidget {
   /// Executed when the dial is pressed. If given, the dial only opens on long press!
   final VoidCallback? onPress;
 
-  /// If true user is forced to close dial manually by tapping main button. WARNING: If true, overlay is not rendered.
+  /// If true tapping on speed dial's children will not close the dial anymore.
   final bool closeManually;
 
-  /// If true overlay is rendered, no matter if closeManually is true or false.
+  /// If true overlay is rendered.
   final bool renderOverlay;
 
   /// Open or close the dial via a notification

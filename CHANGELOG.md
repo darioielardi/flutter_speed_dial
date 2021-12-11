@@ -1,3 +1,8 @@
+## [5.0.0+1] - 11 December 2021
+
+- Downgrade SDK constraints to fix pub rating
+- Improve documentation
+
 ## [5.0.0] - 10 December 2021
 
 - **BREAKING** - Changed the parameter type of `buttonSize` and `childrenButtonSize` from `double` to `Size`.
