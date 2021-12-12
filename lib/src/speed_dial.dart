@@ -240,10 +240,9 @@ class _SpeedDialState extends State<SpeedDial>
     if (widget.children.isNotEmpty) {
       var newValue = !_open;
       toggleOverlay();
-      if (widget.openCloseDial != null) widget.openCloseDial!.value = newValue;
-      if (newValue && widget.onOpen != null) widget.onOpen?.call();
-      if (!newValue && widget.onClose != null) widget.onClose?.call();
-    } else if (widget.onOpen != null) {
+      widget.openCloseDial?.value = newValue;
+      newValue ? widget.onOpen?.call() : widget.onClose?.call();
+    } else {
       widget.onOpen?.call();
     }
   }
