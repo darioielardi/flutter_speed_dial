@@ -84,6 +84,7 @@ class _AnimatedFloatingButtonState extends State<AnimatedFloatingButton>
             ),
           )
         : AnimatedSize(
+            vsync: this,
             duration: const Duration(milliseconds: 150),
             curve: widget.curve,
             child: Container(
