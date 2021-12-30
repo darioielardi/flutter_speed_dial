@@ -513,6 +513,7 @@ class _ChildrensOverlayState extends State<_ChildrensOverlay> {
             labelStyle: child.labelStyle,
             labelBackgroundColor: child.labelBackgroundColor,
             labelWidget: child.labelWidget,
+            labelShadow: child.labelShadow,
             onTap: child.onTap,
             onLongPress: child.onLongPress,
             toggleChildren: () {
