@@ -53,19 +53,16 @@ class SpeedDial extends StatefulWidget {
   final IconThemeData? animatedIconTheme;
 
   /// The icon of the main button, ignored if [animatedIcon] is non [null].
-  final IconData? icon;
+  final Icon? icon;
 
   /// The active icon of the main button, Defaults to icon if not specified, ignored if [animatedIcon] is non [null].
-  final IconData? activeIcon;
+  final Icon? activeIcon;
 
   /// If true then rotation animation will be used when animating b/w activeIcon and icon.
   final bool useRotationAnimation;
 
   /// The angle of the iconRotation
   final double animationAngle;
-
-  /// The theme for the icon generally includes color and size.
-  final IconThemeData? iconTheme;
 
   /// The label of the main button.
   final Widget? label;
@@ -156,7 +153,6 @@ class SpeedDial extends StatefulWidget {
     this.switchLabelPosition = false,
     this.useRotationAnimation = true,
     this.animationAngle = pi / 2,
-    this.iconTheme,
     this.label,
     this.activeLabel,
     this.labelTransitionBuilder,
@@ -240,9 +236,10 @@ class _SpeedDialState extends State<SpeedDial>
     if (widget.children.isNotEmpty) {
       var newValue = !_open;
       toggleOverlay();
-      widget.openCloseDial?.value = newValue;
-      newValue ? widget.onOpen?.call() : widget.onClose?.call();
-    } else {
+      if (widget.openCloseDial != null) widget.openCloseDial!.value = newValue;
+      if (newValue && widget.onOpen != null) widget.onOpen?.call();
+      if (!newValue && widget.onClose != null) widget.onClose?.call();
+    } else if (widget.onOpen != null) {
       widget.onOpen?.call();
     }
   }
@@ -339,12 +336,7 @@ class _SpeedDialState extends State<SpeedDial>
                           ? Container(
                               child: Center(
                                 child: widget.icon != null
-                                    ? Icon(
-                                        widget.icon,
-                                        key: const ValueKey<int>(0),
-                                        color: widget.iconTheme?.color,
-                                        size: widget.iconTheme?.size,
-                                      )
+                                    ? widget.icon
                                     : widget.child,
                               ),
                               decoration: BoxDecoration(
@@ -358,12 +350,7 @@ class _SpeedDialState extends State<SpeedDial>
                               child: widget.activeChild ??
                                   Container(
                                     child: Center(
-                                      child: Icon(
-                                        widget.activeIcon,
-                                        key: const ValueKey<int>(1),
-                                        color: widget.iconTheme?.color,
-                                        size: widget.iconTheme?.size,
-                                      ),
+                                      child: widget.activeIcon,
                                     ),
                                     decoration: BoxDecoration(
                                       shape: widget.gradientBoxShape,
@@ -513,7 +500,6 @@ class _ChildrensOverlayState extends State<_ChildrensOverlay> {
             labelStyle: child.labelStyle,
             labelBackgroundColor: child.labelBackgroundColor,
             labelWidget: child.labelWidget,
-            labelShadow: child.labelShadow,
             onTap: child.onTap,
             onLongPress: child.onLongPress,
             toggleChildren: () {
