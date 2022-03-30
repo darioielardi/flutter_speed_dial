@@ -50,6 +50,7 @@ class SpeedDial extends StatefulWidget {
   final AnimatedIconData? animatedIcon;
 
   /// The theme for the animated icon.
+  /// This is only applied to [animatedIcon].
   final IconThemeData? animatedIconTheme;
 
   /// The icon of the main button, ignored if [animatedIcon] is non [null].
@@ -65,6 +66,7 @@ class SpeedDial extends StatefulWidget {
   final double animationAngle;
 
   /// The theme for the icon generally includes color and size.
+  /// The iconTheme is only applied to [child] and [activeChild] or [icon] and [activeIcon].
   final IconThemeData? iconTheme;
 
   /// The label of the main button.
