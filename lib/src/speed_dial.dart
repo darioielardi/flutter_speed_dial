@@ -211,7 +211,8 @@ class _SpeedDialState extends State<SpeedDial>
 
   @override
   void dispose() {
-    if (widget.renderOverlay && backgroundOverlay!.mounted) {
+    if (widget.renderOverlay &&
+        (backgroundOverlay != null && backgroundOverlay!.mounted)) {
       backgroundOverlay?.remove();
     }
     overlayEntry?.dispose();
