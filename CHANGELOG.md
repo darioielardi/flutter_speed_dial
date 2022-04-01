@@ -1,3 +1,6 @@
+## [5.0.1] - 01 April 2022
+- Fix: remove `backgroundOverlay` on widget dispose (#228)
+
 ## [5.0.0+1] - 11 December 2021
 
 - Downgrade SDK constraints to fix pub rating
