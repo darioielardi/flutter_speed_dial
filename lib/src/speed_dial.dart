@@ -257,7 +257,9 @@ class _SpeedDialState extends State<SpeedDial>
     if (_open) {
       _controller.reverse().whenComplete(() {
         overlayEntry?.remove();
-        if (widget.renderOverlay && backgroundOverlay!.mounted) {
+        if (widget.renderOverlay &&
+            backgroundOverlay != null &&
+            backgroundOverlay!.mounted) {
           backgroundOverlay?.remove();
         }
       });
