@@ -1,3 +1,10 @@
+## [5.1.0] - 2 April 2022
+
+- Fixed widget dispose method, now `backgroundOverlay` should be disposed correctly.
+- Improved null-safety.
+- Fixed problem where `labelShadow` was not applied.
+- Improved documentation.
+
 ## [5.0.0+1] - 11 December 2021
 
 - Downgrade SDK constraints to fix pub rating
