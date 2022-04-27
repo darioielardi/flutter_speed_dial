@@ -451,7 +451,7 @@ class _SpeedDialState extends State<SpeedDial>
   }
 }
 
-class _ChildrensOverlay extends StatefulWidget {
+class _ChildrensOverlay extends StatelessWidget {
   const _ChildrensOverlay({
     Key? key,
     required this.widget,
@@ -466,22 +466,16 @@ class _ChildrensOverlay extends StatefulWidget {
   final LayerLink layerLink;
   final AnimationController controller;
   final Function toggleChildren;
-
-  @override
-  State<_ChildrensOverlay> createState() => _ChildrensOverlayState();
-}
-
-class _ChildrensOverlayState extends State<_ChildrensOverlay> {
   List<Widget> _getChildrenList() {
-    return widget.widget.children
+    return widget.children
         .map((SpeedDialChild child) {
-          int index = widget.widget.children.indexOf(child);
+          int index = widget.children.indexOf(child);
 
           var childAnimation = Tween(begin: 0.0, end: 1.0).animate(
             CurvedAnimation(
-              parent: widget.controller,
+              parent: controller,
               curve: Interval(
-                index / widget.widget.children.length,
+                index / widget.children.length,
                 1.0,
                 curve: Curves.ease,
               ),
@@ -491,31 +485,22 @@ class _ChildrensOverlayState extends State<_ChildrensOverlay> {
           return AnimatedChild(
             animation: childAnimation,
             index: index,
-            margin: widget.widget.spaceBetweenChildren != null
+            margin: widget.spaceBetweenChildren != null
                 ? EdgeInsets.fromLTRB(
-                    widget.widget.direction.isRight
-                        ? widget.widget.spaceBetweenChildren!
-                        : 0,
-                    widget.widget.direction.isDown
-                        ? widget.widget.spaceBetweenChildren!
-                        : 0,
-                    widget.widget.direction.isLeft
-                        ? widget.widget.spaceBetweenChildren!
-                        : 0,
-                    widget.widget.direction.isUp
-                        ? widget.widget.spaceBetweenChildren!
-                        : 0,
+                    widget.direction.isRight ? widget.spaceBetweenChildren! : 0,
+                    widget.direction.isDown ? widget.spaceBetweenChildren! : 0,
+                    widget.direction.isLeft ? widget.spaceBetweenChildren! : 0,
+                    widget.direction.isUp ? widget.spaceBetweenChildren! : 0,
                   )
                 : null,
             btnKey: child.key,
-            useColumn: widget.widget.direction.isLeft ||
-                widget.widget.direction.isRight,
+            useColumn: widget.direction.isLeft || widget.direction.isRight,
             visible: child.visible,
-            switchLabelPosition: widget.widget.switchLabelPosition,
+            switchLabelPosition: widget.switchLabelPosition,
             backgroundColor: child.backgroundColor,
             foregroundColor: child.foregroundColor,
             elevation: child.elevation,
-            buttonSize: widget.widget.childrenButtonSize,
+            buttonSize: widget.childrenButtonSize,
             child: child.child,
             label: child.label,
             labelStyle: child.labelStyle,
@@ -525,14 +510,14 @@ class _ChildrensOverlayState extends State<_ChildrensOverlay> {
             onTap: child.onTap,
             onLongPress: child.onLongPress,
             toggleChildren: () {
-              if (!widget.widget.closeManually) widget.toggleChildren();
+              if (!widget.closeManually) toggleChildren();
             },
             shape: child.shape,
-            heroTag: widget.widget.heroTag != null
-                ? '${widget.widget.heroTag}-child-$index'
+            heroTag: widget.heroTag != null
+                ? '${widget.heroTag}-child-$index'
                 : null,
-            childMargin: widget.widget.childMargin,
-            childPadding: widget.widget.childPadding,
+            childMargin: widget.childMargin,
+            childPadding: widget.childPadding,
           );
         })
         .toList()
@@ -547,78 +532,68 @@ class _ChildrensOverlayState extends State<_ChildrensOverlay> {
       children: [
         Positioned(
             child: CompositedTransformFollower(
-          followerAnchor: widget.widget.direction.isDown
-              ? widget.widget.switchLabelPosition
+          followerAnchor: widget.direction.isDown
+              ? widget.switchLabelPosition
                   ? Alignment.topLeft
                   : Alignment.topRight
-              : widget.widget.direction.isUp
-                  ? widget.widget.switchLabelPosition
+              : widget.direction.isUp
+                  ? widget.switchLabelPosition
                       ? Alignment.bottomLeft
                       : Alignment.bottomRight
-                  : widget.widget.direction.isLeft
+                  : widget.direction.isLeft
                       ? Alignment.centerRight
-                      : widget.widget.direction.isRight
+                      : widget.direction.isRight
                           ? Alignment.centerLeft
                           : Alignment.center,
-          offset: widget.widget.direction.isDown
+          offset: widget.direction.isDown
               ? Offset(
-                  (widget.widget.switchLabelPosition ||
-                              widget.dialKey.globalPaintBounds == null
+                  (widget.switchLabelPosition ||
+                              dialKey.globalPaintBounds == null
                           ? 0
-                          : widget.dialKey.globalPaintBounds!.size.width) +
-                      max(widget.widget.childrenButtonSize.height - 56, 0) / 2,
-                  widget.dialKey.globalPaintBounds!.size.height)
-              : widget.widget.direction.isUp
+                          : dialKey.globalPaintBounds!.size.width) +
+                      max(widget.childrenButtonSize.height - 56, 0) / 2,
+                  dialKey.globalPaintBounds!.size.height)
+              : widget.direction.isUp
                   ? Offset(
-                      (widget.widget.switchLabelPosition ||
-                                  widget.dialKey.globalPaintBounds == null
+                      (widget.switchLabelPosition ||
+                                  dialKey.globalPaintBounds == null
                               ? 0
-                              : widget.dialKey.globalPaintBounds!.size.width) +
-                          max(widget.widget.childrenButtonSize.width - 56, 0) /
-                              2,
+                              : dialKey.globalPaintBounds!.size.width) +
+                          max(widget.childrenButtonSize.width - 56, 0) / 2,
                       0)
-                  : widget.widget.direction.isLeft
-                      ? Offset(-10.0,
-                          widget.dialKey.globalPaintBounds!.size.height / 2)
-                      : widget.widget.direction.isRight ||
-                              widget.dialKey.globalPaintBounds == null
-                          ? Offset(
-                              widget.dialKey.globalPaintBounds!.size.width + 12,
-                              widget.dialKey.globalPaintBounds!.size.height / 2)
+                  : widget.direction.isLeft
+                      ? Offset(
+                          -10.0, dialKey.globalPaintBounds!.size.height / 2)
+                      : widget.direction.isRight ||
+                              dialKey.globalPaintBounds == null
+                          ? Offset(dialKey.globalPaintBounds!.size.width + 12,
+                              dialKey.globalPaintBounds!.size.height / 2)
                           : const Offset(-10.0, 0.0),
-          link: widget.layerLink,
+          link: layerLink,
           showWhenUnlinked: false,
           child: Material(
             type: MaterialType.transparency,
             child: Container(
               padding: EdgeInsets.symmetric(
-                horizontal: widget.widget.direction.isUp ||
-                        widget.widget.direction.isDown
-                    ? max(widget.widget.buttonSize.width - 56, 0) / 2
+                horizontal: widget.direction.isUp || widget.direction.isDown
+                    ? max(widget.buttonSize.width - 56, 0) / 2
                     : 0,
               ),
-              margin: widget.widget.spacing != null
+              margin: widget.spacing != null
                   ? EdgeInsets.fromLTRB(
-                      widget.widget.direction.isRight
-                          ? widget.widget.spacing!
-                          : 0,
-                      widget.widget.direction.isDown
-                          ? widget.widget.spacing!
-                          : 0,
-                      widget.widget.direction.isLeft
-                          ? widget.widget.spacing!
-                          : 0,
-                      widget.widget.direction.isUp ? widget.widget.spacing! : 0,
+                      widget.direction.isRight ? widget.spacing! : 0,
+                      widget.direction.isDown ? widget.spacing! : 0,
+                      widget.direction.isLeft ? widget.spacing! : 0,
+                      widget.direction.isUp ? widget.spacing! : 0,
                     )
                   : null,
               child: _buildColumnOrRow(
-                widget.widget.direction.isUp || widget.widget.direction.isDown,
-                crossAxisAlignment: widget.widget.switchLabelPosition
+                widget.direction.isUp || widget.direction.isDown,
+                crossAxisAlignment: widget.switchLabelPosition
                     ? CrossAxisAlignment.start
                     : CrossAxisAlignment.end,
                 mainAxisSize: MainAxisSize.min,
-                children: widget.widget.direction.isDown ||
-                        widget.widget.direction.isRight
+                children: widget.direction.isDown || widget.direction.isRight
                     ? _getChildrenList().reversed.toList()
                     : _getChildrenList(),
               ),
