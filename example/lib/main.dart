@@ -42,7 +42,8 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<MyHomePage>
+    with SingleTickerProviderStateMixin {
   var renderOverlay = true;
   var visible = true;
   var switchLabelPosition = false;
@@ -189,7 +190,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                           vertical: 4, horizontal: 10),
                                       child: Align(
                                           alignment: Alignment.centerLeft,
-                                          child: Text( describeEnum(item).toUpperCase())),
+                                          child: Text(describeEnum(item)
+                                              .toUpperCase())),
                                     );
                                   }).toList();
                                 },
@@ -197,7 +199,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                     .toList()
                                     .map((item) {
                                   return DropdownMenuItem<SpeedDialDirection>(
-                                    child: Text(describeEnum(item).toUpperCase()),
+                                    child:
+                                        Text(describeEnum(item).toUpperCase()),
                                     value: item,
                                   );
                                 }).toList(),
@@ -388,6 +391,15 @@ class _MyHomePageState extends State<MyHomePage> {
           // activeForegroundColor: Colors.red,
           // activeBackgroundColor: Colors.blue,
           elevation: 8.0,
+          childAnimation: Tween(begin: 0.0, end: 1.0).animate(
+            CurvedAnimation(
+              parent: AnimationController(
+                duration: const Duration(milliseconds: 150),
+                vsync: this,
+              ),
+              curve: Curves.bounceIn,
+            ),
+          ),
           isOpenOnStart: false,
           animationSpeed: 200,
           shape: customDialRoot

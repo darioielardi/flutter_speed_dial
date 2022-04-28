@@ -131,6 +131,9 @@ class SpeedDial extends StatefulWidget {
 
   final bool switchLabelPosition;
 
+  /// This is the animation of the child of the FAB, if specified it will animate b/w this
+  final Animation<double>? childAnimation;
+
   const SpeedDial({
     Key? key,
     this.children = const [],
@@ -178,6 +181,7 @@ class SpeedDial extends StatefulWidget {
     this.childPadding = const EdgeInsets.symmetric(vertical: 5),
     this.spaceBetweenChildren,
     this.spacing,
+    this.childAnimation,
   }) : super(key: key);
 
   @override
@@ -276,6 +280,7 @@ class _SpeedDialState extends State<SpeedDial>
           layerLink: _layerLink,
           controller: _controller,
           toggleChildren: _toggleChildren,
+          childAnimation: widget.childAnimation,
         ),
       );
       if (widget.renderOverlay) {
@@ -459,6 +464,7 @@ class _ChildrensOverlay extends StatefulWidget {
     required this.dialKey,
     required this.controller,
     required this.toggleChildren,
+    required this.childAnimation,
   }) : super(key: key);
 
   final SpeedDial widget;
@@ -466,6 +472,7 @@ class _ChildrensOverlay extends StatefulWidget {
   final LayerLink layerLink;
   final AnimationController controller;
   final Function toggleChildren;
+  final Animation<double>? childAnimation;
 
   @override
   State<_ChildrensOverlay> createState() => _ChildrensOverlayState();
@@ -477,19 +484,18 @@ class _ChildrensOverlayState extends State<_ChildrensOverlay> {
         .map((SpeedDialChild child) {
           int index = widget.widget.children.indexOf(child);
 
-          var childAnimation = Tween(begin: 0.0, end: 1.0).animate(
-            CurvedAnimation(
-              parent: widget.controller,
-              curve: Interval(
-                index / widget.widget.children.length,
-                1.0,
-                curve: Curves.ease,
-              ),
-            ),
-          );
-
           return AnimatedChild(
-            animation: childAnimation,
+            animation: widget.childAnimation ??
+                Tween(begin: 0.0, end: 1.0).animate(
+                  CurvedAnimation(
+                    parent: widget.controller,
+                    curve: Interval(
+                      index / widget.widget.children.length,
+                      1.0,
+                      curve: Curves.ease,
+                    ),
+                  ),
+                ),
             index: index,
             margin: widget.widget.spaceBetweenChildren != null
                 ? EdgeInsets.fromLTRB(
