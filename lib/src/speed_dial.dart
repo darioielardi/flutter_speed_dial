@@ -96,8 +96,8 @@ class SpeedDial extends StatefulWidget {
   /// Open or close the dial via a notification
   final ValueNotifier<bool>? openCloseDial;
 
-  /// The speed of the animation in milliseconds
-  final int animationSpeed;
+  /// The duration of the animation or the duration till which animation is played.
+  final Duration animationDuration;
 
   /// The margin of each child
   final EdgeInsets childMargin;
@@ -170,7 +170,7 @@ class SpeedDial extends StatefulWidget {
     this.shape = const StadiumBorder(),
     this.curve = Curves.fastOutSlowIn,
     this.onPress,
-    this.animationSpeed = 150,
+    this.animationDuration = const Duration(milliseconds: 150),
     this.openCloseDial,
     this.isOpenOnStart = false,
     this.closeDialOnPop = true,
@@ -187,7 +187,7 @@ class SpeedDial extends StatefulWidget {
 class _SpeedDialState extends State<SpeedDial>
     with SingleTickerProviderStateMixin {
   late final AnimationController _controller = AnimationController(
-    duration: Duration(milliseconds: widget.animationSpeed),
+    duration: widget.animationDuration,
     vsync: this,
   );
   bool _open = false;
@@ -224,7 +224,7 @@ class _SpeedDialState extends State<SpeedDial>
   @override
   void didUpdateWidget(SpeedDial oldWidget) {
     if (oldWidget.children.length != widget.children.length) {
-      _controller.duration = Duration(milliseconds: widget.animationSpeed);
+      _controller.duration = widget.animationDuration;
     }
 
     widget.openCloseDial?.removeListener(_onOpenCloseDial);
@@ -338,7 +338,7 @@ class _SpeedDialState extends State<SpeedDial>
                       ? _controller.value * widget.animationAngle
                       : 0,
               child: AnimatedSwitcher(
-                  duration: Duration(milliseconds: widget.animationSpeed),
+                  duration: widget.animationDuration,
                   child: (widget.child != null && _controller.value < 0.4)
                       ? widget.child
                       : (widget.activeIcon == null &&
@@ -383,7 +383,7 @@ class _SpeedDialState extends State<SpeedDial>
           );
 
     var label = AnimatedSwitcher(
-      duration: Duration(milliseconds: widget.animationSpeed),
+      duration: widget.animationDuration,
       transitionBuilder: widget.labelTransitionBuilder ??
           (child, animation) => FadeTransition(
                 opacity: animation,

@@ -389,7 +389,7 @@ class _MyHomePageState extends State<MyHomePage> {
           // activeBackgroundColor: Colors.blue,
           elevation: 8.0,
           isOpenOnStart: false,
-          animationSpeed: 200,
+          animationDuration: const Duration(milliseconds: 200),
           shape: customDialRoot
               ? const RoundedRectangleBorder()
               : const StadiumBorder(),
