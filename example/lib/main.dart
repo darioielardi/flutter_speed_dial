@@ -42,7 +42,8 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<MyHomePage>
+    with TickerProviderStateMixin {
   var renderOverlay = true;
   var visible = true;
   var switchLabelPosition = false;
@@ -189,7 +190,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                           vertical: 4, horizontal: 10),
                                       child: Align(
                                           alignment: Alignment.centerLeft,
-                                          child: Text( describeEnum(item).toUpperCase())),
+                                          child: Text(describeEnum(item)
+                                              .toUpperCase())),
                                     );
                                   }).toList();
                                 },
@@ -197,7 +199,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                     .toList()
                                     .map((item) {
                                   return DropdownMenuItem<SpeedDialDirection>(
-                                    child: Text(describeEnum(item).toUpperCase()),
+                                    child:
+                                        Text(describeEnum(item).toUpperCase()),
                                     value: item,
                                   );
                                 }).toList(),
@@ -388,8 +391,9 @@ class _MyHomePageState extends State<MyHomePage> {
           // activeForegroundColor: Colors.red,
           // activeBackgroundColor: Colors.blue,
           elevation: 8.0,
+          animationCurve: Curves.elasticInOut
           isOpenOnStart: false,
-          animationDuration: const Duration(milliseconds: 200),
+          animationDuration: const Duration(milliseconds: 1500),
           shape: customDialRoot
               ? const RoundedRectangleBorder()
               : const StadiumBorder(),
