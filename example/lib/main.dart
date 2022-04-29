@@ -42,8 +42,7 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage>
-    with TickerProviderStateMixin {
+class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   var renderOverlay = true;
   var visible = true;
   var switchLabelPosition = false;
@@ -391,7 +390,7 @@ class _MyHomePageState extends State<MyHomePage>
           // activeForegroundColor: Colors.red,
           // activeBackgroundColor: Colors.blue,
           elevation: 8.0,
-          animationCurve: Curves.elasticInOut
+          animationCurve: Curves.elasticInOut,
           isOpenOnStart: false,
           animationDuration: const Duration(milliseconds: 1500),
           shape: customDialRoot

@@ -464,7 +464,7 @@ class _ChildrensOverlay extends StatelessWidget {
     required this.dialKey,
     required this.controller,
     required this.toggleChildren,
-    this.childAnimation,
+    this.animationCurve,
   }) : super(key: key);
 
   final SpeedDial widget;
@@ -481,15 +481,15 @@ class _ChildrensOverlay extends StatelessWidget {
 
           return AnimatedChild(
             animation: Tween(begin: 0.0, end: 1.0).animate(
-                  CurvedAnimation(
-                    parent: controller,
-                    curve: Interval(
-                      index / widget.children.length,
-                      1.0,
-                      curve: widget.animationCurve ?? Curves.ease,
-                    ),
-                  ),
+              CurvedAnimation(
+                parent: controller,
+                curve: Interval(
+                  index / widget.children.length,
+                  1.0,
+                  curve: widget.animationCurve ?? Curves.ease,
                 ),
+              ),
+            ),
             index: index,
             margin: widget.spaceBetweenChildren != null
                 ? EdgeInsets.fromLTRB(
