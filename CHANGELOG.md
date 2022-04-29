@@ -1,3 +1,9 @@
+## [6.0.0] - 29 April 2022
+
+ - **BREAKING** - Changed `animationSpeed` as `int` to `animationDuration` as `Duration`
+ - **FEATURE** - Added the possibility to specify a custom `Curve` for the children's animation
+ - **FIX** - Fixed possible null-safety issues
+
 ## [5.1.0] - 2 April 2022
 
 - Fixed widget dispose method, now `backgroundOverlay` should be disposed correctly.
