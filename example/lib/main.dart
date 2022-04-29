@@ -391,17 +391,9 @@ class _MyHomePageState extends State<MyHomePage>
           // activeForegroundColor: Colors.red,
           // activeBackgroundColor: Colors.blue,
           elevation: 8.0,
-          childAnimation: Tween(begin: 0.0, end: 1.0).animate(
-            CurvedAnimation(
-              parent: AnimationController(
-                duration: const Duration(milliseconds: 150),
-                vsync: this,
-              ),
-              curve: Curves.bounceIn,
-            ),
-          ),
+          animationCurve: Curves.elasticInOut
           isOpenOnStart: false,
-          animationDuration: const Duration(milliseconds: 200),
+          animationDuration: const Duration(milliseconds: 1500),
           shape: customDialRoot
               ? const RoundedRectangleBorder()
               : const StadiumBorder(),
