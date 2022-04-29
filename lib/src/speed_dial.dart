@@ -132,7 +132,7 @@ class SpeedDial extends StatefulWidget {
   final bool switchLabelPosition;
 
   /// This is the animation of the child of the FAB, if specified it will animate b/w this
-  final Animation<double>? childAnimation;
+  final Curve? animationCurve;
 
   const SpeedDial({
     Key? key,
@@ -181,7 +181,7 @@ class SpeedDial extends StatefulWidget {
     this.childPadding = const EdgeInsets.symmetric(vertical: 5),
     this.spaceBetweenChildren,
     this.spacing,
-    this.childAnimation,
+    this.animationCurve,
   }) : super(key: key);
 
   @override
@@ -280,7 +280,7 @@ class _SpeedDialState extends State<SpeedDial>
           layerLink: _layerLink,
           controller: _controller,
           toggleChildren: _toggleChildren,
-          childAnimation: widget.childAnimation,
+          animationCurve: widget.animationCurve,
         ),
       );
       if (widget.renderOverlay) {
@@ -472,7 +472,7 @@ class _ChildrensOverlay extends StatelessWidget {
   final LayerLink layerLink;
   final AnimationController controller;
   final Function toggleChildren;
-  final Animation<double>? childAnimation;
+  final Curve? animationCurve;
 
   List<Widget> _getChildrenList() {
     return widget.children
@@ -480,14 +480,13 @@ class _ChildrensOverlay extends StatelessWidget {
           int index = widget.children.indexOf(child);
 
           return AnimatedChild(
-            animation: widget.childAnimation ??
-                Tween(begin: 0.0, end: 1.0).animate(
+            animation: Tween(begin: 0.0, end: 1.0).animate(
                   CurvedAnimation(
                     parent: controller,
                     curve: Interval(
                       index / widget.children.length,
                       1.0,
-                      curve: Curves.ease,
+                      curve: widget.animationCurve ?? Curves.ease,
                     ),
                   ),
                 ),
