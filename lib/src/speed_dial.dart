@@ -306,7 +306,7 @@ class _SpeedDialState extends State<SpeedDial>
       if (widget.renderOverlay) {
         backgroundOverlay = OverlayEntry(
           builder: (ctx) {
-            bool _dark = Theme.of(ctx).brightness == Brightness.dark;
+            bool dark = Theme.of(ctx).brightness == Brightness.dark;
             return BackgroundOverlay(
               dialKey: dialKey,
               layerLink: _layerLink,
@@ -317,7 +317,7 @@ class _SpeedDialState extends State<SpeedDial>
               // (_open && !widget.closeManually) ? _toggleChildren : null,
               animation: _controller,
               color: widget.overlayColor ??
-                  (_dark ? Colors.grey[900] : Colors.white)!,
+                  (dark ? Colors.grey[900] : Colors.white)!,
               opacity: widget.overlayOpacity,
             );
           },
@@ -340,6 +340,10 @@ class _SpeedDialState extends State<SpeedDial>
   Widget _renderButton() {
     var child = widget.animatedIcon != null
         ? Container(
+            decoration: BoxDecoration(
+              shape: widget.gradientBoxShape,
+              gradient: widget.gradient,
+            ),
             child: Center(
               child: AnimatedIcon(
                 icon: widget.animatedIcon!,
@@ -348,15 +352,10 @@ class _SpeedDialState extends State<SpeedDial>
                 size: widget.animatedIconTheme?.size,
               ),
             ),
-            decoration: BoxDecoration(
-              shape: widget.gradientBoxShape,
-              gradient: widget.gradient,
-            ),
           )
         : AnimatedBuilder(
             animation: _controller,
-            builder: (BuildContext context, Widget? _widget) =>
-                Transform.rotate(
+            builder: (BuildContext context, _) => Transform.rotate(
               angle:
                   (widget.activeChild != null || widget.activeIcon != null) &&
                           widget.useRotationAnimation
@@ -370,6 +369,10 @@ class _SpeedDialState extends State<SpeedDial>
                                   widget.activeChild == null ||
                               _controller.value < 0.4)
                           ? Container(
+                              decoration: BoxDecoration(
+                                shape: widget.gradientBoxShape,
+                                gradient: widget.gradient,
+                              ),
                               child: Center(
                                 child: widget.icon != null
                                     ? Icon(
@@ -380,16 +383,16 @@ class _SpeedDialState extends State<SpeedDial>
                                       )
                                     : widget.child,
                               ),
-                              decoration: BoxDecoration(
-                                shape: widget.gradientBoxShape,
-                                gradient: widget.gradient,
-                              ),
                             )
                           : Transform.rotate(
                               angle:
                                   widget.useRotationAnimation ? -pi * 1 / 2 : 0,
                               child: widget.activeChild ??
                                   Container(
+                                    decoration: BoxDecoration(
+                                      shape: widget.gradientBoxShape,
+                                      gradient: widget.gradient,
+                                    ),
                                     child: Center(
                                       child: Icon(
                                         widget.activeIcon,
@@ -397,10 +400,6 @@ class _SpeedDialState extends State<SpeedDial>
                                         color: widget.iconTheme?.color,
                                         size: widget.iconTheme?.size,
                                       ),
-                                    ),
-                                    decoration: BoxDecoration(
-                                      shape: widget.gradientBoxShape,
-                                      gradient: widget.gradient,
                                     ),
                                   ),
                             )),
@@ -450,9 +449,9 @@ class _SpeedDialState extends State<SpeedDial>
                 : widget.onPress,
             size: widget.buttonSize,
             label: widget.label != null ? label : null,
-            child: child,
             heroTag: widget.heroTag,
             shape: widget.shape,
+            child: child,
           )),
     );
 
@@ -527,7 +526,6 @@ class _ChildrensOverlay extends StatelessWidget {
             foregroundColor: child.foregroundColor,
             elevation: child.elevation,
             buttonSize: widget.childrenButtonSize,
-            child: child.child,
             label: child.label,
             labelStyle: child.labelStyle,
             labelBackgroundColor: child.labelBackgroundColor,
@@ -544,6 +542,7 @@ class _ChildrensOverlay extends StatelessWidget {
                 : null,
             childMargin: widget.childMargin,
             childPadding: widget.childPadding,
+            child: child.child,
           );
         })
         .toList()
@@ -589,9 +588,12 @@ class _ChildrensOverlay extends StatelessWidget {
                       0)
                   : widget.direction.isLeft
                       ? Offset(
-                          -10.0, dialKey.globalPaintBounds!.size.height / 2)
-                      : widget.direction.isRight ||
-                              dialKey.globalPaintBounds == null
+                          -10.0,
+                          dialKey.globalPaintBounds == null
+                              ? 0
+                              : dialKey.globalPaintBounds!.size.height / 2)
+                      : widget.direction.isRight &&
+                              dialKey.globalPaintBounds != null
                           ? Offset(dialKey.globalPaintBounds!.size.width + 12,
                               dialKey.globalPaintBounds!.size.height / 2)
                           : const Offset(-10.0, 0.0),
