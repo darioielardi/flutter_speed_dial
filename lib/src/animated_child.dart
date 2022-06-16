@@ -76,21 +76,19 @@ class AnimatedChild extends AnimatedWidget {
       if (labelWidget != null) {
         return GestureDetector(
           onTap: _performAction,
-          onLongPress: () => _performAction(true),
+          onLongPress: onLongPress == null ? null : () => _performAction(true),
           child: labelWidget,
         );
       }
 
-      return GestureDetector(
-        onTap: _performAction,
-        onLongPress: () => _performAction(true),
-        child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 8.0),
-          margin: childMargin,
+      const borderRadius = BorderRadius.all(Radius.circular(6.0));
+      return Padding(
+        padding: childMargin,
+        child: DecoratedBox(
           decoration: BoxDecoration(
             color: labelBackgroundColor ??
                 (dark ? Colors.grey[800] : Colors.grey[50]),
-            borderRadius: const BorderRadius.all(Radius.circular(6.0)),
+            borderRadius: borderRadius,
             boxShadow: labelShadow ??
                 [
                   BoxShadow(
@@ -99,10 +97,26 @@ class AnimatedChild extends AnimatedWidget {
                         : Colors.grey.withOpacity(0.7),
                     offset: const Offset(0.8, 0.8),
                     blurRadius: 2.4,
-                  )
+                  ),
                 ],
           ),
-          child: Text(label!, style: labelStyle),
+          child: Material(
+            type: MaterialType.transparency,
+            borderRadius: borderRadius,
+            clipBehavior: Clip.hardEdge,
+            child: InkWell(
+              onTap: _performAction,
+              onLongPress:
+                  onLongPress == null ? null : () => _performAction(true),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 5.0,
+                  horizontal: 8.0,
+                ),
+                child: Text(label!, style: labelStyle),
+              ),
+            ),
+          ),
         ),
       );
     }
