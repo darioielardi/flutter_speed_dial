@@ -10,6 +10,9 @@ import 'background_overlay.dart';
 import 'speed_dial_child.dart';
 import 'speed_dial_direction.dart';
 
+typedef AsyncChildrenBuilder = Future<List<SpeedDialChild>> Function(
+    BuildContext context);
+
 /// Builds the Speed Dial
 class SpeedDial extends StatefulWidget {
   /// Children buttons, from the lowest to the highest.
@@ -77,6 +80,11 @@ class SpeedDial extends StatefulWidget {
 
   /// Transition Builder between label and activeLabel, defaults to FadeTransition.
   final Widget Function(Widget, Animation<double>)? labelTransitionBuilder;
+
+  /// Repopulate children every time just before opening the dial. If you provide [onOpenBuilder]
+  /// then you must also provide a non-const [children] (e.g. `children: []`) since [children] is
+  /// const by default and cannot be modified.
+  final AsyncChildrenBuilder? onOpenBuilder;
 
   /// Executed when the dial is opened.
   final VoidCallback? onOpen;
@@ -165,6 +173,7 @@ class SpeedDial extends StatefulWidget {
     this.label,
     this.activeLabel,
     this.labelTransitionBuilder,
+    this.onOpenBuilder,
     this.onOpen,
     this.onClose,
     this.direction = SpeedDialDirection.up,
@@ -207,10 +216,7 @@ class _SpeedDialState extends State<SpeedDial>
     Future.delayed(Duration.zero, () async {
       if (mounted && widget.isOpenOnStart) _toggleChildren();
     });
-    if (widget.children.length > 5) {
-      debugPrint(
-          'Warning ! You are using more than 5 children, which is not compliant with Material design specs.');
-    }
+    _checkChildren();
   }
 
   @override
@@ -236,6 +242,13 @@ class _SpeedDialState extends State<SpeedDial>
     super.didUpdateWidget(oldWidget);
   }
 
+  void _checkChildren() {
+    if (widget.children.length > 5) {
+      debugPrint(
+          'Warning ! You are using more than 5 children, which is not compliant with Material design specs.');
+    }
+  }
+
   void _onOpenCloseDial() {
     final show = widget.openCloseDial?.value;
     if (!mounted) return;
@@ -244,14 +257,21 @@ class _SpeedDialState extends State<SpeedDial>
     }
   }
 
-  void _toggleChildren() {
+  void _toggleChildren() async {
     if (!mounted) return;
 
+    final opening = !_open;
+    if (opening && widget.onOpenBuilder != null) {
+      widget.children.clear();
+      final widgets = await widget.onOpenBuilder!(context);
+      widget.children.addAll(widgets);
+      _checkChildren();
+    }
+
     if (widget.children.isNotEmpty) {
-      var newValue = !_open;
       toggleOverlay();
-      widget.openCloseDial?.value = newValue;
-      newValue ? widget.onOpen?.call() : widget.onClose?.call();
+      widget.openCloseDial?.value = opening;
+      opening ? widget.onOpen?.call() : widget.onClose?.call();
     } else {
       widget.onOpen?.call();
     }
