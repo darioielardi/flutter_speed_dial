@@ -1,3 +1,11 @@
+## [6.1.0] - 05 October 2022
+
+- Add Mini Speed Dial Parameter to behave as a mini fab by @prateekmedia
+- Remove Overlay before disposing by @AndreHaueisen
+- Add ripple effect to child label by @Pourqavam
+- Support async child populating by @jamonkko
+- Null Fixes by @calvin-verticalscope
+
 ## [6.0.0] - 29 April 2022
 
  - **BREAKING** - Changed `animationSpeed` as `int` to `animationDuration` as `Duration`
