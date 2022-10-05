@@ -142,6 +142,9 @@ class SpeedDial extends StatefulWidget {
   /// This is the animation of the child of the FAB, if specified it will animate b/w this
   final Curve? animationCurve;
 
+  /// Use mini fab for the speed dial
+  final bool mini;
+
   const SpeedDial({
     Key? key,
     this.children = const [],
@@ -156,6 +159,7 @@ class SpeedDial extends StatefulWidget {
     this.buttonSize = const Size(56.0, 56.0),
     this.childrenButtonSize = const Size(56.0, 56.0),
     this.dialRoot,
+    this.mini = false,
     this.overlayOpacity = 0.8,
     this.overlayColor,
     this.tooltip,
@@ -434,6 +438,7 @@ class _SpeedDialState extends State<SpeedDial>
           child: AnimatedFloatingButton(
             visible: widget.visible,
             tooltip: widget.tooltip,
+            mini: widget.mini,
             dialRoot: widget.dialRoot != null
                 ? widget.dialRoot!(context, _open, _toggleChildren)
                 : null,
