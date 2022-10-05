@@ -1,3 +1,5 @@
+## [6.1.0+1] - 06 October 2022
+
 ## [6.1.0] - 05 October 2022
 
 - Add Mini Speed Dial Parameter to behave as a mini fab by @prateekmedia
