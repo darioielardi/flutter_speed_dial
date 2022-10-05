@@ -16,12 +16,14 @@ class AnimatedFloatingButton extends StatefulWidget {
   final Curve curve;
   final Widget? dialRoot;
   final bool useInkWell;
+  final bool mini;
 
   const AnimatedFloatingButton({
     Key? key,
     this.visible = true,
     this.callback,
     this.label,
+    required this.mini,
     this.child,
     this.dialRoot,
     this.useInkWell = false,
@@ -48,7 +50,11 @@ class _AnimatedFloatingButtonState extends State<AnimatedFloatingButton>
         ? AnimatedContainer(
             curve: widget.curve,
             duration: const Duration(milliseconds: 150),
-            height: widget.visible ? widget.size.height : 0,
+            height: widget.visible
+                ? widget.mini
+                    ? 40
+                    : widget.size.height
+                : 0,
             child: FittedBox(
               child: GestureDetector(
                 onLongPress: widget.onLongPress,
@@ -70,7 +76,7 @@ class _AnimatedFloatingButtonState extends State<AnimatedFloatingButton>
                         highlightElevation: widget.elevation,
                       )
                     : FloatingActionButton(
-                        child: widget.visible ? widget.child : null,
+                        mini: widget.mini,
                         shape: widget.shape,
                         backgroundColor: widget.backgroundColor,
                         foregroundColor: widget.foregroundColor,
@@ -79,6 +85,7 @@ class _AnimatedFloatingButtonState extends State<AnimatedFloatingButton>
                         heroTag: widget.heroTag,
                         elevation: widget.elevation,
                         highlightElevation: widget.elevation,
+                        child: widget.visible ? widget.child : null,
                       ),
               ),
             ),

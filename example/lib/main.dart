@@ -47,6 +47,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   var visible = true;
   var switchLabelPosition = false;
   var extend = false;
+  var mini = false;
   var rmicons = false;
   var customDialRoot = false;
   var closeManually = false;
@@ -229,6 +230,15 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                           }),
                       SwitchListTile(
                           contentPadding: const EdgeInsets.all(15),
+                          value: mini,
+                          title: const Text("Mini"),
+                          onChanged: (val) {
+                            setState(() {
+                              mini = val;
+                            });
+                          }),
+                      SwitchListTile(
+                          contentPadding: const EdgeInsets.all(15),
                           value: customDialRoot,
                           title: const Text("Custom dialRoot"),
                           onChanged: (val) {
@@ -337,6 +347,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           icon: Icons.add,
           activeIcon: Icons.close,
           spacing: 3,
+          mini: mini,
           openCloseDial: isDialOpen,
           childPadding: const EdgeInsets.all(5),
           spaceBetweenChildren: 4,
@@ -392,7 +403,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           elevation: 8.0,
           animationCurve: Curves.elasticInOut,
           isOpenOnStart: false,
-          animationDuration: const Duration(milliseconds: 1500),
           shape: customDialRoot
               ? const RoundedRectangleBorder()
               : const StadiumBorder(),
