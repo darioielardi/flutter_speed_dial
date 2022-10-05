@@ -61,7 +61,7 @@ class AnimatedChild extends AnimatedWidget {
     final Animation<double> animation = listenable as Animation<double>;
     bool dark = Theme.of(context).brightness == Brightness.dark;
 
-    void _performAction([bool isLong = false]) {
+    void performAction([bool isLong = false]) {
       if (onTap != null && !isLong) {
         onTap!();
       } else if (onLongPress != null && isLong) {
@@ -75,8 +75,8 @@ class AnimatedChild extends AnimatedWidget {
 
       if (labelWidget != null) {
         return GestureDetector(
-          onTap: _performAction,
-          onLongPress: onLongPress == null ? null : () => _performAction(true),
+          onTap: performAction,
+          onLongPress: onLongPress == null ? null : () => performAction(true),
           child: labelWidget,
         );
       }
@@ -105,9 +105,9 @@ class AnimatedChild extends AnimatedWidget {
             borderRadius: borderRadius,
             clipBehavior: Clip.hardEdge,
             child: InkWell(
-              onTap: _performAction,
+              onTap: performAction,
               onLongPress:
-                  onLongPress == null ? null : () => _performAction(true),
+                  onLongPress == null ? null : () => performAction(true),
               child: Padding(
                 padding: const EdgeInsets.symmetric(
                   vertical: 5.0,
@@ -126,14 +126,14 @@ class AnimatedChild extends AnimatedWidget {
         child: FloatingActionButton(
           key: btnKey,
           heroTag: heroTag,
-          onPressed: _performAction,
+          onPressed: performAction,
           backgroundColor:
               backgroundColor ?? (dark ? Colors.grey[800] : Colors.grey[50]),
           foregroundColor:
               foregroundColor ?? (dark ? Colors.white : Colors.black),
           elevation: elevation ?? 6.0,
-          child: child,
           shape: shape,
+          child: child,
         ));
 
     List<Widget> children = [
@@ -157,14 +157,14 @@ class AnimatedChild extends AnimatedWidget {
               ? button
               : FittedBox(
                   child: GestureDetector(
-                    onLongPress: () => _performAction(true),
+                    onLongPress: () => performAction(true),
                     child: button,
                   ),
                 ),
         )
     ];
 
-    Widget _buildColumnOrRow(bool isColumn,
+    Widget buildColumnOrRow(bool isColumn,
         {CrossAxisAlignment? crossAxisAlignment,
         MainAxisAlignment? mainAxisAlignment,
         required List<Widget> children,
@@ -189,7 +189,7 @@ class AnimatedChild extends AnimatedWidget {
     return visible
         ? Container(
             margin: margin,
-            child: _buildColumnOrRow(
+            child: buildColumnOrRow(
               useColumn,
               mainAxisSize: MainAxisSize.min,
               children:

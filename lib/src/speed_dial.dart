@@ -198,7 +198,7 @@ class SpeedDial extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _SpeedDialState createState() => _SpeedDialState();
+  State createState() => _SpeedDialState();
 }
 
 class _SpeedDialState extends State<SpeedDial>

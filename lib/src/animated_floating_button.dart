@@ -39,7 +39,7 @@ class AnimatedFloatingButton extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _AnimatedFloatingButtonState createState() => _AnimatedFloatingButtonState();
+  State createState() => _AnimatedFloatingButtonState();
 }
 
 class _AnimatedFloatingButtonState extends State<AnimatedFloatingButton>

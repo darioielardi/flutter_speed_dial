@@ -356,7 +356,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                   return ElevatedButton(
                     onPressed: toggleChildren,
                     style: ElevatedButton.styleFrom(
-                      primary: Colors.blue[900],
+                      backgroundColor: Colors.blue[900],
                       padding: const EdgeInsets.symmetric(
                           horizontal: 22, vertical: 18),
                     ),
