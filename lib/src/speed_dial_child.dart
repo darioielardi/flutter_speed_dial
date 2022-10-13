@@ -21,13 +21,28 @@ class SpeedDialChild {
   /// [labelStyle] and [labelBackgroundColor] should be null
   final Widget? labelWidget;
 
+  /// The child widget for this `SpeedDialChild`
   final Widget? child;
+
+  /// The color of the background of this `SpeedDialChild`
   final Color? backgroundColor;
+
+  /// The color of the foreground of this `SpeedDialChild`
   final Color? foregroundColor;
+
+  /// The intensity of the shadow for this `SpeedDialChild`
   final double? elevation;
+
+  /// The action that is performed after tapping this `SpeedDialChild`
   final VoidCallback? onTap;
+
+  /// The action that is performed after long pressing this `SpeedDialChild`
   final VoidCallback? onLongPress;
+
+  /// The shape of this `SpeedDialChild`
   final ShapeBorder? shape;
+
+  /// Whether this `SpeedDialChild` is visible or not
   final bool visible;
 
   SpeedDialChild({
