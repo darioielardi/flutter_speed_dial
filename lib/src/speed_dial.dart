@@ -24,17 +24,40 @@ class SpeedDial extends StatefulWidget {
   /// The curve used to animate the button on scrolling.
   final Curve curve;
 
+  /// The tooltip of this `SpeedDial`
   final String? tooltip;
+
+  /// The hero tag used for the fab inside this `SpeedDial`
   final String? heroTag;
+
+  /// The color of the background of this `SpeedDial`
   final Color? backgroundColor;
+
+  /// The color of the foreground of this `SpeedDial`
   final Color? foregroundColor;
+
+  /// The color of the background of this `SpeedDial` when it is open
   final Color? activeBackgroundColor;
+
+  /// The color of the foreground of this `SpeedDial` when it is open
   final Color? activeForegroundColor;
+
+  /// The intensity of the shadow for this `SpeedDial`
   final double elevation;
+
+  /// The size for this `SpeedDial` button
   final Size buttonSize;
+
+  /// The size for this `SpeedDial` children
   final Size childrenButtonSize;
+
+  /// The shape of this `SpeedDial`
   final ShapeBorder shape;
+
+  /// The gradient decoration for this `SpeedDial`
   final Gradient? gradient;
+
+  /// The shape of the gradient decoration for this `SpeedDial`
   final BoxShape gradientBoxShape;
 
   /// Whether speedDial initialize with open state or not, defaults to false.
@@ -226,12 +249,12 @@ class _SpeedDialState extends State<SpeedDial>
   @override
   void dispose() {
     if (widget.renderOverlay && backgroundOverlay != null) {
-        if (_open && backgroundOverlay!.mounted) backgroundOverlay!.remove();
-        backgroundOverlay!.dispose();
+      if (_open && backgroundOverlay!.mounted) backgroundOverlay!.remove();
+      backgroundOverlay!.dispose();
     }
     if (overlayEntry != null) {
-        if (_open && overlayEntry!.mounted) overlayEntry!.remove();
-        overlayEntry!.dispose();
+      if (_open && overlayEntry!.mounted) overlayEntry!.remove();
+      overlayEntry!.dispose();
     }
     _controller.dispose();
     widget.openCloseDial?.removeListener(_onOpenCloseDial);
