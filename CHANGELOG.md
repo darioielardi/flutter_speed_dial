@@ -1,3 +1,8 @@
+## [6.2.0] - 14 October 2022
+
+- Fix Overlay error for once and for all
+- Improve Example Code
+
 ## [6.1.0+1] - 06 October 2022
 
 ## [6.1.0] - 05 October 2022
