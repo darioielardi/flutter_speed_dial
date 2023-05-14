@@ -97,15 +97,11 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("SpeedDial Location",
-                              style: Theme.of(context).textTheme.bodyText1),
+                          Text("SpeedDial Location", style: Theme.of(context).textTheme.bodyLarge),
                           const SizedBox(height: 10),
                           Container(
                             decoration: BoxDecoration(
-                                color: Theme.of(context).brightness ==
-                                        Brightness.dark
-                                    ? Colors.grey[800]
-                                    : Colors.grey[200],
+                                color: Theme.of(context).brightness == Brightness.dark ? Colors.grey[800] : Colors.grey[200],
                                 borderRadius: BorderRadius.circular(10)),
                             child: DropdownButton<FloatingActionButtonLocation>(
                               value: selectedfABLocation,
@@ -113,25 +109,20 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                               icon: const Icon(Icons.arrow_drop_down),
                               iconSize: 20,
                               underline: const SizedBox(),
-                              onChanged: (fABLocation) => setState(
-                                  () => selectedfABLocation = fABLocation!),
+                              onChanged: (fABLocation) => setState(() => selectedfABLocation = fABLocation!),
                               selectedItemBuilder: (BuildContext context) {
                                 return items.map<Widget>((item) {
                                   return Align(
                                       alignment: Alignment.centerLeft,
-                                      child: Container(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 4, horizontal: 10),
-                                          child: Text(item.value)));
+                                      child: Container(padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 10), child: Text(item.value)));
                                 }).toList();
                               },
                               items: items.map((item) {
-                                return DropdownMenuItem<
-                                    FloatingActionButtonLocation>(
+                                return DropdownMenuItem<FloatingActionButtonLocation>(
+                                  value: item,
                                   child: Text(
                                     item.value,
                                   ),
-                                  value: item,
                                 );
                               }).toList(),
                             ),
@@ -146,15 +137,11 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("SpeedDial Direction",
-                              style: Theme.of(context).textTheme.bodyText1),
+                          Text("SpeedDial Direction", style: Theme.of(context).textTheme.bodyLarge),
                           const SizedBox(height: 10),
                           Container(
                             decoration: BoxDecoration(
-                                color: Theme.of(context).brightness ==
-                                        Brightness.dark
-                                    ? Colors.grey[800]
-                                    : Colors.grey[200],
+                                color: Theme.of(context).brightness == Brightness.dark ? Colors.grey[800] : Colors.grey[200],
                                 borderRadius: BorderRadius.circular(10)),
                             child: DropdownButton<SpeedDialDirection>(
                               value: speedDialDirection,
@@ -165,45 +152,28 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                               onChanged: (sdo) {
                                 setState(() {
                                   speedDialDirection = sdo!;
-                                  selectedfABLocation = (sdo.isUp &&
-                                              selectedfABLocation.value
-                                                  .contains("Top")) ||
-                                          (sdo.isLeft &&
-                                              selectedfABLocation.value
-                                                  .contains("start"))
+                                  selectedfABLocation = (sdo.isUp && selectedfABLocation.value.contains("Top")) ||
+                                          (sdo.isLeft && selectedfABLocation.value.contains("start"))
                                       ? FloatingActionButtonLocation.endDocked
-                                      : sdo.isDown &&
-                                              !selectedfABLocation.value
-                                                  .contains("Top")
+                                      : sdo.isDown && !selectedfABLocation.value.contains("Top")
                                           ? FloatingActionButtonLocation.endTop
-                                          : sdo.isRight &&
-                                                  selectedfABLocation.value
-                                                      .contains("end")
-                                              ? FloatingActionButtonLocation
-                                                  .startDocked
+                                          : sdo.isRight && selectedfABLocation.value.contains("end")
+                                              ? FloatingActionButtonLocation.startDocked
                                               : selectedfABLocation;
                                 });
                               },
                               selectedItemBuilder: (BuildContext context) {
-                                return SpeedDialDirection.values
-                                    .toList()
-                                    .map<Widget>((item) {
+                                return SpeedDialDirection.values.toList().map<Widget>((item) {
                                   return Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 4, horizontal: 10),
-                                    child: Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: Text(
-                                            describeEnum(item).toUpperCase())),
+                                    padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 10),
+                                    child: Align(alignment: Alignment.centerLeft, child: Text(describeEnum(item).toUpperCase())),
                                   );
                                 }).toList();
                               },
-                              items: SpeedDialDirection.values
-                                  .toList()
-                                  .map((item) {
+                              items: SpeedDialDirection.values.toList().map((item) {
                                 return DropdownMenuItem<SpeedDialDirection>(
-                                  child: Text(describeEnum(item).toUpperCase()),
                                   value: item,
+                                  child: Text(describeEnum(item).toUpperCase()),
                                 );
                               }).toList(),
                             ),
@@ -320,21 +290,12 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                           setState(() {
                             switchLabelPosition = val;
                             if (val) {
-                              if ((selectedfABLocation.value.contains("end") ||
-                                      selectedfABLocation.value
-                                          .toLowerCase()
-                                          .contains("top")) &&
+                              if ((selectedfABLocation.value.contains("end") || selectedfABLocation.value.toLowerCase().contains("top")) &&
                                   speedDialDirection.isUp) {
-                                selectedfABLocation =
-                                    FloatingActionButtonLocation.startDocked;
-                              } else if ((selectedfABLocation.value
-                                          .contains("end") ||
-                                      !selectedfABLocation.value
-                                          .toLowerCase()
-                                          .contains("top")) &&
+                                selectedfABLocation = FloatingActionButtonLocation.startDocked;
+                              } else if ((selectedfABLocation.value.contains("end") || !selectedfABLocation.value.toLowerCase().contains("top")) &&
                                   speedDialDirection.isDown) {
-                                selectedfABLocation =
-                                    FloatingActionButtonLocation.startTop;
+                                selectedfABLocation = FloatingActionButtonLocation.startTop;
                               }
                             }
                           });
@@ -369,15 +330,13 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("Navigation",
-                              style: Theme.of(context).textTheme.bodyText1),
+                          Text("Navigation", style: Theme.of(context).textTheme.bodyLarge),
                           const SizedBox(height: 10),
                           ElevatedButton(
                               onPressed: () {
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
-                                    builder: (_) =>
-                                        MyHomePage(theme: widget.theme),
+                                    builder: (_) => MyHomePage(theme: widget.theme),
                                   ),
                                 );
                               },
@@ -409,8 +368,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                     onPressed: toggleChildren,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blue[900],
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 22, vertical: 18),
+                      padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 18),
                     ),
                     child: const Text(
                       "Custom Dial Root",
@@ -419,12 +377,9 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                   );
                 }
               : null,
-          buttonSize:
-              buttonSize, // it's the SpeedDial size which defaults to 56 itself
+          buttonSize: buttonSize, // it's the SpeedDial size which defaults to 56 itself
           // iconTheme: IconThemeData(size: 22),
-          label: extend
-              ? const Text("Open")
-              : null, // The label of the main button.
+          label: extend ? const Text("Open") : null, // The label of the main button.
           /// The active label of the main button, Defaults to label if not specified.
           activeLabel: extend ? const Text("Close") : null,
 
@@ -455,9 +410,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           elevation: 8.0,
           animationCurve: Curves.elasticInOut,
           isOpenOnStart: false,
-          shape: customDialRoot
-              ? const RoundedRectangleBorder()
-              : const StadiumBorder(),
+          shape: customDialRoot ? const RoundedRectangleBorder() : const StadiumBorder(),
           // childMargin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
           children: [
             SpeedDialChild(
@@ -481,8 +434,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
               foregroundColor: Colors.white,
               label: 'Show Snackbar',
               visible: true,
-              onTap: () => ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text(("Third Child Pressed")))),
+              onTap: () => ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text(("Third Child Pressed")))),
               onLongPress: () => debugPrint('THIRD CHILD LONG PRESS'),
             ),
           ],
@@ -491,8 +443,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           shape: const CircularNotchedRectangle(),
           notchMargin: 8.0,
           child: Row(
-            mainAxisAlignment: selectedfABLocation ==
-                    FloatingActionButtonLocation.startDocked
+            mainAxisAlignment: selectedfABLocation == FloatingActionButtonLocation.startDocked
                 ? MainAxisAlignment.end
                 : selectedfABLocation == FloatingActionButtonLocation.endDocked
                     ? MainAxisAlignment.start
@@ -502,17 +453,13 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
               IconButton(
                 icon: const Icon(Icons.nightlight_round),
                 tooltip: "Switch Theme",
-                onPressed: () => {
-                  widget.theme.value = widget.theme.value.index == 2
-                      ? ThemeMode.light
-                      : ThemeMode.dark
-                },
+                onPressed: () => {widget.theme.value = widget.theme.value.index == 2 ? ThemeMode.light : ThemeMode.dark},
               ),
               ValueListenableBuilder<bool>(
                   valueListenable: isDialOpen,
                   builder: (ctx, value, _) => IconButton(
                         icon: const Icon(Icons.open_in_browser),
-                        tooltip: (!value ? "Open" : "Close") + " Speed Dial",
+                        tooltip: (!value ? "Open" : "Close") + (" Speed Dial"),
                         onPressed: () => {isDialOpen.value = !isDialOpen.value},
                       ))
             ],
