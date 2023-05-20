@@ -357,8 +357,8 @@ class _SpeedDialState extends State<SpeedDial>
       if (!mounted) return;
 
       _controller.forward();
-      if (widget.renderOverlay) Overlay.of(context)!.insert(backgroundOverlay!);
-      Overlay.of(context)!.insert(overlayEntry!);
+      if (widget.renderOverlay) Overlay.of(context).insert(backgroundOverlay!);
+      Overlay.of(context).insert(overlayEntry!);
     }
 
     if (!mounted) return;
