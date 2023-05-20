@@ -1,3 +1,9 @@
+## [6.3.0] - 20 May 2023
+
+- Fix for Flutter 3.10 (#306)
+- Change dispose order (#299)
+- Don't check for _open when disposing (#286)
+
 ## [6.2.0] - 14 October 2022
 
 - Fix Overlay error for once and for all

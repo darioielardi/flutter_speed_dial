@@ -13,7 +13,7 @@ To donate directly you can use below link, don't forget to leave a message there
 
 <a href="https://www.buymeacoffee.com/prateeksunal" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
 
-Or become a Github sponser by clicking on the Sponser button in this repository.
+Or become a Github [sponser](https://github.com/sponsors/prateekmedia) by clicking on the Sponser button in this repository.
 
 <p align="center"><a href="https://github.com/darioielardi/flutter_speed_dial/releases"><img alt="GitHub release" src="https://img.shields.io/github/v/release/darioielardi/flutter_speed_dial"/></a> <a href="LICENSE"><img alt="License" src="https://img.shields.io/github/license/darioielardi/flutter_speed_dial?color=blue"/></a> <a href="https://pub.dev/documentation/flutter_speed_dial/latest/flutter_speed_dial/flutter_speed_dial-library.html"><img alt="Classic API Docs" src="https://img.shields.io/badge/Classic Docs-informational"/></a> <a href="#usage"><img alt="Usage" src="https://img.shields.io/badge/Usage-blue"/></a></p>
 
