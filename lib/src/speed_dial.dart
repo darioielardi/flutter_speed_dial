@@ -131,10 +131,10 @@ class SpeedDial extends StatefulWidget {
   final Duration animationDuration;
 
   /// The margin of each child
-  final EdgeInsets childMargin;
+  final EdgeInsetsGeometry childMargin;
 
   /// The padding of each child
-  final EdgeInsets childPadding;
+  final EdgeInsetsGeometry childPadding;
 
   /// Add a space at between speed dial and children
   final double? spacing;
@@ -542,7 +542,7 @@ class _ChildrensOverlay extends StatelessWidget {
             ),
             index: index,
             margin: widget.spaceBetweenChildren != null
-                ? EdgeInsets.fromLTRB(
+                ? EdgeInsetsDirectional.fromSTEB(
                     widget.direction.isRight ? widget.spaceBetweenChildren! : 0,
                     widget.direction.isDown ? widget.spaceBetweenChildren! : 0,
                     widget.direction.isLeft ? widget.spaceBetweenChildren! : 0,
@@ -583,6 +583,9 @@ class _ChildrensOverlay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    TextDirection textDirection = Directionality.of(context);
+    bool isRTL = textDirection == TextDirection.rtl;
+
     return Stack(
       fit: StackFit.loose,
       children: [
@@ -593,30 +596,42 @@ class _ChildrensOverlay extends StatelessWidget {
                   ? Alignment.topLeft
                   : Alignment.topRight
               : widget.direction.isUp
-                  ? widget.switchLabelPosition
+                  ? widget.switchLabelPosition || isRTL
                       ? Alignment.bottomLeft
                       : Alignment.bottomRight
                   : widget.direction.isLeft
                       ? Alignment.centerRight
-                      : widget.direction.isRight
+                      : widget.direction.isRight || isRTL
                           ? Alignment.centerLeft
                           : Alignment.center,
           offset: widget.direction.isDown
               ? Offset(
-                  (widget.switchLabelPosition ||
-                              dialKey.globalPaintBounds == null
-                          ? 0
-                          : dialKey.globalPaintBounds!.size.width) +
-                      max(widget.childrenButtonSize.height - 56, 0) / 2,
+                  Offset.fromDirection(
+                          isRTL ? 0 : 3.14159,
+                          (widget.switchLabelPosition ||
+                                      isRTL ||
+                                      dialKey.globalPaintBounds == null
+                                  ? 0
+                                  : dialKey.globalPaintBounds!.size.width) +
+                              max(widget.childrenButtonSize.height - 56, 0) / 2)
+                      .dx,
                   dialKey.globalPaintBounds!.size.height)
               : widget.direction.isUp
-                  ? Offset(
+                  ? Offset.fromDirection(
+                      isRTL ? 3.14159 : 0,
                       (widget.switchLabelPosition ||
+                                  isRTL ||
                                   dialKey.globalPaintBounds == null
                               ? 0
                               : dialKey.globalPaintBounds!.size.width) +
-                          max(widget.childrenButtonSize.width - 56, 0) / 2,
-                      0)
+                          max(widget.childrenButtonSize.width - 56, 0) / 2)
+                  // ? Offset(
+                  //     (widget.switchLabelPosition ||
+                  //                 dialKey.globalPaintBounds == null
+                  //             ? 0
+                  //             : dialKey.globalPaintBounds!.size.width) +
+                  //         max(widget.childrenButtonSize.width - 56, 0) / 2,
+                  //     0)
                   : widget.direction.isLeft
                       ? Offset(
                           -10.0,
@@ -627,7 +642,7 @@ class _ChildrensOverlay extends StatelessWidget {
                               dialKey.globalPaintBounds != null
                           ? Offset(dialKey.globalPaintBounds!.size.width + 12,
                               dialKey.globalPaintBounds!.size.height / 2)
-                          : const Offset(-10.0, 0.0),
+                          : const Offset(-10.0, 0),
           link: layerLink,
           showWhenUnlinked: false,
           child: Material(
@@ -639,7 +654,7 @@ class _ChildrensOverlay extends StatelessWidget {
                     : 0,
               ),
               margin: widget.spacing != null
-                  ? EdgeInsets.fromLTRB(
+                  ? EdgeInsetsDirectional.fromSTEB(
                       widget.direction.isRight ? widget.spacing! : 0,
                       widget.direction.isDown ? widget.spacing! : 0,
                       widget.direction.isLeft ? widget.spacing! : 0,

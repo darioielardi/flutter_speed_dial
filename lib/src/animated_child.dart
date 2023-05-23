@@ -23,10 +23,10 @@ class AnimatedChild extends AnimatedWidget {
   final String? heroTag;
   final bool useColumn;
   final bool switchLabelPosition;
-  final EdgeInsets? margin;
+  final EdgeInsetsGeometry? margin;
 
-  final EdgeInsets childMargin;
-  final EdgeInsets childPadding;
+  final EdgeInsetsGeometry childMargin;
+  final EdgeInsetsGeometry childPadding;
 
   const AnimatedChild({
     Key? key,
