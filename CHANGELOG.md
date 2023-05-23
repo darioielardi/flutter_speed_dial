@@ -1,4 +1,4 @@
-## [6.3.0] - 20 May 2023
+## [7.0.0] - 20 May 2023
 
 - Fix for Flutter 3.10 (#306)
 - Change dispose order (#299)
