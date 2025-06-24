@@ -168,6 +168,9 @@ class SpeedDial extends StatefulWidget {
   /// Use mini fab for the speed dial
   final bool mini;
 
+  /// If true, overlays are inserted using the root navigator's overlay.
+  final bool useRootOverlay;
+
   const SpeedDial({
     Key? key,
     this.children = const [],
@@ -218,6 +221,7 @@ class SpeedDial extends StatefulWidget {
     this.spaceBetweenChildren,
     this.spacing,
     this.animationCurve,
+    this.useRootOverlay = false,
   }) : super(key: key);
 
   @override
@@ -357,8 +361,8 @@ class _SpeedDialState extends State<SpeedDial>
       if (!mounted) return;
 
       _controller.forward();
-      if (widget.renderOverlay) Overlay.of(context).insert(backgroundOverlay!);
-      Overlay.of(context).insert(overlayEntry!);
+      if (widget.renderOverlay) Overlay.of(context, rootOverlay: widget.useRootOverlay).insert(backgroundOverlay!);
+      Overlay.of(context, rootOverlay: widget.useRootOverlay).insert(overlayEntry!);
     }
 
     if (!mounted) return;
