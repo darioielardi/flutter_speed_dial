@@ -29,9 +29,31 @@ class BackgroundOverlay extends AnimatedWidget {
   @override
   Widget build(BuildContext context) {
     final Animation<double> animation = listenable as Animation<double>;
+
+    final Widget followerWidget = CompositedTransformFollower(
+      link: layerLink,
+      showWhenUnlinked: false,
+      child: MouseRegion(
+        cursor: SystemMouseCursors.click,
+        child: GestureDetector(
+          onTap: onTap,
+          child: Container(
+            width: dialKey.globalPaintBounds?.size.width,
+            height: dialKey.globalPaintBounds?.size.height,
+            decoration: ShapeDecoration(
+              shape:
+                  shape == const CircleBorder() ? const StadiumBorder() : shape,
+              color: Colors.white,
+            ),
+          ),
+        ),
+      ),
+    );
+
     return ColorFiltered(
         colorFilter: ColorFilter.mode(
-            color.withOpacity(opacity * animation.value), BlendMode.srcOut),
+            color.withValues(alpha: opacity * animation.value),
+            BlendMode.srcOut),
         child: Stack(
           fit: StackFit.expand,
           children: [
@@ -44,34 +66,12 @@ class BackgroundOverlay extends AnimatedWidget {
             ),
             Positioned(
               width: dialKey.globalPaintBounds?.size.width,
-              child: CompositedTransformFollower(
-                link: layerLink,
-                showWhenUnlinked: false,
-                child: MouseRegion(
-                  cursor: SystemMouseCursors.click,
-                  child: () {
-                    final Widget child = GestureDetector(
-                      onTap: onTap,
-                      child: Container(
-                        width: dialKey.globalPaintBounds?.size.width,
-                        height: dialKey.globalPaintBounds?.size.height,
-                        decoration: ShapeDecoration(
-                          shape: shape == const CircleBorder()
-                              ? const StadiumBorder()
-                              : shape,
-                          color: Colors.white,
-                        ),
-                      ),
-                    );
-                    return tooltip != null && tooltip!.isNotEmpty
-                        ? Tooltip(
-                            message: tooltip!,
-                            child: child,
-                          )
-                        : child;
-                  }(),
-                ),
-              ),
+              child: (tooltip != null && tooltip!.isNotEmpty)
+                  ? Tooltip(
+                      message: tooltip!,
+                      child: followerWidget,
+                    )
+                  : followerWidget,
             ),
           ],
         ));
