@@ -230,6 +230,7 @@ class _SpeedDialState extends State<SpeedDial>
     vsync: this,
   );
   bool _open = false;
+  bool _loadingChildren = false;
   final OverlayPortalController _overlayController = OverlayPortalController();
 
   @override
@@ -281,11 +282,23 @@ class _SpeedDialState extends State<SpeedDial>
 
     final opening = !_open;
     if (opening && widget.onOpenBuilder != null) {
-      widget.children.clear();
-      final widgets = await widget.onOpenBuilder!(context);
-      widget.children.addAll(widgets);
-      _checkChildren();
+      // A load is already in flight. Ignore further open requests until it
+      // finishes, otherwise the builder runs twice and the second completion
+      // immediately toggles the dial closed again.
+      if (_loadingChildren) return;
+      _loadingChildren = true;
+      try {
+        widget.children.clear();
+        final widgets = await widget.onOpenBuilder!(context);
+        if (!mounted) return;
+        widget.children.addAll(widgets);
+        _checkChildren();
+      } finally {
+        _loadingChildren = false;
+      }
     }
+
+    if (!mounted) return;
 
     if (widget.children.isNotEmpty) {
       toggleOverlay();
