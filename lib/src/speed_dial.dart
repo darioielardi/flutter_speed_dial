@@ -261,9 +261,10 @@ class _SpeedDialState extends State<SpeedDial>
   }
 
   void _checkChildren() {
-    if (widget.children.length > 5) {
-      debugPrint(
-          'Warning ! You are using more than 5 children, which is not compliant with Material design specs.');
+    if (kDebugMode) {
+      if (widget.children.length > 6) {
+        debugPrint('Warning ! You are using more than 6 children, which is not compliant with Material design specs.');
+      }
     }
   }
 
