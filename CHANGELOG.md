@@ -1,7 +1,10 @@
 ## [8.0.0] - 16 November 2026
 
-- Migrate to `package:material_ui/material_ui.dart`, update minimum SDK constraints (`Dart >=3.13.0 <4.0.0`, `Flutter >=3.47.0`), replace deprecated APIs (`WillPopScope`, `withOpacity`, `describeEnum`), and resolve analyzer/lint warnings
-- Replace `OverlayEntry` and `CompositedTransformTarget`/`CompositedTransformFollower` with `OverlayPortal.overlayChildLayoutBuilder` to fix `RenderFollowerLayer` layout assertion when showing `Tooltip`s (or other `OverlayPortal` widgets) inside the overlay
+- Migrate to `package:material_ui/material_ui.dart`, update minimum SDK constraints (`Dart >=3.13.0 <4.0.0`, `Flutter >=3.47.0`), replace deprecated APIs (`WillPopScope`, `withOpacity`, `describeEnum`), and resolve analyzer/lint warnings (#347)
+- Replace `OverlayEntry` and `CompositedTransformTarget`/`CompositedTransformFollower` with `OverlayPortal.overlayChildLayoutBuilder` to fix `RenderFollowerLayer` layout assertion when showing `Tooltip`s (or other `OverlayPortal` widgets) inside the overlay (#348)
+- Add widget tests and CI workflow (#349)
+- Update Material Design children count warning threshold from 5 to 6 and print it only in debug mode (#337)
+- Replace `Future.delayed` with `WidgetsBinding.instance.addPostFrameCallback` when `isOpenOnStart` is `true` to prevent pending timer exceptions in widget tests (#353)
 
 ## [7.0.0] - 20 May 2023
 
