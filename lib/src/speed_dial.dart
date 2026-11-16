@@ -236,9 +236,11 @@ class _SpeedDialState extends State<SpeedDial>
   void initState() {
     super.initState();
     widget.openCloseDial?.addListener(_onOpenCloseDial);
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted && widget.isOpenOnStart) _toggleChildren();
-    });
+    if (widget.isOpenOnStart) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) _toggleChildren();
+      });
+    }
     _checkChildren();
   }
 
