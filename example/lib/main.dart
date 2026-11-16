@@ -1,13 +1,12 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 void main() => runApp(const MyApp());
 
 class MyApp extends StatefulWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
   @override
-  _MyAppState createState() => _MyAppState();
+  State<MyApp> createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
@@ -37,9 +36,9 @@ class _MyAppState extends State<MyApp> {
 
 class MyHomePage extends StatefulWidget {
   final ValueNotifier<ThemeMode> theme;
-  const MyHomePage({Key? key, required this.theme}) : super(key: key);
+  const MyHomePage({super.key, required this.theme});
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
@@ -69,14 +68,17 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   ];
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        if (isDialOpen.value) {
-          isDialOpen.value = false;
-          return false;
-        }
-        return true;
-      },
+    return ValueListenableBuilder<bool>(
+      valueListenable: isDialOpen,
+      builder: (context, dialOpen, child) => PopScope(
+        canPop: !dialOpen,
+        onPopInvokedWithResult: (didPop, result) {
+          if (!didPop && isDialOpen.value) {
+            isDialOpen.value = false;
+          }
+        },
+        child: child!,
+      ),
       child: Scaffold(
         appBar: AppBar(
           title: const Text("Flutter Speed Dial Example"),
@@ -193,8 +195,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                         vertical: 4, horizontal: 10),
                                     child: Align(
                                         alignment: Alignment.centerLeft,
-                                        child: Text(
-                                            describeEnum(item).toUpperCase())),
+                                        child: Text(item.name.toUpperCase())),
                                   );
                                 }).toList();
                               },
@@ -203,7 +204,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                   .map((item) {
                                 return DropdownMenuItem<SpeedDialDirection>(
                                   value: item,
-                                  child: Text(describeEnum(item).toUpperCase()),
+                                  child: Text(item.name.toUpperCase()),
                                 );
                               }).toList(),
                             ),

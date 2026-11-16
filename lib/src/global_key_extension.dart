@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 extension GlobalKeyExtension on GlobalKey {
   Rect? get globalPaintBounds {
