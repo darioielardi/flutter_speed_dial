@@ -304,11 +304,11 @@ class _SpeedDialState extends State<SpeedDial>
         }
       });
     } else {
-      if (_controller.isAnimating) {
-        return;
-      }
       if (!mounted) return;
 
+      // A close animation may still be running. Calling forward() cancels it,
+      // so the overlay stays visible instead of being hidden by the pending
+      // close when it completes.
       _controller.forward();
       _overlayController.show();
     }
