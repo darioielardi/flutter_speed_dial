@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class AnimatedChild extends AnimatedWidget {
   final int? index;
@@ -29,7 +29,7 @@ class AnimatedChild extends AnimatedWidget {
   final EdgeInsets childPadding;
 
   const AnimatedChild({
-    Key? key,
+    super.key,
     this.btnKey,
     required Animation<double> animation,
     this.index,
@@ -54,7 +54,7 @@ class AnimatedChild extends AnimatedWidget {
     this.heroTag,
     required this.childMargin,
     required this.childPadding,
-  }) : super(key: key, listenable: animation);
+  }) : super(listenable: animation);
 
   @override
   Widget build(BuildContext context) {
@@ -93,8 +93,8 @@ class AnimatedChild extends AnimatedWidget {
                 [
                   BoxShadow(
                     color: dark
-                        ? Colors.grey[900]!.withOpacity(0.7)
-                        : Colors.grey.withOpacity(0.7),
+                        ? Colors.grey[900]!.withValues(alpha: 0.7)
+                        : Colors.grey.withValues(alpha: 0.7),
                     offset: const Offset(0.8, 0.8),
                     blurRadius: 2.4,
                   ),

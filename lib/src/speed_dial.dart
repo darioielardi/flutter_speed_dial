@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'dart:math';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'animated_child.dart';
 import 'global_key_extension.dart';
@@ -169,7 +169,7 @@ class SpeedDial extends StatefulWidget {
   final bool mini;
 
   const SpeedDial({
-    Key? key,
+    super.key,
     this.children = const [],
     this.visible = true,
     this.backgroundColor,
@@ -218,7 +218,7 @@ class SpeedDial extends StatefulWidget {
     this.spaceBetweenChildren,
     this.spacing,
     this.animationCurve,
-  }) : super(key: key);
+  });
 
   @override
   State createState() => _SpeedDialState();
@@ -307,7 +307,7 @@ class _SpeedDialState extends State<SpeedDial>
     }
   }
 
-  toggleOverlay() {
+  void toggleOverlay() {
     if (_open) {
       _controller.reverse().whenComplete(() {
         overlayEntry?.remove();
@@ -492,15 +492,14 @@ class _SpeedDialState extends State<SpeedDial>
   @override
   Widget build(BuildContext context) {
     return (kIsWeb || !Platform.isIOS) && widget.closeDialOnPop
-        ? WillPopScope(
-            child: _renderButton(),
-            onWillPop: () async {
-              if (_open) {
+        ? PopScope(
+            canPop: !_open,
+            onPopInvokedWithResult: (didPop, result) {
+              if (!didPop && _open) {
                 _toggleChildren();
-                return false;
               }
-              return true;
             },
+            child: _renderButton(),
           )
         : _renderButton();
   }
@@ -508,14 +507,13 @@ class _SpeedDialState extends State<SpeedDial>
 
 class _ChildrensOverlay extends StatelessWidget {
   const _ChildrensOverlay({
-    Key? key,
     required this.widget,
     required this.layerLink,
     required this.dialKey,
     required this.controller,
     required this.toggleChildren,
     this.animationCurve,
-  }) : super(key: key);
+  });
 
   final SpeedDial widget;
   final GlobalKey<State<StatefulWidget>> dialKey;

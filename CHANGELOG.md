@@ -1,3 +1,7 @@
+## [Unreleased]
+
+- Migrate to `package:material_ui/material_ui.dart`, update minimum SDK constraints (`Dart >=3.13.0 <4.0.0`, `Flutter >=3.47.0`), replace deprecated APIs (`WillPopScope`, `withOpacity`, `describeEnum`), and resolve analyzer/lint warnings
+
 ## [7.0.0] - 20 May 2023
 
 - Fix for Flutter 3.10 (#306)
