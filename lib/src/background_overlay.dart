@@ -1,11 +1,9 @@
 import 'package:material_ui/material_ui.dart';
-import 'global_key_extension.dart';
 
 class BackgroundOverlay extends AnimatedWidget {
   final Color color;
   final double opacity;
-  final GlobalKey dialKey;
-  final LayerLink layerLink;
+  final Rect dialRect;
   final ShapeBorder shape;
   final VoidCallback? onTap;
   final bool closeManually;
@@ -16,8 +14,7 @@ class BackgroundOverlay extends AnimatedWidget {
     this.onTap,
     required this.shape,
     required Animation<double> animation,
-    required this.dialKey,
-    required this.layerLink,
+    required this.dialRect,
     required this.closeManually,
     required this.tooltip,
     this.color = Colors.white,
@@ -41,35 +38,31 @@ class BackgroundOverlay extends AnimatedWidget {
                     color: color, backgroundBlendMode: BlendMode.dstOut),
               ),
             ),
-            Positioned(
-              width: dialKey.globalPaintBounds?.size.width,
-              child: CompositedTransformFollower(
-                link: layerLink,
-                showWhenUnlinked: false,
-                child: MouseRegion(
-                  cursor: SystemMouseCursors.click,
-                  child: () {
-                    final Widget child = GestureDetector(
-                      onTap: onTap,
-                      child: Container(
-                        width: dialKey.globalPaintBounds?.size.width,
-                        height: dialKey.globalPaintBounds?.size.height,
-                        decoration: ShapeDecoration(
-                          shape: shape == const CircleBorder()
-                              ? const StadiumBorder()
-                              : shape,
-                          color: Colors.white,
-                        ),
+            Positioned.fromRect(
+              rect: dialRect,
+              child: MouseRegion(
+                cursor: SystemMouseCursors.click,
+                child: () {
+                  final Widget child = GestureDetector(
+                    onTap: onTap,
+                    child: Container(
+                      width: dialRect.width,
+                      height: dialRect.height,
+                      decoration: ShapeDecoration(
+                        shape: shape == const CircleBorder()
+                            ? const StadiumBorder()
+                            : shape,
+                        color: Colors.white,
                       ),
-                    );
-                    return tooltip != null && tooltip!.isNotEmpty
-                        ? Tooltip(
-                            message: tooltip!,
-                            child: child,
-                          )
-                        : child;
-                  }(),
-                ),
+                    ),
+                  );
+                  return tooltip != null && tooltip!.isNotEmpty
+                      ? Tooltip(
+                          message: tooltip!,
+                          child: child,
+                        )
+                      : child;
+                }(),
               ),
             ),
           ],

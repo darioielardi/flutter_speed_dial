@@ -1,6 +1,7 @@
-## [Unreleased]
+## [8.0.0] - 16 November 2026
 
 - Migrate to `package:material_ui/material_ui.dart`, update minimum SDK constraints (`Dart >=3.13.0 <4.0.0`, `Flutter >=3.47.0`), replace deprecated APIs (`WillPopScope`, `withOpacity`, `describeEnum`), and resolve analyzer/lint warnings
+- Replace `OverlayEntry` and `CompositedTransformTarget`/`CompositedTransformFollower` with `OverlayPortal.overlayChildLayoutBuilder` to fix `RenderFollowerLayer` layout assertion when showing `Tooltip`s (or other `OverlayPortal` widgets) inside the overlay
 
 ## [7.0.0] - 20 May 2023
 

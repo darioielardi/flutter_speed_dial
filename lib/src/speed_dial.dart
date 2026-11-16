@@ -4,7 +4,6 @@ import 'package:flutter/foundation.dart';
 import 'package:material_ui/material_ui.dart';
 
 import 'animated_child.dart';
-import 'global_key_extension.dart';
 import 'animated_floating_button.dart';
 import 'background_overlay.dart';
 import 'speed_dial_child.dart';
@@ -231,10 +230,7 @@ class _SpeedDialState extends State<SpeedDial>
     vsync: this,
   );
   bool _open = false;
-  OverlayEntry? overlayEntry;
-  OverlayEntry? backgroundOverlay;
-  final LayerLink _layerLink = LayerLink();
-  final dialKey = GlobalKey<State<StatefulWidget>>();
+  final OverlayPortalController _overlayController = OverlayPortalController();
 
   @override
   void initState() {
@@ -248,14 +244,6 @@ class _SpeedDialState extends State<SpeedDial>
 
   @override
   void dispose() {
-    if (overlayEntry != null) {
-      if (overlayEntry!.mounted) overlayEntry!.remove();
-      overlayEntry!.dispose();
-    }
-    if (widget.renderOverlay && backgroundOverlay != null) {
-      if (backgroundOverlay!.mounted) backgroundOverlay!.remove();
-      backgroundOverlay!.dispose();
-    }
     _controller.dispose();
     widget.openCloseDial?.removeListener(_onOpenCloseDial);
     super.dispose();
@@ -310,55 +298,18 @@ class _SpeedDialState extends State<SpeedDial>
   void toggleOverlay() {
     if (_open) {
       _controller.reverse().whenComplete(() {
-        overlayEntry?.remove();
-        if (widget.renderOverlay &&
-            backgroundOverlay != null &&
-            backgroundOverlay!.mounted) {
-          backgroundOverlay?.remove();
+        if (mounted && !_open && _overlayController.isShowing) {
+          _overlayController.hide();
         }
       });
     } else {
       if (_controller.isAnimating) {
-        // overlayEntry?.remove();
-        // backgroundOverlay?.remove();
         return;
       }
-      overlayEntry = OverlayEntry(
-        builder: (ctx) => _ChildrensOverlay(
-          widget: widget,
-          dialKey: dialKey,
-          layerLink: _layerLink,
-          controller: _controller,
-          toggleChildren: _toggleChildren,
-          animationCurve: widget.animationCurve,
-        ),
-      );
-      if (widget.renderOverlay) {
-        backgroundOverlay = OverlayEntry(
-          builder: (ctx) {
-            bool dark = Theme.of(ctx).brightness == Brightness.dark;
-            return BackgroundOverlay(
-              dialKey: dialKey,
-              layerLink: _layerLink,
-              closeManually: widget.closeManually,
-              tooltip: widget.tooltip,
-              shape: widget.shape,
-              onTap: _toggleChildren,
-              // (_open && !widget.closeManually) ? _toggleChildren : null,
-              animation: _controller,
-              color: widget.overlayColor ??
-                  (dark ? Colors.grey[900] : Colors.white)!,
-              opacity: widget.overlayOpacity,
-            );
-          },
-        );
-      }
-
       if (!mounted) return;
 
       _controller.forward();
-      if (widget.renderOverlay) Overlay.of(context).insert(backgroundOverlay!);
-      Overlay.of(context).insert(overlayEntry!);
+      _overlayController.show();
     }
 
     if (!mounted) return;
@@ -455,35 +406,69 @@ class _SpeedDialState extends State<SpeedDial>
         begin: widget.foregroundColor,
         end: widget.activeForegroundColor ?? widget.foregroundColor);
 
-    var animatedFloatingButton = AnimatedBuilder(
-      animation: _controller,
-      builder: (context, ch) => CompositedTransformTarget(
-          link: _layerLink,
-          key: dialKey,
-          child: AnimatedFloatingButton(
-            visible: widget.visible,
-            tooltip: widget.tooltip,
-            mini: widget.mini,
-            dialRoot: widget.dialRoot != null
-                ? widget.dialRoot!(context, _open, _toggleChildren)
-                : null,
-            backgroundColor: widget.backgroundColor != null
-                ? backgroundColorTween.lerp(_controller.value)
-                : null,
-            foregroundColor: widget.foregroundColor != null
-                ? foregroundColorTween.lerp(_controller.value)
-                : null,
-            elevation: widget.elevation,
-            onLongPress: _toggleChildren,
-            callback: (_open || widget.onPress == null)
-                ? _toggleChildren
-                : widget.onPress,
-            size: widget.buttonSize,
-            label: widget.label != null ? label : null,
-            heroTag: widget.heroTag,
-            shape: widget.shape,
-            child: child,
-          )),
+    var animatedFloatingButton = OverlayPortal.overlayChildLayoutBuilder(
+      controller: _overlayController,
+      overlayChildBuilder: (context, layoutInfo) {
+        if (layoutInfo.childPaintTransform.determinant() == 0.0) {
+          return const SizedBox.shrink();
+        }
+        final dialRect = MatrixUtils.transformRect(
+          layoutInfo.childPaintTransform,
+          Offset.zero & layoutInfo.childSize,
+        );
+        final dark = Theme.of(context).brightness == Brightness.dark;
+        return Stack(
+          fit: StackFit.expand,
+          children: [
+            if (widget.renderOverlay)
+              BackgroundOverlay(
+                dialRect: dialRect,
+                closeManually: widget.closeManually,
+                tooltip: widget.tooltip,
+                shape: widget.shape,
+                onTap: _toggleChildren,
+                animation: _controller,
+                color: widget.overlayColor ??
+                    (dark ? Colors.grey[900]! : Colors.white),
+                opacity: widget.overlayOpacity,
+              ),
+            _ChildrensOverlay(
+              widget: widget,
+              dialRect: dialRect,
+              controller: _controller,
+              toggleChildren: _toggleChildren,
+              animationCurve: widget.animationCurve,
+            ),
+          ],
+        );
+      },
+      child: AnimatedBuilder(
+        animation: _controller,
+        builder: (context, ch) => AnimatedFloatingButton(
+          visible: widget.visible,
+          tooltip: widget.tooltip,
+          mini: widget.mini,
+          dialRoot: widget.dialRoot != null
+              ? widget.dialRoot!(context, _open, _toggleChildren)
+              : null,
+          backgroundColor: widget.backgroundColor != null
+              ? backgroundColorTween.lerp(_controller.value)
+              : null,
+          foregroundColor: widget.foregroundColor != null
+              ? foregroundColorTween.lerp(_controller.value)
+              : null,
+          elevation: widget.elevation,
+          onLongPress: _toggleChildren,
+          callback: (_open || widget.onPress == null)
+              ? _toggleChildren
+              : widget.onPress,
+          size: widget.buttonSize,
+          label: widget.label != null ? label : null,
+          heroTag: widget.heroTag,
+          shape: widget.shape,
+          child: child,
+        ),
+      ),
     );
 
     return animatedFloatingButton;
@@ -508,16 +493,14 @@ class _SpeedDialState extends State<SpeedDial>
 class _ChildrensOverlay extends StatelessWidget {
   const _ChildrensOverlay({
     required this.widget,
-    required this.layerLink,
-    required this.dialKey,
+    required this.dialRect,
     required this.controller,
     required this.toggleChildren,
     this.animationCurve,
   });
 
   final SpeedDial widget;
-  final GlobalKey<State<StatefulWidget>> dialKey;
-  final LayerLink layerLink;
+  final Rect dialRect;
   final AnimationController controller;
   final Function toggleChildren;
   final Curve? animationCurve;
@@ -581,85 +564,94 @@ class _ChildrensOverlay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      fit: StackFit.loose,
-      children: [
-        Positioned(
-            child: CompositedTransformFollower(
-          followerAnchor: widget.direction.isDown
-              ? widget.switchLabelPosition
-                  ? Alignment.topLeft
-                  : Alignment.topRight
-              : widget.direction.isUp
-                  ? widget.switchLabelPosition
-                      ? Alignment.bottomLeft
-                      : Alignment.bottomRight
-                  : widget.direction.isLeft
-                      ? Alignment.centerRight
-                      : widget.direction.isRight
-                          ? Alignment.centerLeft
-                          : Alignment.center,
-          offset: widget.direction.isDown
-              ? Offset(
-                  (widget.switchLabelPosition ||
-                              dialKey.globalPaintBounds == null
-                          ? 0
-                          : dialKey.globalPaintBounds!.size.width) +
-                      max(widget.childrenButtonSize.height - 56, 0) / 2,
-                  dialKey.globalPaintBounds!.size.height)
-              : widget.direction.isUp
-                  ? Offset(
-                      (widget.switchLabelPosition ||
-                                  dialKey.globalPaintBounds == null
-                              ? 0
-                              : dialKey.globalPaintBounds!.size.width) +
-                          max(widget.childrenButtonSize.width - 56, 0) / 2,
-                      0)
-                  : widget.direction.isLeft
-                      ? Offset(
-                          -10.0,
-                          dialKey.globalPaintBounds == null
-                              ? 0
-                              : dialKey.globalPaintBounds!.size.height / 2)
-                      : widget.direction.isRight &&
-                              dialKey.globalPaintBounds != null
-                          ? Offset(dialKey.globalPaintBounds!.size.width + 12,
-                              dialKey.globalPaintBounds!.size.height / 2)
-                          : const Offset(-10.0, 0.0),
-          link: layerLink,
-          showWhenUnlinked: false,
-          child: Material(
-            type: MaterialType.transparency,
-            child: Container(
-              padding: EdgeInsets.symmetric(
-                horizontal: widget.direction.isUp || widget.direction.isDown
-                    ? max(widget.buttonSize.width - 56, 0) / 2
-                    : 0,
-              ),
-              margin: widget.spacing != null
-                  ? EdgeInsets.fromLTRB(
-                      widget.direction.isRight ? widget.spacing! : 0,
-                      widget.direction.isDown ? widget.spacing! : 0,
-                      widget.direction.isLeft ? widget.spacing! : 0,
-                      widget.direction.isUp ? widget.spacing! : 0,
-                    )
-                  : null,
-              child: _buildColumnOrRow(
-                widget.direction.isUp || widget.direction.isDown,
-                crossAxisAlignment: widget.switchLabelPosition
-                    ? CrossAxisAlignment.start
-                    : CrossAxisAlignment.end,
-                mainAxisSize: MainAxisSize.min,
-                children: widget.direction.isDown || widget.direction.isRight
-                    ? _getChildrenList().reversed.toList()
-                    : _getChildrenList(),
-              ),
-            ),
+    final Alignment followerAnchor = widget.direction.isDown
+        ? widget.switchLabelPosition
+            ? Alignment.topLeft
+            : Alignment.topRight
+        : widget.direction.isUp
+            ? widget.switchLabelPosition
+                ? Alignment.bottomLeft
+                : Alignment.bottomRight
+            : widget.direction.isLeft
+                ? Alignment.centerRight
+                : widget.direction.isRight
+                    ? Alignment.centerLeft
+                    : Alignment.center;
+
+    final Offset offset = widget.direction.isDown
+        ? Offset(
+            (widget.switchLabelPosition ? 0 : dialRect.width) +
+                max(widget.childrenButtonSize.height - 56, 0) / 2,
+            dialRect.height)
+        : widget.direction.isUp
+            ? Offset(
+                (widget.switchLabelPosition ? 0 : dialRect.width) +
+                    max(widget.childrenButtonSize.width - 56, 0) / 2,
+                0)
+            : widget.direction.isLeft
+                ? Offset(-10.0, dialRect.height / 2)
+                : widget.direction.isRight
+                    ? Offset(dialRect.width + 12, dialRect.height / 2)
+                    : const Offset(-10.0, 0.0);
+
+    return CustomSingleChildLayout(
+      delegate: _ChildrenOverlayLayoutDelegate(
+        anchorPoint: dialRect.topLeft + offset,
+        followerAnchor: followerAnchor,
+      ),
+      child: Material(
+        type: MaterialType.transparency,
+        child: Container(
+          padding: EdgeInsets.symmetric(
+            horizontal: widget.direction.isUp || widget.direction.isDown
+                ? max(widget.buttonSize.width - 56, 0) / 2
+                : 0,
           ),
-        )),
-      ],
+          margin: widget.spacing != null
+              ? EdgeInsets.fromLTRB(
+                  widget.direction.isRight ? widget.spacing! : 0,
+                  widget.direction.isDown ? widget.spacing! : 0,
+                  widget.direction.isLeft ? widget.spacing! : 0,
+                  widget.direction.isUp ? widget.spacing! : 0,
+                )
+              : null,
+          child: _buildColumnOrRow(
+            widget.direction.isUp || widget.direction.isDown,
+            crossAxisAlignment: widget.switchLabelPosition
+                ? CrossAxisAlignment.start
+                : CrossAxisAlignment.end,
+            mainAxisSize: MainAxisSize.min,
+            children: widget.direction.isDown || widget.direction.isRight
+                ? _getChildrenList().reversed.toList()
+                : _getChildrenList(),
+          ),
+        ),
+      ),
     );
   }
+}
+
+class _ChildrenOverlayLayoutDelegate extends SingleChildLayoutDelegate {
+  const _ChildrenOverlayLayoutDelegate({
+    required this.anchorPoint,
+    required this.followerAnchor,
+  });
+
+  final Offset anchorPoint;
+  final Alignment followerAnchor;
+
+  @override
+  BoxConstraints getConstraintsForChild(BoxConstraints constraints) =>
+      constraints.loosen();
+
+  @override
+  Offset getPositionForChild(Size size, Size childSize) =>
+      anchorPoint - followerAnchor.alongSize(childSize);
+
+  @override
+  bool shouldRelayout(_ChildrenOverlayLayoutDelegate oldDelegate) =>
+      anchorPoint != oldDelegate.anchorPoint ||
+      followerAnchor != oldDelegate.followerAnchor;
 }
 
 Widget _buildColumnOrRow(bool isColumn,
